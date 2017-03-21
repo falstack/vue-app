@@ -4,6 +4,26 @@
     <p>A vue project.</p>
       <button @click="showAlert">测试 alert</button>
       <button @click="showConfirm">测试 confirm</button>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
+      <p>123</p>
   </div>
 </template>
 
@@ -16,7 +36,19 @@
       methods : {
           showAlert () {
               $alert.show({
-                  content: '哈哈啊哈'
+                  subTitle: '哈哈啊哈'
+              }).then(() => {
+                  console.log('alert submit');
+              })
+
+              $alert.show({
+                  subTitle: '哈哈啊哈2'
+              }).then(() => {
+                  console.log('alert submit');
+              })
+
+              $alert.show({
+                  subTitle: '哈哈啊哈3'
               }).then(() => {
                   console.log('alert submit');
               })
@@ -24,7 +56,7 @@
 
           showConfirm () {
               $confirm.show({
-                  content: '测试哈哈'
+                  subTitle: '测试哈哈'
               }).then(() => {
                   console.log('confirm ok');
               }).catch(() => {
