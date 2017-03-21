@@ -23,7 +23,7 @@ class Backdrop {
     }
 
     hide () {
-        if (this._vm && ! document.querySelectorAll('.vue-app-dialog').length) {
+        if (this._vm && document.querySelectorAll('.vue-app-dialog').length === 1) {
             this._vm.hide();
             setTimeout(() => {
                 this._vm.$destroy()
