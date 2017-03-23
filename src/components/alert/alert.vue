@@ -57,6 +57,10 @@
         align-items: center;
         background-color: transparent;
         z-index: 12;
+
+        &.hidden {
+            display: none;
+        }
     }
 
     .vue-app-alert {
@@ -65,8 +69,8 @@
         border-radius: 10px;
         overflow: hidden;
 
-        &.show {
-            visibility: visible
+        &.hidden {
+            visibility: hidden;
         }
 
         &.enter {
@@ -74,6 +78,10 @@
             animation-duration: $fadeInTime;
             animation-timing-function: ease-in-out;
             animation-fill-mode: both
+        }
+
+        &.show {
+            visibility: visible
         }
 
         &.leave {
@@ -126,9 +134,10 @@
 </style>
 
 <template>
-    <div class="vue-app-container">
+    <div class="vue-app-container"
+         :class="[ state ? 'show' : 'hidden' ]">
         <div class="vue-app-alert vue-app-dialog"
-             :class="{'enter' : state === 0, 'show' : state === 1, 'leave' : state === 2}">
+             :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
             <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
             <button v-text="btnText" @click="submit"></button>
@@ -148,7 +157,6 @@
             return {
                 title: '',
                 subTitle: '',
-                content: '',
                 btnText: '',
                 state: 0
             }
@@ -157,15 +165,15 @@
         methods: {
             show (opt) {
 
+                this.state = 1
                 window.$backdrop.show()
 
                 this.title = (opt && opt.title) ? opt.title : '提示'
                 this.subTitle = (opt && opt.subTitle) ? opt.subTitle : ''
-                this.content = (opt && opt.content) ? opt.content : ''
                 this.btnText = (opt && opt.btnText) ? opt.btnText : '好'
 
                 setTimeout(() => {
-                    this.state = 1
+                    this.state = 2
                 }, fadeInTime)
 
                 return new Promise((resolve) => {
@@ -177,7 +185,7 @@
             },
 
             hide () {
-                this.state = 2
+                this.state = 3
                 window.$backdrop.hide()
 
                 setTimeout(() => {

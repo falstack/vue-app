@@ -63,7 +63,7 @@
         }
     }
 
-    .vue-app-confirm {
+    .vue-app-modal {
         width: 280px;
         background-color: #fff;
         border-radius: 10px;
@@ -110,6 +110,10 @@
         .buttons {
             height: 45px;
             position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
 
             &:before {
                 content: '';
@@ -125,8 +129,7 @@
             button {
                 position: relative;
                 height: 100%;
-                width: 50%;
-                float: left;
+                flex: 1;
                 border-width: 0;
                 outline-width: 0;
                 background-color: transparent;
@@ -135,7 +138,7 @@
                     background-color: rgba(0, 0, 0, .1);
                 }
 
-                &:first-child:before {
+                &:not(:last-child):before {
                     content: '';
                     background-color: #eee;
                     position: absolute;
@@ -153,13 +156,15 @@
 <template>
     <div class="vue-app-container"
          :class="[ state ? 'show' : 'hidden' ]">
-        <div class="vue-app-confirm vue-app-dialog"
+        <div class="vue-app-modal"
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
             <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
+            <div class="content">
+                <slot></slot>
+            </div>
             <div class="buttons">
-                <button v-text="cancelText" @click="cancel"></button>
-                <button v-text="okText" @click="ok"></button>
+                <button v-for="(btn, index) in buttons" v-text="btn" @click="hide(index)"></button>
             </div>
         </div>
     </div>
@@ -167,74 +172,48 @@
 
 <script lang="babel">
 
-    const fadeInTime = 200
-    const fadeOutTime = 300
-
     export default {
-        name: 'vue-app-confirm',
+        name: 'vue-app-modal',
 
         data () {
             return {
                 title: '',
                 subTitle: '',
-                cancelText: '',
-                okText: '',
+                buttons: [],
                 state: 0
             }
         },
 
         methods: {
+
             show (opt) {
+
+                this.title = (opt && opt.title) ? opt.title : '提示'
+                this.subTitle = (opt && opt.subTitle) ? opt.subTitle : ''
+                this.buttons = (opt && opt.buttons) ? opt.buttons : ['好']
 
                 this.state = 1
                 window.$backdrop.show()
 
-                this.title = (opt && opt.title) ? opt.title : '提示'
-                this.subTitle = (opt && opt.subTitle) ? opt.subTitle : ''
-                this.okText = (opt && opt.okText) ? opt.okText : '确定'
-                this.cancelText = (opt && opt.cancelText) ? opt.cancelText : '取消'
-
                 setTimeout(() => {
                     this.state = 2
-                }, fadeInTime)
+                }, 200)
 
-                return new Promise((resolve, reject) => {
-                    this.$on('confirmOkEvent', () => {
-                        this.hide()
-                        resolve()
-                    })
-
-                    this.$on('confirmCancelEvent', () => {
-                        this.hide()
-                        reject()
+                return new Promise((resolve) => {
+                    this.$on('modalSubmitEvent', (data) => {
+                        resolve(data.index)
                     })
                 })
             },
 
-            hide () {
+            hide (index) {
                 this.state = 3
-                window.$backdrop.hide()
-
+                window.$backdrop.hide(true)
                 setTimeout(() => {
-                    this.$destroy()
-                }, fadeOutTime)
-            },
-
-            ok (evt) {
-                evt.currentTarget.setAttribute('disabled', 'disabled')
-                evt.stopPropagation()
-                this.$emit('confirmOkEvent')
-            },
-
-            cancel (evt) {
-                evt.currentTarget.setAttribute('disabled', 'disabled')
-                evt.stopPropagation()
-                this.$emit('confirmCancelEvent')
+                    this.state = 0
+                    this.$emit('modalSubmitEvent', {index: index})
+                }, 200)
             }
-        },
-
-        destroyed () {
-            this.$el.parentNode.removeChild(this.$el)
         }
     }
 </script>
