@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import App from './app';
-import './components/export'
 import 'normalize.css'
+import { install as VueApp } from './components/export'
+
+Vue.use(VueApp);
 
 new Vue({
   el: '#app',

@@ -33,3 +33,5 @@ class Backdrop {
 }
 
 window.$backdrop = new Backdrop()
+
+export { default } from './backdrop.vue'

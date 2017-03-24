@@ -133,6 +133,7 @@
                 border-width: 0;
                 outline-width: 0;
                 background-color: transparent;
+                color: #0070c9;
 
                 &:hover, &:active {
                     background-color: rgba(0, 0, 0, .1);
@@ -140,7 +141,7 @@
 
                 &:not(:last-child):before {
                     content: '';
-                    background-color: #eee;
+                    background-color: RGB(230, 230, 230);
                     position: absolute;
                     right: 0;
                     top: 0;
@@ -173,7 +174,7 @@
 <script lang="babel">
 
     export default {
-        name: 'vue-app-modal',
+        name: 'v-modal',
 
         data () {
             return {

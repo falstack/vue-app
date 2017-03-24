@@ -23,3 +23,5 @@ class Alert
 }
 
 window.$alert = new Alert()
+
+export { default } from './alert.vue'

@@ -23,3 +23,5 @@ class Confirm
 }
 
 window.$confirm = new Confirm()
+
+export { default } from './confirm.vue'

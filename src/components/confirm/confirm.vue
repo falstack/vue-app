@@ -130,6 +130,7 @@
                 border-width: 0;
                 outline-width: 0;
                 background-color: transparent;
+                color: #0070c9;
 
                 &:hover, &:active {
                     background-color: rgba(0, 0, 0, .1);
@@ -137,7 +138,7 @@
 
                 &:first-child:before {
                     content: '';
-                    background-color: #eee;
+                    background-color: RGB(230, 230, 230);
                     position: absolute;
                     right: 0;
                     top: 0;
@@ -171,7 +172,7 @@
     const fadeOutTime = 300
 
     export default {
-        name: 'vue-app-confirm',
+        name: 'v-confirm',
 
         data () {
             return {
@@ -199,6 +200,7 @@
                 }, fadeInTime)
 
                 return new Promise((resolve, reject) => {
+                    
                     this.$on('confirmOkEvent', () => {
                         this.hide()
                         resolve()

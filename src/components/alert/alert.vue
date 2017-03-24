@@ -64,7 +64,7 @@
     }
 
     .vue-app-alert {
-        width: 280px;
+        width: 320px;
         background-color: #fff;
         border-radius: 10px;
         overflow: hidden;
@@ -114,10 +114,11 @@
             border-width: 0;
             outline-width: 0;
             position: relative;
+            color: #0070c9;
 
             &:before {
                 content: '';
-                background-color: #eee;
+                background-color: RGB(230, 230, 230);
                 position: absolute;
                 left: 0;
                 right: 0;
@@ -151,7 +152,7 @@
     const fadeOutTime = 300
 
     export default {
-        name: 'vue-app-alert',
+        name: 'v-alert',
 
         data () {
             return {
