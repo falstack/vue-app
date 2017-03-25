@@ -1,4 +1,5 @@
 <style lang="scss" rel="scss" scoped>
+
     .vue-app-container {
         position: fixed;
         left: 0;
@@ -25,9 +26,44 @@
             font-size: 15px;
             opacity: 0;
             transition-duration: .3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             &.show {
                 opacity: 1;
+            }
+
+            &.top {
+                flex-direction: column;
+
+                .tips {
+                    padding-top: 10px;
+                }
+            }
+
+            &.right {
+                flex-direction: row-reverse;
+
+                .tips {
+                    padding-right: 10px;
+                }
+            }
+
+            &.bottom {
+                flex-direction: column-reverse;
+
+                .tips {
+                    padding-bottom: 10px;
+                }
+            }
+
+            &.left {
+                flex-direction: row;
+
+                .tips {
+                    padding-left: 10px;
+                }
             }
         }
 
@@ -49,7 +85,7 @@
     <div class="vue-app-container"
         :class="{ 'hidden' : !state } ">
         <div class="loading"
-             :class="{ 'show' : state === 2 }">
+             :class="{ 'show' : state === 2, 'top' : showIcon && position === 0, 'right' : position === 1, 'bottom' : position === 2, 'left' : position === 3 }">
             <div v-if="showIcon" class="spinner">
                 <svg viewBox="0 0 64 64">
                     <g stroke-width="4" stroke-linecap="round">
@@ -71,6 +107,7 @@
         data () {
             return {
                 state: 0,
+                position: 0,
                 tips: '',
                 showIcon: true
             }
@@ -84,6 +121,7 @@
             show (opt) {
                 this.tips = opt.tips
                 this.showIcon = !!opt.showIcon
+                this.position = opt.position ? opt.position : 0
 
                 this.state = 1
 

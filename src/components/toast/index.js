@@ -50,11 +50,19 @@ class Toast
         })
     }
 
-    showLoading (tips, dom) {
+    showLoading (opts, dom) {
+        let tips
+        if (typeof opts === 'string') {
+            tips = opts
+        } else {
+            tips = opts.tips
+        }
+        
         if (this._vm && this._vm.getState() > 0) {
             this._vm.update({
                 tips: tips,
-                showSpinner: true
+                showIcon: true,
+                position: opts.position
             })
             return
         }
@@ -63,7 +71,8 @@ class Toast
 
         this._vm.show({
             tips: tips,
-            showSpinner: true
+            showIcon: true,
+            position: opts.position
         })
     }
 

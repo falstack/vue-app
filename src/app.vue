@@ -105,6 +105,18 @@ export default {
                 console.log('modal result index : ' + index)
             })
         }
+    },
+    mounted () {
+        $toast.show('this is a toast').then(() => {
+            $loading.show({
+                tips: 'this is a loading',
+                position: 0
+            })
+        })
+
+        setTimeout(() => {
+            $loading.hide()
+        }, 5000)
     }
 }
 </script>
