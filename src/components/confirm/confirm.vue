@@ -153,7 +153,7 @@
 
 <template>
     <div class="vue-app-container"
-         :class="[ state ? 'show' : 'hidden' ]">
+         :class="{ 'hidden' : !state } ">
         <div class="vue-app-confirm vue-app-dialog"
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>

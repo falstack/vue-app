@@ -15,8 +15,7 @@ class Alert
         this._parent = (opt && opt.dom) ? opt.dom : document.body
         this._parent.appendChild(this._el)
 
-        this._vm = new Vue(VueAlert)
-        this._vm.$mount('#' + this._selector)
+        this._vm = new Vue(VueAlert).$mount('#' + this._selector)
 
         return this._vm.show(opt)
     }

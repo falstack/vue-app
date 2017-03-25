@@ -15,8 +15,7 @@ class Backdrop {
             this._parent = (opt && opt.dom) ? opt.dom : document.body
             this._parent.appendChild(this._el)
 
-            this._vm = new Vue(VueBackdrop)
-            this._vm.$mount('#' + this._selector)
+            this._vm = new Vue(VueBackdrop).$mount('#' + this._selector)
 
             this._vm.show()
         }

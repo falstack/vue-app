@@ -15,8 +15,7 @@ class Confirm
         this._parent = (opt && opt.dom) ? opt.dom : document.body
         this._parent.appendChild(this._el)
 
-        this._vm = new Vue(VueConfirm)
-        this._vm.$mount('#' + this._selector)
+        this._vm = new Vue(VueConfirm).$mount('#' + this._selector)
 
         return this._vm.show(opt)
     }

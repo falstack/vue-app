@@ -12,7 +12,9 @@
         </v-modal>
         <v-modal ref="modal2">
             <p>测试表单2 {{ msg }} </p>
-            <v-toggle v-model="toggle">toggle is {{ toggle }}</v-toggle>
+            <v-toggle v-model="toggle_1">toggle_1 is {{ toggle_1 }}</v-toggle>
+            <v-toggle v-model="toggle_2">toggle_2 is {{ toggle_2 }}</v-toggle>
+            <v-toggle v-model="toggle_3">toggle_3 is {{ toggle_3 }}</v-toggle>
         </v-modal>
         <p>123</p>
         <p>123</p>
@@ -46,7 +48,9 @@ export default {
     data () {
         return {
             msg : 'test',
-            toggle: false
+            toggle_1: false,
+            toggle_2: false,
+            toggle_3: false
         }
     },
 

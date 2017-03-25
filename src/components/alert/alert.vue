@@ -64,7 +64,7 @@
     }
 
     .vue-app-alert {
-        width: 320px;
+        width: 280px;
         background-color: #fff;
         border-radius: 10px;
         overflow: hidden;
@@ -136,7 +136,7 @@
 
 <template>
     <div class="vue-app-container"
-         :class="[ state ? 'show' : 'hidden' ]">
+         :class="{ 'hidden' : !state } ">
         <div class="vue-app-alert vue-app-dialog"
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
