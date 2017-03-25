@@ -12,7 +12,7 @@
         </v-modal>
         <v-modal ref="modal2">
             <p>测试表单2 {{ msg }} </p>
-            <input placeholder="父组件" v-model="msg" type="text">
+            <v-toggle v-model="toggle">toggle is {{ toggle }}</v-toggle>
         </v-modal>
         <p>123</p>
         <p>123</p>
@@ -45,7 +45,8 @@ export default {
 
     data () {
         return {
-          msg : 'test'
+            msg : 'test',
+            toggle: false
         }
     },
 
