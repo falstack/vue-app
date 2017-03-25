@@ -1,5 +1,4 @@
 <style lang="scss" rel="scss" scoped>
-    $color-white: #fff;
     $color-gray: #d9d9d9;
     $color-blue: #26a2ff;
 
@@ -8,36 +7,37 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: relative;
         padding: 0 10px;
 
-        .toggle-core {
-            display: block;
-            position: relative;
-            width: 52px;
-            height: 32px;
-            border: 1px solid $color-gray;
-            border-radius: 16px;
+        $toggle-btn-height: 32px;
+        $toggle-btn-width: 52px;
+        $toggle-btn-border: 1px;
+
+        .toggle-btn {
             box-sizing: border-box;
+            width: $toggle-btn-width;
+            height: $toggle-btn-height;
+            border: $toggle-btn-border solid $color-gray;
+            border-radius: $toggle-btn-height / 2;
             background: $color-gray;
 
             &::after, &::before {
                 content: '';
                 position: absolute;
                 transition: transform .3s;
-                border-radius: 15px;
+                border-radius: ($toggle-btn-height - 2 * $toggle-btn-border) / 2;
             }
 
             &::after {
-                width: 30px;
-                height: 30px;
-                background-color: $color-white;
+                width: $toggle-btn-height - 2 * $toggle-btn-border;
+                height: $toggle-btn-height - 2 * $toggle-btn-border;
+                background-color: #fff;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
             }
 
             &::before {
-                width: 50px;
-                height: 30px;
+                width: $toggle-btn-width - 2 * $toggle-btn-border;
+                height: $toggle-btn-height - 2 * $toggle-btn-border;
                 background-color: #fdfdfd;
             }
 
@@ -60,7 +60,7 @@
 <template>
     <div class="vue-app-toggle">
         <slot></slot>
-        <span class="toggle-core" :class="{ 'active' : value }" @click="onToggle"></span>
+        <div class="toggle-btn" :class="{ 'active' : value }" @click="onToggle"></div>
     </div>
 </template>
 
