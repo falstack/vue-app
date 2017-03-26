@@ -24,12 +24,24 @@ class Toast
         this._vm = undefined
     }
 
-    showToast (tips, duration, dom) {
-        let timer = duration || 1500
+    showToast (opts, duration, dom) {
+        let tips, timer, el
+        if (typeof opts === 'string') {
+            el = dom
+            tips = opts
+            timer = duration || 1500
+        } else {
+            el = opts.el
+            tips = opts.tips
+            timer = opts.time || 1500
+        }
 
         if (this._vm && this._vm.getState() > 0) {
             this._vm.update({
-                tips: tips
+                tips: tips,
+                icon: opts.icon,
+                showIcon: opts.showIcon,
+                position: opts.position
             })
 
             setTimeout(() => {
@@ -39,10 +51,13 @@ class Toast
             return
         }
 
-        this._vm = newVue(dom)
+        this._vm = newVue(el)
 
         this._vm.show({
-            tips: tips
+            tips: tips,
+            icon: opts.icon,
+            showIcon: opts.showIcon,
+            position: opts.position
         })
 
         return timeout(timer).then(() => {

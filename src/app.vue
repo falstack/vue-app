@@ -107,7 +107,12 @@ export default {
         }
     },
     mounted () {
-        $toast.show('this is a toast').then(() => {
+        $toast.show({
+            tips: 'this is a toast',
+            icon: 'http://cn.vuejs.org/images/logo.png',
+            showIcon: true,
+            position: 2
+        }).then(() => {
             $loading.show({
                 tips: 'this is a loading',
                 position: 0
