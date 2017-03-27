@@ -63,7 +63,7 @@
         }
     }
 
-    .vue-app-modal {
+    .vue-app-popup {
         width: 280px;
         background-color: #fff;
         border-radius: 10px;
@@ -157,7 +157,7 @@
 <template>
     <div class="vue-app-container"
          :class="{ 'hidden' : !state } ">
-        <div class="vue-app-modal"
+        <div class="vue-app-popup"
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
             <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
@@ -174,7 +174,7 @@
 <script lang="babel">
 
     export default {
-        name: 'v-modal',
+        name: 'v-popup',
 
         data () {
             return {

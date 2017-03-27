@@ -6,16 +6,16 @@
         <button @click="showConfirm">测试 confirm</button>
         <button @click="showModal_1">测试 modal_1</button>
         <button @click="showModal_2">测试 modal_2</button>
-        <v-modal ref="modal1">
+        <v-popup ref="modal1">
             <p>测试表单1 {{ msg }}</p>
             <input placeholder="父组件" v-model="msg" type="text">
-        </v-modal>
-        <v-modal ref="modal2">
+        </v-popup>
+        <v-popup ref="modal2">
             <p>测试表单2 {{ msg }} </p>
             <v-toggle v-model="toggle_1">toggle_1 is {{ toggle_1 }}</v-toggle>
             <v-toggle v-model="toggle_2">toggle_2 is {{ toggle_2 }}</v-toggle>
             <v-toggle v-model="toggle_3">toggle_3 is {{ toggle_3 }}</v-toggle>
-        </v-modal>
+        </v-popup>
         <p>123</p>
         <p>123</p>
         <p>123</p>

@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "description": "A vue project.",
   "private": false,
-  "keywords": [
-  ],
+  "keywords": [],
   "scripts": {
     "dev": "cooking watch -p",
     "dist": "cooking build -p",
@@ -13,8 +12,11 @@
   "author": "falstack",
   "license": "MIT",
   "dependencies": {
-    "vue": "^2.0.1",
-    "babel-polyfill": "*"
+    "babel-polyfill": "*",
+    "es6-promise": "^4.1.0",
+    "fastclick": "^1.0.6",
+    "normalize.css": "^6.0.0",
+    "vue": "^2.0.1"
   },
   "devDependencies": {
     "cooking-vue2": "*"
