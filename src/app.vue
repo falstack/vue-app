@@ -6,6 +6,7 @@
         <button @click="showConfirm">测试 confirm</button>
         <button @click="showModal_1">测试 modal_1</button>
         <button @click="showModal_2">测试 modal_2</button>
+        <button @click="showMessage">测试 message</button>
         <v-popup ref="modal1">
             <p>测试表单1 {{ msg }}</p>
             <input placeholder="父组件" v-model="msg" type="text">
@@ -50,7 +51,15 @@ export default {
             msg : 'test',
             toggle_1: false,
             toggle_2: false,
-            toggle_3: false
+            toggle_3: false,
+            content: [
+                'You know what I\'d like to be?',
+                'I thought what I\'d do was,I\'d pretend I was one of those deaf-mutes',
+                'did you miss me?',
+                'Valar Morghulis, Valar Dohaeris',
+                'perfect is shit'
+            ],
+            theme: ['success', 'warning', 'error', 'info']
         }
     },
 
@@ -104,24 +113,39 @@ export default {
             }).then((index) => {
                 console.log('modal result index : ' + index)
             })
+        },
+
+        showMessage () {
+            $message.show({
+                icon : this.random([true, false]),
+                content : this.random(this.content),
+                theme : this.random(this.theme),
+                auto : this.random([true, false])
+            })
+        },
+
+        random (array) {
+            var n = Math.floor(Math.random() * array.length + 1) - 1;
+            return array[n];
         }
     },
     mounted () {
-        $toast.show({
-            tips: 'this is a toast',
-            icon: 'http://cn.vuejs.org/images/logo.png',
-            showIcon: true,
-            position: 2
-        }).then(() => {
-            $loading.show({
-                tips: 'this is a loading',
-                position: 0
-            })
-        })
+//        $toast.show({
+//            tips: 'this is a toast',
+//            icon: 'http://cn.vuejs.org/images/logo.png',
+//            showIcon: true,
+//            position: 2
+//        }).then(() => {
+//            $loading.show({
+//                tips: 'this is a loading',
+//                position: 0
+//            })
+//        })
+//
+//        setTimeout(() => {
+//            $loading.hide()
+//        }, 5000)
 
-        setTimeout(() => {
-            $loading.hide()
-        }, 5000)
     }
 }
 </script>

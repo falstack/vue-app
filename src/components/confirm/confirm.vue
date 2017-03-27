@@ -131,6 +131,7 @@
                 outline-width: 0;
                 background-color: transparent;
                 color: #0070c9;
+                font-size: 17px;
 
                 &:hover, &:active {
                     background-color: rgba(0, 0, 0, .1);

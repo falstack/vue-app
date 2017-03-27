@@ -115,6 +115,7 @@
             outline-width: 0;
             position: relative;
             color: #0070c9;
+            font-size: 17px;
 
             &:before {
                 content: '';
