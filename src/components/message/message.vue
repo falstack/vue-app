@@ -16,7 +16,6 @@
         border: 1px solid $border;
 
         &:hover {
-            transition-duration: 0s;
             opacity: 1;
         }
 
@@ -25,29 +24,12 @@
         }
     }
 
-    .v-app-message-container-right-top {
-        right: $pos-rig-left;
-        top: $pos-top-down;
-    }
-
-    .v-app-message-container-right-bottom {
-        right: $pos-rig-left;
-        bottom: $pos-top-down;
-    }
-
-    .v-app-message-container-left-bottom {
-        left: $pos-rig-left;
-        bottom: $pos-top-down;
-    }
-
-    .v-app-message-container-left-top {
-        left: $pos-rig-left;
-        top: $pos-top-down;
-    }
-
     #v-app-message-container {
         position: fixed;
         pointer-events: none;
+        // if you want to change position, rewrite here
+        right: $pos-rig-left;
+        top: $pos-top-down;
 
         .message-item {
             padding: 15px 10px;
@@ -62,9 +44,10 @@
             pointer-events: auto;
             width: $item-width;
             cursor: pointer;
-            transition-duration: .4s;
             display: flex;
-            @include transition(.8, visible, 0)
+            opacity: .8;
+            transition: .4s ease-in-out;
+            left: 0;
         }
 
         .message-content {
@@ -87,14 +70,6 @@
             margin: 0 5px;
         }
 
-        .right-top-enter-active, .right-bottom-enter-active, .right-top-leave-active, .right-bottom-leave-active {
-            @include transition(0, hidden, $item-width)
-        }
-
-        .left-top-enter-active, .left-bottom-enter-active, .left-top-leave-active, .left-bottom-leave-active {
-            @include transition(0, hidden, -$item-width)
-        }
-
         .theme-info {
             @include theme(#d9edf7, #31708f, #bce8f1, url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADaUlEQVRYR7VX4VnbMBB9NwFhgsIEVSYgnaAwQekEyF6gsEAsJmiYoGECwgQRExA2gAmu35PlWHGcyKZf9YuPyLp3d+/e3QlGHGOrSwDfAZwBmAhg+LkCHsA7gA1El74qH4c+K7mLxlY09gvApQCT3P0IiGCWAArvCv598BwFYGx1C+Bm17C+1R4LvU6Omjoi8qX5p9ZRcd4Vd4cQ9AIwtqKnT02Ia6/0ARA+1jG8+7SxlQHUCuRHAoTffOuLxh6A+oFgPIRboY+AWO+KzZDwN3fq1KkTCDlDnvD7q64DOwCi56+t8ZBDN8Zw966xlRWgSkBM00hsAXTDrsBP74rFvxhPonEtwO+mYrwrps1vKYBbqdnOcI3y3NjqGsAFRFe+Kh/6QHciceddQYIjAIiltmbomXPvStb7oMNKaYBH8AxxL1GNnS/JiVgd50xFBDBfNKxVgD8MJpyx85VALhLGk2jUgL1DRwV4barKu5KpAaZ2/g7ICUuN/xzkerzE8Lf51Wfvytmx742tnWUUvCtOhfIqwJ9c+I4/GkoXOY2I6aZgraO9K2kQAfq2diVld9CJvLkhheIHJO5RkWoeTiJ+TwAhh2PIZ+ycAkPj26PIh7+53JJRn2Vq59T1rwpsSyOTQwrTBJCFAE8t+cYAqCuHPUWmttKYjywAyrRAF2tXmjZ1NYQx2pGW7mgAse+zy20lOwI4zbXeNgWtdoxOQWTyVt/Tmh7E3lr4onjpy6dIOLXzTafvHxSfPlA7JEyEYeNdcZ7zwthqlpJvbPny/U4ZjhOiHukN5I0NiU6scqK1I0QdREelONXytvzAqM0EahUyyxExEb6PtSs52JIUw5rRfvhD+S0Fej7M+IFmxGFEoCTWCR/0rrjqJ0/7QCJA996VNsed6Ghox4B+KORs245jaQ0aSOrdQGeAsGUT7KDWfXQgSZpEkOUoLP9lJAP0hUra2NwbSptUBBCi1lfl/ZDwHrqTes6SVYjpHUoTmaTer8iHGIlmwxkU6uQdtvZKgDjeBeOXR8fy5GOSkiBCOiIQTsj3uZ4f9wpuU8lkpS+HqiS7mrG+m2hEIGxEFJvu8MG8UiWT/TGwndtUmID7zpDldFJvOAxlnZb8oWEup2Gj+vxy2jXUliA413EoiSliiMMiyipaHZqK+4D/BQyNBfAhGj+8AAAAAElFTkSuQmCC))
         }
@@ -111,32 +86,30 @@
             @include theme(#fcf8e3, #8a6d3b, #faebcc, url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAC0klEQVRYR8WWsXLTQBCGd6UkRSjIG2A/AXaXyAXJGyRPgGkZeXCKSEOFUzESRZyxhhbzBJgniCmspENvEPMGpogLsLzMnSTPSdbpJBODGs9Yd7pv/9v9dxH+84N/c75rHr1h+y3v9nrT72wM4JhGDxHfRQfTK2vgDzeB2Ajgqts4+B0+uQeAg/jQ2a7+UD/vB7OqEBsBpKOPNSC6tD2/t3WA993Dmh7qLHogop/sFxGfAsAs1MPm2/7dtApEZQUcszVEhJcxwGUMwHOBCD7b3qS9NYAP5uExoX4T5R39sDy/xvNhsR8A4jP2d6iH9SoqVFLANVs3gHCczXy3Y7QB8FMEBmPLm5yUVaE0QCp6oG/WwI9BoqMcsxUgwnN+JRSeXHh34zIQpQGcjnGPgDXZAZnrCSzPbz4aQEpioK/WwD/N+7jbMcYA+KKKOSkVyJpOkmSsHLVQ4wm5p8+bzITc10YDdPwepQJN7YFfV6mgBBBNRywzUXLxzrNlqjKnQgAxemY6ezvzWmK3MgCuzEILEnNSWXQhQFE0MoCoIoRGRXRteX5XdhVSANFymens7swbYrMpAmDK/VrsT2MVCs1JCiAznSSSIgCuQqfVRYCr2LJHtuef5amQC5BnudnNKgC23jWNaWLRMnPKBRCjl20sA+CYR6eI2pcii14DyJjOmuUmSog1DyE1rY9+oDInouWZ7d2OxHVrAKLlFn2YS8yMh82EksPZO1GpPHNKAchMJy+ySF7k5YW07BU1n1Q5A5zbg0k/+eYKQGa5svqNfB+GRDRDxLasP7D9qZIGSM2PK4B09Or5jgGwyHmZodbLtucsuGsafUDkYzwJ8yMHyM55ouVKFeCNB6IhNIReUR6wJRlzWs2PHKDojlTdrMr7vBzDMqZT5RDVWtGcWJVh2nJV2x/5PcEYHdNgWczm+n/+sBaPzExIg9wRa9tEuISRciLaNsQfFAjn+xNADd0AAAAASUVORK5CYII=))
         }
 
-        .message-fade-func-linear {
-            transition-timing-function: linear;
+        .message-list-enter {
+            opacity: 0;
+            transform: translateY(30px);
+            // if you want to change position, rewrite here
+            left: $item-width;
         }
 
-        .message-fade-func-ease {
-            transition-timing-function: ease;
-        }
-
-        .message-fade-func-ease-in {
-            transition-timing-function: ease-in;
-        }
-
-        .message-fade-func-ease-in-out {
-            transition-timing-function: ease-in-out;
+        .message-list-leave-active {
+            opacity: 0;
+            position: absolute;
+            transition-duration: .2s;
+            // if you want to change position, rewrite here
+            left: $item-width;
         }
     }
 </style>
 
 <template>
     <div id="v-app-message-container"
-         :class="['v-app-message-container-' + position]"
          :style="{ zIndex : index }">
-        <transition-group :name="position">
+        <transition-group name="message-list" tag="div">
             <div class="message-item"
                  v-for="item in list"
-                 :class="['theme-' + item.theme, 'message-fade-func-' + easing]"
+                 :class="['theme-' + item.theme]"
                  @click="close(item.id)"
                  :key="item.id">
                 <span class="message-icon"
@@ -156,10 +129,6 @@
         data () {
             return {
                 theme : ['success', 'warning', 'error', 'info'],
-                posArr : ['left-top', 'left-bottom', 'right-top', 'right-bottom'],
-                fadeArr : ['linear', 'ease', 'ease-in', 'ease-in-out'],
-                position : 'right-bottom',
-                easing : 'ease',
                 maxLen : 8,
                 index : 999999,
                 time: 5000,
@@ -185,8 +154,7 @@
                     icon: !!opts.icon,
                     auto: !!opts.auto,
                     clear: !!opts.clear,
-                    theme: opts.theme || 'info',
-                    position: opts.position || 'right-bottom',
+                    theme: opts.theme || 'info'
                 })
 
                 if (auto) {
