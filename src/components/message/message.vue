@@ -163,7 +163,7 @@
                     }, time)
                 } else {
                     return new Promise((resolve) => {
-                        this.$on('messageSubmitEvent', () => {
+                        this.$on('messageSubmitEvent-' + id, () => {
                             resolve()
                         })
                     })
@@ -174,7 +174,7 @@
                 for (let i=0; i<this.list.length; ++i) {
                     if (this.list[i].id === id) {
                         this.list.splice(i, 1)
-                        this.$emit('messageSubmitEvent')
+                        this.$emit('messageSubmitEvent-' + id)
 
                         if ( ! this.list.length) {
                             this.$destroy()

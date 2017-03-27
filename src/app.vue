@@ -116,12 +116,26 @@ export default {
         },
 
         showMessage () {
-            $message.show({
-                icon : this.random([true, false]),
-                content : this.random(this.content),
-                theme : this.random(this.theme),
-                auto : this.random([true, false])
-            })
+            let content = this.random(this.content)
+            let auto = this.random([true, false])
+
+            if (auto) {
+                $message.show({
+                    icon : this.random([true, false]),
+                    content : content,
+                    theme : this.random(this.theme),
+                    auto : auto
+                })
+            } else {
+                $message.show({
+                    icon : this.random([true, false]),
+                    content : content,
+                    theme : this.random(this.theme),
+                    auto : auto
+                }).then(() => {
+                    console.log('message close : ' + content);
+                })
+            }
         },
 
         random (array) {
@@ -130,22 +144,21 @@ export default {
         }
     },
     mounted () {
-//        $toast.show({
-//            tips: 'this is a toast',
-//            icon: 'http://cn.vuejs.org/images/logo.png',
-//            showIcon: true,
-//            position: 2
-//        }).then(() => {
-//            $loading.show({
-//                tips: 'this is a loading',
-//                position: 0
-//            })
-//        })
-//
-//        setTimeout(() => {
-//            $loading.hide()
-//        }, 5000)
+        $toast.show({
+            tips: 'this is a toast',
+            icon: 'http://cn.vuejs.org/images/logo.png',
+            showIcon: true,
+            position: 2
+        }).then(() => {
+            $loading.show({
+                tips: 'this is a loading',
+                position: 0
+            })
+        })
 
+        setTimeout(() => {
+            $loading.hide()
+        }, 5000)
     }
 }
 </script>
