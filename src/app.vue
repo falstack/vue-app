@@ -4,19 +4,24 @@
         <p>A vue project.</p>
         <button @click="showAlert">测试 alert</button>
         <button @click="showConfirm">测试 confirm</button>
-        <button @click="showModal_1">测试 modal_1</button>
-        <button @click="showModal_2">测试 modal_2</button>
+        <button @click="showPopup_1">测试 popup_1</button>
+        <button @click="showPopup_2">测试 popup_2</button>
         <button @click="showMessage">测试 message</button>
-        <v-popup ref="modal1">
+        <button @click="showMessage">测试 message</button>
+        <button @click="showModal_1">测试 modal_1</button>
+        <v-popup ref="popup1">
             <p>测试表单1 {{ msg }}</p>
             <input placeholder="父组件" v-model="msg" type="text">
         </v-popup>
-        <v-popup ref="modal2">
+        <v-popup ref="popup2">
             <p>测试表单2 {{ msg }} </p>
             <v-toggle v-model="toggle_1">toggle_1 is {{ toggle_1 }}</v-toggle>
             <v-toggle v-model="toggle_2">toggle_2 is {{ toggle_2 }}</v-toggle>
             <v-toggle v-model="toggle_3">toggle_3 is {{ toggle_3 }}</v-toggle>
         </v-popup>
+        <v-modal ref="modal1">
+
+        </v-modal>
         <p>123</p>
         <p>123</p>
         <p>123</p>
@@ -99,19 +104,27 @@ export default {
             })
         },
 
-        showModal_1 () {
-            this.$refs.modal1.show({
+        showPopup_1 () {
+            this.$refs.popup1.show({
                 buttons: ['按钮一', '按钮二', '按钮三']
             }).then((index) => {
                 console.log('modal result index : ' + index)
             })
         },
 
-        showModal_2 () {
-            this.$refs.modal2.show({
+        showPopup_2 () {
+            this.$refs.popup2.show({
                 buttons: ['按钮四', '按钮五', '按钮六']
             }).then((index) => {
                 console.log('modal result index : ' + index)
+            })
+        },
+
+        showModal_1 () {
+            this.$refs.modal1.show().then(() => {
+                console.log('modal result ok');
+            }).catch(() => {
+                console.log('modal result cancel');
             })
         },
 
