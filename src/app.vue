@@ -1,12 +1,13 @@
+<style lang="scss" rel="scss">
+    #main .test-style {
+        top: 20%;
+    }
+</style>
+
 <template>
-    <div>
+    <div id="main">
         <h1>vue-app</h1>
         <p>A vue project.</p>
-        <button @click="showAlert">测试 alert</button>
-        <button @click="showConfirm">测试 confirm</button>
-        <button @click="showPopup_1">测试 popup_1</button>
-        <button @click="showPopup_2">测试 popup_2</button>
-        <button @click="showMessage">测试 message</button>
         <button @click="showMessage">测试 message</button>
         <button @click="showModal_1">测试 modal_1</button>
         <v-popup ref="popup1">
@@ -19,8 +20,13 @@
             <v-toggle v-model="toggle_2">toggle_2 is {{ toggle_2 }}</v-toggle>
             <v-toggle v-model="toggle_3">toggle_3 is {{ toggle_3 }}</v-toggle>
         </v-popup>
-        <v-modal ref="modal1">
-
+        <v-modal ref="modal1" :title="'测试模态框'" :className="'test-style'">
+            <div slot="content">
+                <button @click="showAlert">测试 alert</button>
+                <button @click="showConfirm">测试 confirm</button>
+                <button @click="showPopup_1">测试 popup_1</button>
+                <button @click="showPopup_2">测试 popup_2</button>
+            </div>
         </v-modal>
         <p>123</p>
         <p>123</p>
