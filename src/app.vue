@@ -26,8 +26,10 @@
                 <button @click="showConfirm">测试 confirm</button>
                 <button @click="showPopup_1">测试 popup_1</button>
                 <button @click="showPopup_2">测试 popup_2</button>
+                <button @click="showModal_2">测试 modal_2</button>
             </div>
         </v-modal>
+        <v-modal ref="modal2" :title="'测试模态框'"></v-modal>
         <p>123</p>
         <p>123</p>
         <p>123</p>
@@ -128,9 +130,17 @@ export default {
 
         showModal_1 () {
             this.$refs.modal1.show().then(() => {
-                console.log('modal result ok');
+                console.log('modal1 result ok');
             }).catch(() => {
-                console.log('modal result cancel');
+                console.log('modal1 result cancel');
+            })
+        },
+
+        showModal_2 () {
+            this.$refs.modal2.show().then(() => {
+                console.log('modal2 result ok');
+            }).catch(() => {
+                console.log('modal2 result cancel');
             })
         },
 

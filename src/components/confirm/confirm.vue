@@ -64,10 +64,11 @@
     }
 
     .vue-app-confirm {
-        width: 280px;
+        width: 320px;
         background-color: #fff;
-        border-radius: 10px;
+        border-radius: 15px;
         overflow: hidden;
+        box-shadow: 0 2px 13px rgba(0, 0, 0, 0.18);
 
         &.hidden {
             visibility: hidden;
@@ -108,8 +109,13 @@
         }
 
         .buttons {
-            height: 45px;
+            height: 40px;
             position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 16px;
 
             &:before {
                 content: '';
@@ -124,29 +130,14 @@
 
             button {
                 position: relative;
-                height: 100%;
-                width: 50%;
-                float: left;
                 border-width: 0;
                 outline-width: 0;
                 background-color: transparent;
                 color: #0070c9;
-                font-size: 17px;
-
-                &:hover, &:active {
-                    background-color: rgba(0, 0, 0, .1);
-                }
-
-                &:first-child:before {
-                    content: '';
-                    background-color: RGB(230, 230, 230);
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    bottom: 0;
-                    width: 1px;
-                    transform: scaleX(.5);
-                }
+                font-size: 16px;
+                padding: 12px 18px;
+                line-height: 1;
+                cursor: pointer;
             }
         }
     }
@@ -193,7 +184,7 @@
 
                 this.title = (opt && opt.title) ? opt.title : '提示'
                 this.subTitle = (opt && opt.subTitle) ? opt.subTitle : ''
-                this.okText = (opt && opt.okText) ? opt.okText : '确定'
+                this.okText = (opt && opt.okText) ? opt.okText : '好'
                 this.cancelText = (opt && opt.cancelText) ? opt.cancelText : '取消'
 
                 setTimeout(() => {

@@ -15,7 +15,7 @@
         color: $color;
         border: 1px solid $border;
 
-        &:hover {
+        &:hover, &:active {
             opacity: 1;
         }
 
@@ -124,6 +124,8 @@
 
 <script lang="babel">
 
+    const fadeOutTime = 200
+
     export default {
 
         data () {
@@ -160,7 +162,7 @@
                 if (auto) {
                     setTimeout(() => {
                         this.close(id)
-                    }, time)
+                    }, this.time)
                 } else {
                     return new Promise((resolve) => {
                         this.$on('messageSubmitEvent-' + id, () => {
@@ -177,7 +179,9 @@
                         this.$emit('messageSubmitEvent-' + id)
 
                         if ( ! this.list.length) {
-                            this.$destroy()
+                            setTimeout(() => {
+                                this.$destroy()
+                            }, fadeOutTime)
                         }
 
                         return
@@ -189,7 +193,7 @@
                 this.list = []
                 setTimeout(() => {
                     this.$destroy()
-                }, this.time)
+                }, this.time + fadeOutTime)
             }
         },
 

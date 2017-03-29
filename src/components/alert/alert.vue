@@ -64,10 +64,11 @@
     }
 
     .vue-app-alert {
-        width: 280px;
+        width: 320px;
         background-color: #fff;
-        border-radius: 10px;
+        border-radius: 15px;
         overflow: hidden;
+        box-shadow: 0 2px 13px rgba(0, 0, 0, 0.18);
 
         &.hidden {
             visibility: hidden;
@@ -107,19 +108,18 @@
             padding-bottom: 22px;
         }
 
-        button {
-            background-color: transparent;
-            width: 100%;
-            height: 45px;
-            border-width: 0;
-            outline-width: 0;
+        .buttons {
+            height: 40px;
             position: relative;
-            color: #0070c9;
-            font-size: 17px;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 16px;
 
             &:before {
                 content: '';
-                background-color: RGB(230, 230, 230);
+                background-color: #eee;
                 position: absolute;
                 left: 0;
                 right: 0;
@@ -128,8 +128,16 @@
                 transform: scaleY(.5);
             }
 
-            &:hover, &:active {
-                background-color: rgba(0, 0, 0, .1);
+            button {
+                position: relative;
+                border-width: 0;
+                outline-width: 0;
+                background-color: transparent;
+                color: #0070c9;
+                font-size: 16px;
+                padding: 12px 18px;
+                line-height: 1;
+                cursor: pointer;
             }
         }
     }
@@ -142,7 +150,9 @@
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
             <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
-            <button v-text="btnText" @click="submit"></button>
+            <div class="buttons">
+                <button v-text="btnText" @click="submit"></button>
+            </div>
         </div>
     </div>
 </template>
