@@ -12,6 +12,7 @@
   "author": "falstack",
   "license": "MIT",
   "dependencies": {
+    "array-find-index": "^1.0.2",
     "babel-polyfill": "*",
     "es6-promise": "^4.1.0",
     "fastclick": "^1.0.6",
