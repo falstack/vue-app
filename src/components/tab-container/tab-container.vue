@@ -1,9 +1,9 @@
 <style lang="scss" rel="scss">
-    .mint-tab-container {
+    .vue-tab-container {
       overflow: hidden;
       position: relative;
 
-      .mint-tab-container-wrap {
+      .vue-tab-container-wrap {
         display: flex;
       }
 
@@ -20,17 +20,15 @@
          @mousemove="onDrag"
          @mouseleave="endDrag"
          @touchend="endDrag"
-         class="mint-tab-container">
+         class="vue-tab-container">
         <div ref="wrap"
-             class="mint-tab-container-wrap">
+             class="vue-tab-container-wrap">
             <slot></slot>
         </div>
     </div>
 </template>
 
 <script lang="babel">
-
-    import arrayFindIndex from 'array-find-index';
 
     const on = (function() {
         if (document.addEventListener) {
@@ -75,7 +73,7 @@
     };
 
     export default {
-        name: 'v-tabs',
+        name: 'v-tab-container',
 
         props: {
             value: {},
@@ -87,7 +85,6 @@
                 start: { x: 0, y: 0 },
                 swiping: false,
                 activeItems: [],
-                pageWidth: 0,
                 currentActive: this.value
             };
         },
@@ -100,9 +97,7 @@
             currentActive(val, oldValue) {
                 this.$emit('input', val);
                 if (!this.swipeable) return;
-                const lastIndex = arrayFindIndex(this.$children,
-                item => item.id === oldValue);
-                this.swipeLeaveTransition(lastIndex);
+                this.swipeLeaveTransition(this.arrayFindIndex(oldValue));
             }
         },
 
@@ -110,20 +105,18 @@
             if (!this.swipeable) return;
 
             this.wrap = this.$refs.wrap;
-            this.pageWidth = this.wrap.clientWidth;
-            this.limitWidth = this.pageWidth / 4;
         },
 
         methods: {
             swipeLeaveTransition(lastIndex = 0) {
                 if (typeof this.index !== 'number') {
-                    this.index = arrayFindIndex(this.$children, item => item.id === this.currentActive);
-                    this.swipeMove(-lastIndex * this.pageWidth);
+                    this.index = this.arrayFindIndex(this.currentActive);
+                    this.swipeMove(-lastIndex);
                 }
 
                 setTimeout(() => {
                     this.wrap.classList.add('swipe-transition');
-                    this.swipeMove(-this.index * this.pageWidth);
+                    this.swipeMove(-this.index);
 
                     once(this.wrap, 'webkitTransitionEnd', _ => {
                         this.wrap.classList.remove('swipe-transition');
@@ -134,7 +127,8 @@
                 }, 0);
             },
 
-            swipeMove(offset) {
+            swipeMove(index) {
+                let offset = index * this.$refs.wrap.clientWidth;
                 this.wrap.style.webkitTransform = `translate3d(${offset}px, 0, 0)`;
                 this.swiping = true;
             },
@@ -150,6 +144,7 @@
             onDrag(evt) {
                 if (!this.dragging) return;
                 let swiping;
+                let width = this.$refs.wrap.clientWidth;
                 const e = evt.changedTouches ? evt.changedTouches[0] : evt;
                 const offsetTop = e.pageY - this.start.y;
                 const offsetLeft = e.pageX - this.start.x;
@@ -161,28 +156,29 @@
                 evt.preventDefault();
 
                 const len = this.$children.length - 1;
-                const index = arrayFindIndex(this.$children,
-                item => item.id === this.currentActive);
-                const currentPageOffset = index * this.pageWidth;
+                const index = this.arrayFindIndex(this.currentActive);
+                const currentPageOffset = index * width;
                 const offset = offsetLeft - currentPageOffset;
                 const absOffset = Math.abs(offset);
 
-                if (absOffset > len * this.pageWidth ||
-                (offset > 0 && offset < this.pageWidth)) {
+                // 滑动距离大于页面的最大可视宽度
+                // 右滑(page--) 且 滑动距离小于页面宽度
+                if (absOffset > len * width ||
+                (offset > 0 && offset < width)) {
                     this.swiping = false;
                     return;
                 }
 
                 this.offsetLeft = offsetLeft;
                 this.index = index;
-                this.swipeMove(offset);
+                this.swipeMove(offset / width);
             },
 
             endDrag() {
                 if (!this.swiping) return;
 
                 const direction = this.offsetLeft > 0 ? -1 : 1;
-                const isChange = Math.abs(this.offsetLeft) > this.limitWidth;
+                const isChange = Math.abs(this.offsetLeft) > (this.$refs.wrap.clientWidth / 4);
 
                 if (isChange) {
                     this.index += direction;
@@ -194,6 +190,15 @@
                 }
 
                 this.swipeLeaveTransition();
+            },
+
+            arrayFindIndex (id) {
+                let arr = this.$children
+                for (let i=0; i<arr.length; ++i) {
+                    if (arr[i].id === id) {
+                        return i
+                    }
+                }
             }
         }
     };

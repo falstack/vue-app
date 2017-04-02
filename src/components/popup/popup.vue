@@ -110,10 +110,6 @@
         .buttons {
             height: 45px;
             position: relative;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
 
             &:before {
                 content: '';
@@ -129,10 +125,6 @@
             button {
                 position: relative;
                 height: 100%;
-                flex: 1;
-                border-width: 0;
-                outline-width: 0;
-                background-color: transparent;
                 color: #0070c9;
                 font-size: 17px;
 
@@ -166,7 +158,7 @@
                 <slot></slot>
             </div>
             <div class="buttons">
-                <button v-for="(btn, index) in buttons" v-text="btn" @click="hide(index)"></button>
+                <button v-for="(btn, index) in buttons" :style="{ width: 100 / buttons.length + '%' }" v-text="btn" @click="hide(index)"></button>
             </div>
         </div>
     </div>

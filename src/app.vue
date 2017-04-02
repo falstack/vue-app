@@ -1,4 +1,6 @@
 <style lang="scss" rel="scss">
+    @import "./style";
+
     #main .test-style {
         top: 20%;
     }
@@ -27,9 +29,46 @@
                 <button @click="showPopup_1">测试 popup_1</button>
                 <button @click="showPopup_2">测试 popup_2</button>
                 <button @click="showModal_2">测试 modal_2</button>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
+                <p>666</p>
             </div>
         </v-modal>
-        <v-modal ref="modal2" :title="'测试模态框'"></v-modal>
+        <v-modal ref="modal2" :title="'测试模态框'">
+            <div slot="content">
+                <button @click="active = 'tab-container1'">tab1</button>
+                <button @click="active = 'tab-container2'">tab2</button>
+                <button @click="active = 'tab-container3'">tab3</button>
+                <v-tab-container v-model="active" :swipeable="true">
+                    <v-tab-item id="tab-container1">
+                        <h3 v-for="item in 20">111</h3>
+                    </v-tab-item>
+                    <v-tab-item id="tab-container2">
+                        <h3 v-for="item in 20">222</h3>
+                    </v-tab-item>
+                    <v-tab-item id="tab-container3">
+                        <h3 v-for="item in 20">333</h3>
+                    </v-tab-item>
+                </v-tab-container>
+            </div>
+        </v-modal>
         <p>123</p>
         <p>123</p>
         <p>123</p>
@@ -72,7 +111,8 @@ export default {
                 'Valar Morghulis, Valar Dohaeris',
                 'perfect is shit'
             ],
-            theme: ['success', 'warning', 'error', 'info']
+            theme: ['success', 'warning', 'error', 'info'],
+            active: 'tab-container1'
         }
     },
 
@@ -114,7 +154,7 @@ export default {
 
         showPopup_1 () {
             this.$refs.popup1.show({
-                buttons: ['按钮一', '按钮二', '按钮三']
+                buttons: ['按钮一', '按钮二']
             }).then((index) => {
                 console.log('modal result index : ' + index)
             })
@@ -173,21 +213,21 @@ export default {
         }
     },
     mounted () {
-        $toast.show({
-            tips: 'this is a toast',
-            icon: 'http://cn.vuejs.org/images/logo.png',
-            showIcon: true,
-            position: 2
-        }).then(() => {
-            $loading.show({
-                tips: 'this is a loading',
-                position: 0
-            })
-        })
-
-        setTimeout(() => {
-            $loading.hide()
-        }, 5000)
+//        $toast.show({
+//            tips: 'this is a toast',
+//            icon: 'http://cn.vuejs.org/images/logo.png',
+//            showIcon: true,
+//            position: 2
+//        }).then(() => {
+//            $loading.show({
+//                tips: 'this is a loading',
+//                position: 0
+//            })
+//        })
+//
+//        setTimeout(() => {
+//            $loading.hide()
+//        }, 5000)
     }
 }
 </script>

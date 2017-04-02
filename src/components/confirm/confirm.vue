@@ -110,12 +110,8 @@
 
         .buttons {
             height: 40px;
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-end;
-            align-items: center;
             padding: 0 16px;
+            position: relative;
 
             &:before {
                 content: '';
@@ -129,15 +125,10 @@
             }
 
             button {
-                position: relative;
-                border-width: 0;
-                outline-width: 0;
-                background-color: transparent;
                 color: #0070c9;
                 font-size: 16px;
                 padding: 12px 18px;
-                line-height: 1;
-                cursor: pointer;
+                float: right;
             }
         }
     }
@@ -151,8 +142,8 @@
             <h3 class="title" v-text="title"></h3>
             <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
             <div class="buttons">
-                <button v-text="cancelText" @click="cancel"></button>
                 <button v-text="okText" @click="ok"></button>
+                <button v-text="cancelText" @click="cancel"></button>
             </div>
         </div>
     </div>

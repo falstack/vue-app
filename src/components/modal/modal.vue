@@ -28,8 +28,9 @@
         }
     }
 
+    $title-height: 44px;
+
     .vue-app-modal {
-        display: block;
         position: absolute;
         top: 0;
         left: 0;
@@ -38,24 +39,17 @@
         min-height: 100%;
         width: 100%;
         background-color: #fff;
-        padding-top: 44px;
-        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
 
         .bar {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            transform: translateZ(0);
-            user-select: none;
-            position: absolute;
-            right: 0;
-            left: 0;
-            z-index: 9;
             width: 100%;
-            height: 44px;
-            border-top: 1px solid transparent;
-            border-bottom: 1px solid #ddd;
+            height: $title-height;
             background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,.15);
 
             .title {
                 flex: 1;
@@ -75,13 +69,13 @@
             button {
                 min-width: 60px;
             }
-        }
 
-        .bar-header {
-            top: 0;
-            border-top-width: 0;
-            border-bottom-width: 1px;
-            box-shadow: 0 0 10px rgba(0,0,0,.15);
+            & + div {
+                flex: 1;
+                position: relative;
+                overflow-x: hidden;
+                overflow-y: scroll;
+            }
         }
     }
 
@@ -104,13 +98,13 @@
          :class="{'hidden': state === 0, 'active': state === 2, 'fadeIn': state === 1 || state === 2, 'fadeOut': state === 3}">
         <div class="vue-app-modal slide-in-up"
              :class="[{'active': state == 1, 'ng-enter ng-enter-active active': state == 2, 'ng-leave ng-leave-active': state == 3}, className]">
-            <slot name="header">
-                <div class="bar bar-header">
-                    <button class="btn-cancel" @click="hide(false)">取消</button>
+            <div class="bar bar-header">
+                <button class="btn-cancel" @click="hide(false)">取消</button>
+                <slot name="header">
                     <h1 class="title" v-text="title"></h1>
-                    <button class="btn-success" @click="hide(true)">确定</button>
-                </div>
-            </slot>
+                </slot>
+                <button class="btn-success" @click="hide(true)">确定</button>
+            </div>
             <slot name="content"></slot>
         </div>
     </div>
