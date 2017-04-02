@@ -5,9 +5,6 @@
         top: 0;
         right: 0;
         bottom: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         z-index: 10;
         background-color: transparent;
 
@@ -34,15 +31,16 @@
         position: absolute;
         top: 0;
         left: 0;
+        bottom: 0;
+        right: 0;
         z-index: 10;
-        overflow: hidden;
-        min-height: 100%;
-        width: 100%;
         background-color: #fff;
-        display: flex;
-        flex-direction: column;
+        padding-top: $title-height;
 
         .bar {
+            position: absolute;
+            left: 0;
+            top: 0;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -71,10 +69,9 @@
             }
 
             & + div {
-                flex: 1;
                 position: relative;
-                overflow-x: hidden;
-                overflow-y: scroll;
+                overflow-y: auto;
+                height: 100%;
             }
         }
     }
@@ -95,9 +92,19 @@
 
 <template>
     <div class="vue-app-container"
-         :class="{'hidden': state === 0, 'active': state === 2, 'fadeIn': state === 1 || state === 2, 'fadeOut': state === 3}">
+         :class="{
+                'hidden': state === 0,
+                'active': state === 2,
+                'fadeIn': state === 1 || state === 2,
+                'fadeOut': state === 3
+            }">
         <div class="vue-app-modal slide-in-up"
-             :class="[{'active': state == 1, 'ng-enter ng-enter-active active': state == 2, 'ng-leave ng-leave-active': state == 3}, className]">
+             :class="[{
+                    'active': state == 1,
+                    'ng-enter ng-enter-active active': state == 2,
+                    'ng-leave ng-leave-active': state == 3},
+                    className
+                ]">
             <div class="bar bar-header">
                 <button class="btn-cancel" @click="hide(false)">取消</button>
                 <slot name="header">

@@ -1,8 +1,37 @@
 <style lang="scss" rel="scss">
     @import "./style";
 
-    #main .test-style {
-        top: 20%;
+    #main {
+        .test-style {
+            top: 20%;
+        }
+
+        $tab-menu-height: 50px;
+        .menu-style {
+            height: $tab-menu-height;
+            min-height: $tab-menu-height;
+
+            button {
+                height: $tab-menu-height;
+            }
+
+            .vue-tab-menu-icon {
+                margin-bottom: 5px;
+                font-family: "iconfont" !important;
+                font-size: 20px;
+                font-style: normal;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+
+                &.icon-0:before { content: "\e6a1"; }
+
+                &.icon-1:before { content: "\e63f"; }
+
+                &.icon-2:before { content: "\e609"; }
+
+                &.icon-3:before { content: "\e65d"; }
+            }
+        }
     }
 </style>
 
@@ -53,19 +82,95 @@
         </v-modal>
         <v-modal ref="modal2" :title="'测试模态框'">
             <div slot="content">
-                <button @click="active = 'tab-container1'">tab1</button>
-                <button @click="active = 'tab-container2'">tab2</button>
-                <button @click="active = 'tab-container3'">tab3</button>
-                <v-tab-container v-model="active" :swipeable="true">
-                    <v-tab-item id="tab-container1">
-                        <h3 v-for="item in 20">111</h3>
-                    </v-tab-item>
-                    <v-tab-item id="tab-container2">
-                        <h3 v-for="item in 20">222</h3>
-                    </v-tab-item>
-                    <v-tab-item id="tab-container3">
-                        <h3 v-for="item in 20">333</h3>
-                    </v-tab-item>
+                <v-tab-container>
+                    <v-tab-content v-model="active" :swipeable="false">
+                        <v-tab-item :name="menu[0]">
+                            <v-tab-container>
+                                <v-tab-menu v-model="active_1" :menu="menu_1"></v-tab-menu>
+                                <v-tab-content v-model="active_1">
+                                    <v-tab-item :name="menu_1[0]">
+                                        <h3 v-for="item in 20">10</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_1[1]">
+                                        <h3 v-for="item in 20">11</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_1[2]">
+                                        <h3 v-for="item in 20">12</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_1[3]">
+                                        <h3 v-for="item in 20">13</h3>
+                                    </v-tab-item>
+                                </v-tab-content>
+                            </v-tab-container>
+                        </v-tab-item>
+                        <v-tab-item :name="menu[1]">
+                            <v-tab-container>
+                                <v-tab-menu v-model="active_2" :menu="menu_2"></v-tab-menu>
+                                <v-tab-content v-model="active_2">
+                                    <v-tab-item :name="menu_2[0]">
+                                        <h3 v-for="item in 20">20</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_2[1]">
+                                        <h3 v-for="item in 20">21</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_2[2]">
+                                        <h3 v-for="item in 20">22</h3>
+                                    </v-tab-item>
+                                </v-tab-content>
+                            </v-tab-container>
+                        </v-tab-item>
+                        <v-tab-item :name="menu[2]">
+                            <v-tab-container>
+                                <v-tab-menu v-model="active_3" :menu="menu_3"></v-tab-menu>
+                                <v-tab-content v-model="active_3">
+                                    <v-tab-item :name="menu_3[0]">
+                                        <h3 v-for="item in 20">30</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[1]">
+                                        <h3 v-for="item in 20">31</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[2]">
+                                        <h3 v-for="item in 20">32</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[3]">
+                                        <h3 v-for="item in 20">33</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[4]">
+                                        <h3 v-for="item in 20">34</h3>
+                                    </v-tab-item>
+                                </v-tab-content>
+                            </v-tab-container>
+                        </v-tab-item>
+                        <v-tab-item :name="menu[3]">
+                            <v-tab-container>
+                                <v-tab-menu v-model="active_4" :menu="menu_4"></v-tab-menu>
+                                <v-tab-content v-model="active_4">
+                                    <v-tab-item :name="menu_4[0]">
+                                        <h3 v-for="item in 20">40</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_4[1]">
+                                        <h3 v-for="item in 20">41</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_4[2]">
+                                        <h3 v-for="item in 20">42</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_4[3]">
+                                        <h3 v-for="item in 20">43</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_4[4]">
+                                        <h3 v-for="item in 20">44</h3>
+                                    </v-tab-item>
+                                </v-tab-content>
+                            </v-tab-container>
+                        </v-tab-item>
+                    </v-tab-content>
+                    <v-tab-menu
+                            v-model="active"
+                            :menu="menu"
+                            :showLine="false"
+                            :showIcon="true"
+                            :className="'menu-style'"
+                    ></v-tab-menu>
                 </v-tab-container>
             </div>
         </v-modal>
@@ -112,12 +217,17 @@ export default {
                 'perfect is shit'
             ],
             theme: ['success', 'warning', 'error', 'info'],
-            active: 'tab-container1'
+            active: '阿里云',
+            active_1: '域名注册',
+            active_2: '监控报警',
+            active_3: '博客',
+            active_4: '订单管理',
+            menu: ['阿里云', '控制台', '云栖', '我的'],
+            menu_1: ['域名注册', '云服务器 ECS', '安骑士', '对象存储 OSS'],
+            menu_2: ['监控报警', '急需续费', '工单'],
+            menu_3: ['博客', '问答', '云栖大会', '直播', '云课堂'],
+            menu_4: ['订单管理', '发票管理', '当月消费', '账户余额', '卡卷']
         }
-    },
-
-    created () {
-
     },
 
     methods : {

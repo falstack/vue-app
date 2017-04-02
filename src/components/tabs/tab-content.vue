@@ -1,28 +1,27 @@
 <style lang="scss" rel="scss">
-    .vue-tab-container {
-      overflow: hidden;
-      position: relative;
+    .vue-tab-content {
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: relative;
+        height: 100%;
 
-      .vue-tab-container-wrap {
-        display: flex;
-      }
+        .vue-tab-content-wrap {
+            display: flex;
+        }
 
-      .swipe-transition {
-        transition: transform 150ms ease-in-out;
-      }
+        .swipe-transition {
+            transition: transform 150ms ease-in-out;
+        }
     }
 </style>
 
 <template>
     <div @touchstart="startDrag"
-         @mousedown="startDrag"
          @touchmove="onDrag"
-         @mousemove="onDrag"
-         @mouseleave="endDrag"
          @touchend="endDrag"
-         class="vue-tab-container">
+         class="vue-tab-content">
         <div ref="wrap"
-             class="vue-tab-container-wrap">
+             class="vue-tab-content-wrap">
             <slot></slot>
         </div>
     </div>
@@ -73,11 +72,14 @@
     };
 
     export default {
-        name: 'v-tab-container',
+        name: 'v-tab-content',
 
         props: {
             value: {},
-            swipeable: Boolean
+            swipeable: {
+                type: Boolean,
+                default: true
+            }
         },
 
         data() {
@@ -184,7 +186,7 @@
                     this.index += direction;
                     const child = this.$children[this.index];
                     if (child) {
-                        this.currentActive = child.id;
+                        this.currentActive = child.name;
                         return;
                     }
                 }
@@ -192,10 +194,10 @@
                 this.swipeLeaveTransition();
             },
 
-            arrayFindIndex (id) {
-                let arr = this.$children
+            arrayFindIndex (name) {
+                let arr = this.$children;
                 for (let i=0; i<arr.length; ++i) {
-                    if (arr[i].id === id) {
+                    if (arr[i].name === name) {
                         return i
                     }
                 }

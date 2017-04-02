@@ -6,7 +6,7 @@
 </style>
 
 <template>
-    <div v-show="$parent.swiping || id === $parent.currentActive"
+    <div v-show="$parent.swiping || name === $parent.currentActive"
          class="vue-tab-item">
         <slot></slot>
     </div>
@@ -16,6 +16,6 @@
     export default {
         name: 'v-tab-item',
 
-        props: ['id']
+        props: ['name']
     }
 </script>
