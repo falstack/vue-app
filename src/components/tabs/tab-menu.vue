@@ -166,70 +166,52 @@
                 }
 
                 if ( ! this.noMore) {
-                    let offset, role;
+                    let offset, role, endOffset;
+                    let origin = dom.scrollLeft;
 
                     if (this.toLeft) {
                         console.log('to left');
                         if (i) {
-                            let lastBtn = this.$refs.buttons[i - 1];
-                            offset = lastBtn.offsetLeft
-                            role = lastBtn.getBoundingClientRect().left < lastBtn.clientWidth
+                            let beforeBtn = this.$refs.buttons[i - 1];
+                            offset = beforeBtn.clientWidth
+                            role = beforeBtn.getBoundingClientRect().left < offset
+                            endOffset = origin - offset < 0 ? 0 : origin - offset
                         } else {
-                            offset = 0
-                            role = this.$refs.buttons[0].offsetLeft
+                            role = offset = this.$refs.buttons[0].offsetLeft
+                            endOffset = 0
                         }
                         if (role) {
-//                            console.log(offset);
-//                            console.log(dom.scrollLeft);
-//                            dom.scrollLeft = offset
-//                            console.log(dom.scrollLeft);
-//                            let divide = (offset - dom.scrollLeft) / 15
-//                            let timer = setInterval(() => {
-//                                if (dom.scrollLeft === offset) {
-//                                    console.log('done');
-//                                    clearInterval(timer)
-//                                } else {
-//                                    console.log('move');
-//                                    console.log(dom.scrollLeft);
-//                                    dom.scrollLeft += divide
-//                                    console.log(dom.scrollLeft);
-//                                    console.log(offset);
-//                                    console.log(divide);
-//                                    if (divide > 0 && dom.scrollLeft > offset ||
-//                                        divide < 0 && dom.scrollLeft < offset) {
-//                                        dom.scrollLeft = offset
-//                                        console.log('?');
-//                                    }
-//                                }
-//                            }, 10)
+                            let divide = offset / 15
+                            let timer = setInterval(() => {
+                                if (dom.scrollLeft === endOffset) {
+                                    console.log('done - ' + dom.scrollLeft);
+                                    clearInterval(timer)
+                                } else {
+                                    console.log('move - ' + dom.scrollLeft + ' - ' + endOffset);
+                                    dom.scrollLeft -= divide
+                                    if (dom.scrollLeft < endOffset) {
+                                        dom.scrollLeft = endOffset
+                                    }
+                                }
+                            }, 10)
                         }
                     } else {
                         console.log('to right');
-                        if (attack.offsetLeft > this.warpWidth / 2) {
+                        if (attack.getBoundingClientRect().left > this.warpWidth / 2) {
                             if (this.$refs.buttons[i + 1]) {
                                 offset = this.$refs.buttons[i + 1].clientWidth
+                                endOffset = origin + offset > this.maxOffset ? this.maxOffset : origin + offset
                             } else {
                                 offset = attack.clientWidth
-                            }
-                            let origin = dom.scrollLeft
-                            let endOffset = origin + offset
-                            if (endOffset > this.maxOffset) {
                                 endOffset = this.maxOffset
                             }
-                            let divide = (endOffset - origin) / 15
-                            let lastScroll = 0
+                            let divide = offset / 15
                             let timer = setInterval(() => {
                                 if (dom.scrollLeft === endOffset) {
                                     console.log('done');
                                     clearInterval(timer)
                                 } else {
                                     dom.scrollLeft += divide
-                                    if (dom.scrollLeft === lastScroll) {
-                                        console.log('clear');
-                                        clearInterval(timer)
-                                    } else {
-                                        lastScroll = dom.scrollLeft
-                                    }
                                     console.log('move');
                                     if (dom.scrollLeft > endOffset) {
                                         dom.scrollLeft = endOffset
