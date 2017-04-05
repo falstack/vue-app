@@ -10,8 +10,9 @@
         .menu-style {
             height: $tab-menu-height;
             min-height: $tab-menu-height;
+            border-top: 1px solid #eee;
 
-            button {
+            .button {
                 height: $tab-menu-height;
             }
 
@@ -138,6 +139,39 @@
                                     <v-tab-item :name="menu_3[4]">
                                         <h3 v-for="item in 20">34</h3>
                                     </v-tab-item>
+                                    <v-tab-item :name="menu_3[5]">
+                                        <h3 v-for="item in 20">35</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[6]">
+                                        <h3 v-for="item in 20">36</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[7]">
+                                        <h3 v-for="item in 20">37</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[8]">
+                                        <h3 v-for="item in 20">38</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[9]">
+                                        <h3 v-for="item in 20">39</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[10]">
+                                        <h3 v-for="item in 20">310</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[11]">
+                                        <h3 v-for="item in 20">311</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[12]">
+                                        <h3 v-for="item in 20">312</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[13]">
+                                        <h3 v-for="item in 20">313</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[14]">
+                                        <h3 v-for="item in 20">315</h3>
+                                    </v-tab-item>
+                                    <v-tab-item :name="menu_3[15]">
+                                        <h3 v-for="item in 20">315</h3>
+                                    </v-tab-item>
                                 </v-tab-content>
                             </v-tab-container>
                         </v-tab-item>
@@ -220,12 +254,12 @@ export default {
             active: '阿里云',
             active_1: '域名注册',
             active_2: '监控报警',
-            active_3: '博客',
+            active_3: '直播',
             active_4: '订单管理',
-            menu: ['阿里云', '控制台', '云栖', '我的'],
+            menu: ['阿里云', '控制台', '分区', '我的'],
             menu_1: ['域名注册', '云服务器 ECS', '安骑士', '对象存储 OSS'],
             menu_2: ['监控报警', '急需续费', '工单'],
-            menu_3: ['博客', '问答', '云栖大会', '直播', '云课堂'],
+            menu_3: ['直播', '番剧', '动画', '国创', '音乐', '舞蹈', '游戏', '科技', '生活', '鬼畜', '时尚', '广告', '娱乐', '电影', '电视剧', '游戏中心'],
             menu_4: ['订单管理', '发票管理', '当月消费', '账户余额', '卡卷']
         }
     },

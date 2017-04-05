@@ -18,7 +18,8 @@
             overflow-x: auto;
             padding-bottom: $menu-height;
 
-            button {
+            .button {
+                box-sizing: border-box;
                 flex: 1;
                 height: 100%;
                 transition: $menu-transition;
@@ -28,6 +29,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                padding: 2px 6px 3px;
 
                 &.vue-tab-menu-selected {
                     color: $menu-selected-color;
@@ -66,12 +68,13 @@
 
 <template>
     <div class="vue-tab-menu-container" :class="[className]">
-        <div class="vue-tab-menu">
-            <button :class="{
+        <div class="vue-tab-menu" ref="warp">
+            <div class="button"
+                 :class="{
                         'vue-tab-menu-selected': index === idx,
                         'vue-tab-menu-unMove': (index === idx && unMove && showLine)
                     }"
-                    v-for="(text, idx) in filterMenu()"
+                    v-for="(text, idx) in menu"
                     ref="buttons"
                     @click="name = text">
                 <div v-if="showIcon"
@@ -79,7 +82,7 @@
                      :class="[showIcon ? 'icon-' + idx : '']"
                 ></div>
                 <span v-text="text"></span>
-            </button>
+            </div>
             <div v-if="showLine" class="vue-tab-menu-line" ref="line"></div>
         </div>
     </div>
@@ -114,11 +117,13 @@
         },
 
         watch: {
-            value (val) {
+            value (val, oldVal) {
+                this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal)
                 this.name = val
             },
 
-            name (val) {
+            name (val, oldVal) {
+                this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal)
                 this.unMove = false
                 this.$emit('input', val)
                 this.menuSwitch(val)
@@ -129,32 +134,122 @@
             return {
                 name: '',
                 index: 0,
-                multipleIdx: 0,
-                unMove: true
+                warpWidth: 0,
+                unMove: true,
+                noMore: null,
+                toLeft: false,
+                maxOffset: 0
             }
         },
 
         methods: {
 
-            filterMenu () {
-                return this.complex ? this.menu[this.multipleIdx] : this.menu
-            },
-
             menuSwitch (name) {
-                let list = this.filterMenu();
-                let i;
-                for (i=0; i<list.length; i++) {
-                    if (list[i] === name) {
-                        break
-                    }
+                let i = this.arrayFindIndex(name);
+                let dom = this.$refs.warp;
+                let attack = this.$refs.buttons[i];
+
+                if (this.$refs.warp.clientWidth && !this.warpWidth) {
+                    this.warpWidth = dom.clientWidth
                 }
+
+                if (this.noMore === null && this.warpWidth) {
+                    let lastBtn = this.$refs.buttons[this.$refs.buttons.length - 1];
+                    this.noMore = lastBtn.clientWidth + lastBtn.offsetLeft <= this.warpWidth
+                    this.maxOffset = lastBtn.clientWidth + lastBtn.offsetLeft - this.warpWidth
+                }
+
                 if (this.showLine) {
-                    let attack = this.$refs.buttons[i];
                     let target = this.$refs.line;
                     target.style.transform = `translate3d(${attack.offsetLeft}px, 0px, 0px)`;
                     target.style.width = attack.clientWidth + 'px'
                 }
+
+                if ( ! this.noMore) {
+                    let offset, role;
+
+                    if (this.toLeft) {
+                        console.log('to left');
+                        if (i) {
+                            let lastBtn = this.$refs.buttons[i - 1];
+                            offset = lastBtn.offsetLeft
+                            role = lastBtn.getBoundingClientRect().left < lastBtn.clientWidth
+                        } else {
+                            offset = 0
+                            role = this.$refs.buttons[0].offsetLeft
+                        }
+                        if (role) {
+//                            console.log(offset);
+//                            console.log(dom.scrollLeft);
+//                            dom.scrollLeft = offset
+//                            console.log(dom.scrollLeft);
+//                            let divide = (offset - dom.scrollLeft) / 15
+//                            let timer = setInterval(() => {
+//                                if (dom.scrollLeft === offset) {
+//                                    console.log('done');
+//                                    clearInterval(timer)
+//                                } else {
+//                                    console.log('move');
+//                                    console.log(dom.scrollLeft);
+//                                    dom.scrollLeft += divide
+//                                    console.log(dom.scrollLeft);
+//                                    console.log(offset);
+//                                    console.log(divide);
+//                                    if (divide > 0 && dom.scrollLeft > offset ||
+//                                        divide < 0 && dom.scrollLeft < offset) {
+//                                        dom.scrollLeft = offset
+//                                        console.log('?');
+//                                    }
+//                                }
+//                            }, 10)
+                        }
+                    } else {
+                        console.log('to right');
+                        if (attack.offsetLeft > this.warpWidth / 2) {
+                            if (this.$refs.buttons[i + 1]) {
+                                offset = this.$refs.buttons[i + 1].clientWidth
+                            } else {
+                                offset = attack.clientWidth
+                            }
+                            let origin = dom.scrollLeft
+                            let endOffset = origin + offset
+                            if (endOffset > this.maxOffset) {
+                                endOffset = this.maxOffset
+                            }
+                            let divide = (endOffset - origin) / 15
+                            let lastScroll = 0
+                            let timer = setInterval(() => {
+                                if (dom.scrollLeft === endOffset) {
+                                    console.log('done');
+                                    clearInterval(timer)
+                                } else {
+                                    dom.scrollLeft += divide
+                                    if (dom.scrollLeft === lastScroll) {
+                                        console.log('clear');
+                                        clearInterval(timer)
+                                    } else {
+                                        lastScroll = dom.scrollLeft
+                                    }
+                                    console.log('move');
+                                    if (dom.scrollLeft > endOffset) {
+                                        dom.scrollLeft = endOffset
+                                    }
+                                }
+                            }, 10)
+                        }
+                    }
+                }
+
                 this.index = i
+            },
+
+            arrayFindIndex (name) {
+                let arr = this.menu;
+                for (let i=0; i<arr.length; ++i) {
+                    if (arr[i] === name) {
+                        return i
+                    }
+                }
             }
         },
 

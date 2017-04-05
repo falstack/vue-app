@@ -69,19 +69,11 @@
         border-radius: 10px;
         overflow: hidden;
 
-        &.hidden {
-            visibility: hidden;
-        }
-
         &.enter {
             animation-name: superScaleIn;
             animation-duration: $fadeInTime;
             animation-timing-function: ease-in-out;
             animation-fill-mode: both
-        }
-
-        &.show {
-            visibility: visible
         }
 
         &.leave {
@@ -149,16 +141,25 @@
 
 <template>
     <div class="vue-app-container"
-         :class="{ 'hidden' : !state } ">
+         v-if="state">
         <div class="vue-app-popup"
-             :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
+             :class="{
+                'enter' : state === 1,
+                'leave' : state === 3
+            }">
             <h3 class="title" v-text="title"></h3>
-            <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
+            <p class="sub-title"
+               v-if="subTitle"
+               v-text="subTitle"></p>
             <div class="content">
                 <slot></slot>
             </div>
             <div class="buttons">
-                <button v-for="(btn, index) in buttons" :style="{ width: 100 / buttons.length + '%' }" v-text="btn" @click="hide(index)"></button>
+                <button v-for="(btn, index) in buttons"
+                        :style="{ width: 100 / buttons.length + '%' }"
+                        v-text="btn"
+                        @click="hide(index)"
+                ></button>
             </div>
         </div>
     </div>

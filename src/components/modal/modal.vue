@@ -8,10 +8,6 @@
         z-index: 10;
         background-color: transparent;
 
-        &.hidden {
-            display: none;
-        }
-
         &.fadeIn {
             transition: background-color cubic-bezier(0.1, 0.7, 0.1, 1) 400ms
         }
@@ -92,10 +88,10 @@
 
 <template>
     <div class="vue-app-container"
+         v-if="state"
          :class="{
-                'hidden': state === 0,
-                'active': state === 2,
                 'fadeIn': state === 1 || state === 2,
+                'active': state === 2,
                 'fadeOut': state === 3
             }">
         <div class="vue-app-modal slide-in-up"
