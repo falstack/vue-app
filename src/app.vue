@@ -40,8 +40,8 @@
     <div id="main">
         <h1>vue-app</h1>
         <p>A vue project.</p>
-        <button @click="showMessage">测试 message</button>
         <button @click="showModal_1">测试 modal_1</button>
+        <button @click="showModal_3">测试 modal_3</button>
         <v-popup ref="popup1">
             <p>测试表单1 {{ msg }}</p>
             <input placeholder="父组件" v-model="msg" type="text">
@@ -55,6 +55,7 @@
         <v-modal ref="modal1" :title="'测试模态框'" :className="'test-style'">
             <div slot="content">
                 <button @click="showAlert">测试 alert</button>
+                <button @click="showMessage">测试 message</button>
                 <button @click="showConfirm">测试 confirm</button>
                 <button @click="showPopup_1">测试 popup_1</button>
                 <button @click="showPopup_2">测试 popup_2</button>
@@ -208,26 +209,20 @@
                 </v-tab-container>
             </div>
         </v-modal>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
-        <p>123</p>
+        <v-modal ref="modal3" :title="'测试模态框'">
+            <div slot="content">
+                <v-list
+                        :list="list"
+                        :total="total"
+                        :pageSize="take"
+                        v-model="page"
+                        @listLoadingEvent="getList">
+                    <template slot="content" scope="props">
+                        <div class="my-fancy-item">{{ props.text }}</div>
+                    </template>
+                </v-list>
+            </div>
+        </v-modal>
     </div>
 </template>
 
@@ -260,11 +255,24 @@ export default {
             menu_1: ['域名注册', '云服务器 ECS', '安骑士', '对象存储 OSS'],
             menu_2: ['监控报警', '急需续费', '工单'],
             menu_3: ['直播', '番剧', '动画', '国创', '音乐', '舞蹈', '游戏', '科技', '生活', '鬼畜', '时尚', '广告', '娱乐', '电影', '电视剧', '游戏中心'],
-            menu_4: ['订单管理', '发票管理', '当月消费', '账户余额', '卡卷']
+            menu_4: ['订单管理', '发票管理', '当月消费', '账户余额', '卡卷'],
+            list: 100,
+            page: 1,
+            take: 10,
+            total: 500
         }
     },
 
-    methods : {
+    created () {
+        this.getList(this.take)
+    },
+
+    methods: {
+
+        getList (take) {
+            if (this.list >= this.total) return
+            this.list += take
+        },
 
         showAlert () {
             $alert.show({
@@ -325,6 +333,14 @@ export default {
                 console.log('modal2 result ok');
             }).catch(() => {
                 console.log('modal2 result cancel');
+            })
+        },
+
+        showModal_3 () {
+            this.$refs.modal3.show().then(() => {
+                console.log('modal3 result ok');
+            }).catch(() => {
+                console.log('modal3 result cancel');
             })
         },
 

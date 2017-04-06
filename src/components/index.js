@@ -4,6 +4,7 @@ import './plugin'
 import Popup from './popup'
 import Toggle from './toggle'
 import Modal from './modal'
+import List from './list'
 import TabContainer from './tabs/container'
 import TabContent from './tabs/content'
 import TabItem from './tabs/item'
@@ -20,6 +21,7 @@ const install = function(Vue) {
     Vue.component(TabContent.name, TabContent)
     Vue.component(TabItem.name, TabItem)
     Vue.component(TabMenu.name, TabMenu)
+    Vue.component(List.name, List)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
