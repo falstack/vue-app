@@ -46,6 +46,7 @@
                         bottom: 0;
                         height: 2px;
                         background-color: $menu-selected-color;
+                        margin: 0 9px;
                     }
                 }
             }
@@ -56,7 +57,6 @@
                 box-sizing: border-box;
                 background-color: $menu-selected-color;
                 position: absolute;
-                left: 0;
                 top: $menu-height - $line-height;
                 z-index: 1;
                 transition: $menu-transition;
@@ -67,16 +67,19 @@
 </style>
 
 <template>
-    <div class="vue-tab-menu-container" :class="[className]">
+    <div class="vue-tab-menu-container"
+         :class="[className]"
+         :style="fixedStyle">
         <div class="vue-tab-menu" ref="warp">
             <div class="button"
                  :class="{
                         'vue-tab-menu-selected': index === idx,
                         'vue-tab-menu-unMove': (index === idx && unMove && showLine)
                     }"
-                    v-for="(text, idx) in menu"
-                    ref="buttons"
-                    @click="name = text">
+                 :style="lineMargin"
+                 v-for="(text, idx) in menu"
+                 ref="buttons"
+                 @click="name = text">
                 <div v-if="showIcon"
                      class="vue-tab-menu-icon"
                      :class="[showIcon ? 'icon-' + idx : '']"
@@ -113,6 +116,38 @@
             showIcon: {
                 type: Boolean,
                 default: false
+            },
+            lineWidth: {
+                type: Number,
+                default: 0
+            },
+            fixed: {
+                type: Boolean,
+                default: true
+            }
+        },
+
+        computed: {
+            lineMargin () {
+                console.log(this.showLine);
+                console.log(this.lineWidth);
+                console.log(this.$refs.buttons);
+                if (this.showLine && this.lineWidth && this.$refs.buttons) {
+                    console.log('456');
+                    return {
+                        margin: `0 ${(this.$refs.buttons[0].clientWidth - this.lineWidth) / 2}px)`
+                    }
+                }
+            },
+            fixedStyle () {
+                if (this.fixed) {
+//                    return {
+//                        position: 'absolute',
+//                        left: '0',
+//                        right: '0',
+//                        top: '0'
+//                    }
+                }
             }
         },
 
@@ -161,8 +196,13 @@
 
                 if (this.showLine) {
                     let target = this.$refs.line;
-                    target.style.transform = `translate3d(${attack.offsetLeft}px, 0px, 0px)`;
-                    target.style.width = attack.clientWidth + 'px'
+                    if (this.lineWidth) {
+                        target.style.transform = `translate3d(${attack.offsetLeft + (attack.clientWidth - this.lineWidth) / 2}px, 0px, 0px)`;
+                        target.style.width = this.lineWidth + 'px'
+                    } else {
+                        target.style.transform = `translate3d(${attack.offsetLeft}px, 0px, 0px)`;
+                        target.style.width = attack.clientWidth + 'px'
+                    }
                 }
 
                 if ( ! this.noMore) {

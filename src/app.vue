@@ -88,9 +88,13 @@
                     <v-tab-content v-model="active" :swipeable="false">
                         <v-tab-item :name="menu[0]">
                             <v-tab-container>
-                                <v-tab-menu v-model="active_1" :menu="menu_1"></v-tab-menu>
+                                <v-tab-menu v-model="active_1" :menu="menu_1" :lineWidth="20"></v-tab-menu>
                                 <v-tab-content v-model="active_1">
                                     <v-tab-item :name="menu_1[0]">
+                                        <div style="width: 100%; height:300px">
+                                            <v-video :source="source"></v-video>
+                                        </div>
+                                        <v-range v-modal="range"></v-range>
                                         <h3 v-for="item in 20">10</h3>
                                     </v-tab-item>
                                     <v-tab-item :name="menu_1[1]">
@@ -259,7 +263,18 @@ export default {
             list: 100,
             page: 1,
             take: 10,
-            total: 500
+            total: 500,
+            source : [
+                {
+                    src: 'http://static2.ivwen.com/official/resource/meipian.mp4?',
+                    type: 'video/mp4'
+                },
+                {
+                    src: 'http://static2.ivwen.com/official/resource/meipian.webm?',
+                    type: 'video/webm;codecs="vp8, vorbis"'
+                }
+            ],
+            range: 0
         }
     },
 

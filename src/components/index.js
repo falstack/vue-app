@@ -4,11 +4,13 @@ import './plugin'
 import Popup from './popup'
 import Toggle from './toggle'
 import Modal from './modal'
-import List from './list'
 import TabContainer from './tabs/container'
 import TabContent from './tabs/content'
 import TabItem from './tabs/item'
 import TabMenu from './tabs/menu'
+import List from './list'
+import Video from './video'
+import Range from './range'
 
 const version = '0.1.4'
 const install = function(Vue) {
@@ -22,6 +24,8 @@ const install = function(Vue) {
     Vue.component(TabItem.name, TabItem)
     Vue.component(TabMenu.name, TabMenu)
     Vue.component(List.name, List)
+    Vue.component(Video.name, Video)
+    Vue.component(Range.name, Range)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {
