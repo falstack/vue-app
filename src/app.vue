@@ -95,7 +95,7 @@
                                             <v-video :source="source"></v-video>
                                         </div>
                                         <div style="margin: 20px 30px; height: 200px">
-                                            <v-range v-model="range" :vertical="true"></v-range>
+                                            <v-range v-model="range" :vertical="false"></v-range>
                                         </div>
                                         <h3 v-for="item in 20">10</h3>
                                     </v-tab-item>

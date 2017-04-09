@@ -1,6 +1,10 @@
 <style lang="scss" rel="scss" scoped>
     $range-radius: 4px;
 
+    .vue-app-range-container {
+        box-sizing: border-box;
+    }
+
     .vue-app-range {
         cursor: pointer;
         position: relative;
@@ -43,18 +47,27 @@
 </style>
 
 <template>
-    <div class="vue-app-range"
-        :style="rangeStyle"
-        @click="handleClick">
-        <div class="vue-app-range-progress"
-            :style="progressStyle">
-        </div>
-        <div class="vue-app-range-loading"
-             v-if="loading"
-            :style="loadingStyle">
-        </div>
-        <div class="vue-app-range-tail"
-             :style="tailStyle">
+    <div class="vue-app-range-container"
+         :style="containerStyle"
+         @mouseout.prevent="dragging = false"
+         @mouseup.prevent="dragging = false"
+         @mousemove.prevent>
+        <div class="vue-app-range"
+             :style="rangeStyle"
+             @click="handleClick">
+            <div class="vue-app-range-progress"
+                 :style="progressStyle">
+            </div>
+            <div class="vue-app-range-loading"
+                 v-if="loading"
+                 :style="loadingStyle">
+            </div>
+            <div class="vue-app-range-tail"
+                 :style="tailStyle"
+                 @touchmove.stop="handleDragEvent"
+                 @mousemove.prevent="handleMouseEvent"
+                 @mousedown="dragging = true">
+            </div>
         </div>
     </div>
 </template>
@@ -102,6 +115,24 @@
             }
         },
         computed: {
+            containerStyle () {
+                let style = {};
+                let size = this.size * 3;
+                if (size < 20) {
+                    size = 20
+                }
+                size = (size - this.size) / 2 + 'px';
+                if (this.vertical) {
+                    style.paddingLeft = size;
+                    style.paddingRight = size;
+                } else {
+                    style.paddingTop = size;
+                    style.paddingBottom = size;
+                }
+
+                return style
+            },
+
             rangeStyle () {
                 let style = {};
 
@@ -174,17 +205,32 @@
             return {
                 curRange: this.value,
                 warpSize: 0,
-                warpOffset: 0
+                warpOffset: 0,
+                dragging: false
             }
         },
         methods: {
             handleClick (evt) {
                 this.getWarpSize();
-                if (this.vertical) {
-                    this.curRange = ((1 - (evt.clientY - this.warpOffset) / this.warpSize) * 100).toFixed(2)
-                } else {
-                    this.curRange = ((evt.clientX - this.warpOffset) / this.warpSize * 100).toFixed(2)
+                let result = this.vertical ? ((1 - (evt.clientY - this.warpOffset) / this.warpSize) * 100).toFixed(2) : ((evt.clientX - this.warpOffset) / this.warpSize * 100).toFixed(2);
+
+                if (result < this.min) {
+                    result = this.min
+                } else if (result > this.max) {
+                    result = this.max
                 }
+
+                this.curRange = result
+            },
+
+            handleMouseEvent (evt) {
+                if (this.dragging) {
+                    this.handleClick(evt)
+                }
+            },
+
+            handleDragEvent (evt) {
+                this.handleClick(evt.changedTouches ? evt.changedTouches[0] : evt)
             },
 
             getWarpSize () {
