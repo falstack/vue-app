@@ -34,21 +34,6 @@
                 &.vue-tab-menu-selected {
                     color: $menu-selected-color;
                 }
-
-                &.vue-tab-menu-unMove {
-                    position: relative;
-
-                    &:after {
-                        content: '';
-                        position: absolute;
-                        left: 0;
-                        right: 0;
-                        bottom: 0;
-                        height: 2px;
-                        background-color: $menu-selected-color;
-                        margin: 0 9px;
-                    }
-                }
             }
 
             $line-height: 2px;
@@ -72,10 +57,7 @@
          :style="fixedStyle">
         <div class="vue-tab-menu" ref="warp">
             <div class="button"
-                 :class="{
-                        'vue-tab-menu-selected': index === idx,
-                        'vue-tab-menu-unMove': (index === idx && unMove && showLine)
-                    }"
+                 :class="{'vue-tab-menu-selected': index === idx}"
                  :style="lineMargin"
                  v-for="(text, idx) in menu"
                  ref="buttons"
@@ -129,11 +111,7 @@
 
         computed: {
             lineMargin () {
-                console.log(this.showLine);
-                console.log(this.lineWidth);
-                console.log(this.$refs.buttons);
                 if (this.showLine && this.lineWidth && this.$refs.buttons) {
-                    console.log('456');
                     return {
                         margin: `0 ${(this.$refs.buttons[0].clientWidth - this.lineWidth) / 2}px)`
                     }
@@ -152,14 +130,13 @@
         },
 
         watch: {
-            value (val, oldVal) {
+            'value' (val, oldVal) {
                 this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal)
                 this.name = val
             },
 
-            name (val, oldVal) {
+            'name' (val, oldVal) {
                 this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal)
-                this.unMove = false
                 this.$emit('input', val)
                 this.menuSwitch(val)
             }
@@ -170,7 +147,6 @@
                 name: '',
                 index: 0,
                 warpWidth: 0,
-                unMove: true,
                 noMore: null,
                 toLeft: false,
                 maxOffset: 0
@@ -210,7 +186,6 @@
                     let origin = dom.scrollLeft;
 
                     if (this.toLeft) {
-                        console.log('to left');
                         if (i) {
                             let beforeBtn = this.$refs.buttons[i - 1];
                             offset = beforeBtn.clientWidth
@@ -224,10 +199,8 @@
                             let divide = offset / 15
                             let timer = setInterval(() => {
                                 if (dom.scrollLeft === endOffset) {
-                                    console.log('done - ' + dom.scrollLeft);
                                     clearInterval(timer)
                                 } else {
-                                    console.log('move - ' + dom.scrollLeft + ' - ' + endOffset);
                                     dom.scrollLeft -= divide
                                     if (dom.scrollLeft < endOffset) {
                                         dom.scrollLeft = endOffset
@@ -236,7 +209,6 @@
                             }, 10)
                         }
                     } else {
-                        console.log('to right');
                         if (attack.getBoundingClientRect().left > this.warpWidth / 2) {
                             if (this.$refs.buttons[i + 1]) {
                                 offset = this.$refs.buttons[i + 1].clientWidth
@@ -248,11 +220,9 @@
                             let divide = offset / 15
                             let timer = setInterval(() => {
                                 if (dom.scrollLeft === endOffset) {
-                                    console.log('done');
                                     clearInterval(timer)
                                 } else {
                                     dom.scrollLeft += divide
-                                    console.log('move');
                                     if (dom.scrollLeft > endOffset) {
                                         dom.scrollLeft = endOffset
                                     }

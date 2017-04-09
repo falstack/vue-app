@@ -94,7 +94,9 @@
                                         <div style="width: 100%; height:300px">
                                             <v-video :source="source"></v-video>
                                         </div>
-                                        <v-range v-modal="range"></v-range>
+                                        <div style="margin: 20px 30px; height: 200px">
+                                            <v-range v-model="range" :vertical="true"></v-range>
+                                        </div>
                                         <h3 v-for="item in 20">10</h3>
                                     </v-tab-item>
                                     <v-tab-item :name="menu_1[1]">
@@ -111,7 +113,7 @@
                         </v-tab-item>
                         <v-tab-item :name="menu[1]">
                             <v-tab-container>
-                                <v-tab-menu v-model="active_2" :menu="menu_2"></v-tab-menu>
+                                <v-tab-menu v-model="active_2" :menu="menu_2" :lineWidth="20"></v-tab-menu>
                                 <v-tab-content v-model="active_2">
                                     <v-tab-item :name="menu_2[0]">
                                         <h3 v-for="item in 20">20</h3>
@@ -274,7 +276,7 @@ export default {
                     type: 'video/webm;codecs="vp8, vorbis"'
                 }
             ],
-            range: 0
+            range: 100
         }
     },
 

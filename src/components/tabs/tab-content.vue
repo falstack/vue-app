@@ -82,7 +82,7 @@
             }
         },
 
-        data() {
+        data () {
             return {
                 start: { x: 0, y: 0 },
                 swiping: false,
