@@ -188,7 +188,9 @@
                 this.buttons = (opt && opt.buttons) ? opt.buttons : ['好']
 
                 this.state = 1
-                window.$backdrop.show()
+                window.$backdrop.show({
+                    dom: this.$el.parentNode
+                })
 
                 setTimeout(() => {
                     this.state = 2
