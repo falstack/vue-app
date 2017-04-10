@@ -4,7 +4,7 @@
         overflow-y: auto;
         position: relative;
         height: 100%;
-        z-index: 1;
+        z-index: 3;
 
         .vue-tab-content-wrap {
             display: flex;
