@@ -19,12 +19,12 @@
 
         .vue-app-range-progress {
             background-color: #00a1d6;
-            z-index: 10;
+            z-index: 2;
         }
 
         .vue-app-range-loading {
             background-color: #8adced;
-            z-index: 5;
+            z-index: 1;
         }
 
         .vue-app-range-tail {
@@ -34,7 +34,7 @@
             border-radius: 50%;
             position: absolute;
             transition: box-shadow .3s ease-in-out;
-            z-index: 15;
+            z-index: 3;
 
             &:hover {
                 box-shadow: 0 0 3px #00a1d6;

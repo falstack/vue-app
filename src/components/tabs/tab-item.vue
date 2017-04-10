@@ -7,6 +7,7 @@
 
 <template>
     <div v-show="$parent.swiping || name === $parent.currentActive"
+         v-if="lazy || init"
          class="vue-tab-item">
         <slot></slot>
     </div>
@@ -16,6 +17,29 @@
     export default {
         name: 'v-tab-item',
 
-        props: ['name']
+        props: {
+            name: {
+                required: true,
+                type: String
+            },
+            init: {
+                type: Boolean,
+                default: false
+            }
+        },
+
+        watch: {
+            '$parent.currentActive' (val) {
+                if (val === this.name) {
+                    this.lazy = true
+                }
+            }
+        },
+
+        data () {
+            return {
+                lazy: false
+            }
+        }
     }
 </script>

@@ -7,10 +7,11 @@
         overflow: hidden;
         height: $menu-height;
         min-height: $menu-height;
+        z-index: 2;
 
         .vue-tab-menu {
             box-sizing: border-box;
-            height: 200%;
+            height: $menu-height * 2;
             position: relative;
             display: flex;
             flex-direction: row;
@@ -49,13 +50,24 @@
             }
         }
     }
+
+    .vue-tab-menu-fixed {
+        position: fixed;
+        left: 0;
+        right: 0;
+    }
+
+    .vue-tab-menu-block {
+        height: $menu-height;
+        min-height: $menu-height;
+    }
 </style>
 
 <template>
     <div class="vue-tab-menu-container"
-         :class="[className]"
-         :style="fixedStyle">
-        <div class="vue-tab-menu" ref="warp">
+         :class="[{ 'vue-tab-menu-fixed' : fixed }, className]">
+        <div class="vue-tab-menu"
+             ref="warp">
             <div class="button"
                  :class="{'vue-tab-menu-selected': index === idx}"
                  :style="lineMargin"
@@ -105,7 +117,7 @@
             },
             fixed: {
                 type: Boolean,
-                default: true
+                default: false
             }
         },
 
@@ -115,16 +127,6 @@
                     return {
                         margin: `0 ${(this.$refs.buttons[0].clientWidth - this.lineWidth) / 2}px)`
                     }
-                }
-            },
-            fixedStyle () {
-                if (this.fixed) {
-//                    return {
-//                        position: 'absolute',
-//                        left: '0',
-//                        right: '0',
-//                        top: '0'
-//                    }
                 }
             }
         },
@@ -246,7 +248,13 @@
         },
 
         mounted () {
-            this.menuSwitch(this.value)
+            this.menuSwitch(this.value);
+            if (this.fixed) {
+                let parent = this.$el.parentNode;
+                let el = document.createElement('div');
+                el.classList.add('vue-tab-menu-block');
+                parent.insertBefore(el, parent.childNodes[0])
+            }
         }
     }
 </script>

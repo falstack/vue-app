@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from './app';
+import App from './app.vue';
 import 'normalize.css'
 import { install as VueApp } from './components/index'
 

@@ -4,6 +4,7 @@
         overflow-y: auto;
         position: relative;
         height: 100%;
+        z-index: 1;
 
         .vue-tab-content-wrap {
             display: flex;
@@ -16,9 +17,9 @@
 </style>
 
 <template>
-    <div @touchstart="startDrag"
-         @touchmove="onDrag"
-         @touchend="endDrag"
+    <div @touchstart.stop="startDrag"
+         @touchmove.stop="onDrag"
+         @touchend.stop="endDrag"
          class="vue-tab-content">
         <div ref="wrap"
              class="vue-tab-content-wrap">
