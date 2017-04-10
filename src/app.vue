@@ -42,6 +42,9 @@
         <p>A vue project.</p>
         <button @click="showModal_1">测试 modal_1</button>
         <button @click="showModal_3">测试 modal_3</button>
+        <div style="width: 100%; height:300px">
+            <v-video :source="source"></v-video>
+        </div>
         <v-popup ref="popup1">
             <p>测试表单1 {{ msg }}</p>
             <input placeholder="父组件" v-model="msg" type="text">
@@ -91,12 +94,6 @@
                                 <v-tab-menu v-model="active_1" :menu="menu_1" :lineWidth="20"></v-tab-menu>
                                 <v-tab-content v-model="active_1">
                                     <v-tab-item :name="menu_1[0]">
-                                        <div style="width: 100%; height:300px">
-                                            <v-video :source="source"></v-video>
-                                        </div>
-                                        <div style="margin: 20px 30px; height: 200px">
-                                            <v-range v-model="range" :vertical="false"></v-range>
-                                        </div>
                                         <h3 v-for="item in 20">10</h3>
                                     </v-tab-item>
                                     <v-tab-item :name="menu_1[1]">

@@ -1,4 +1,12 @@
 <style lang="scss" rel="scss" scoped>
+    @font-face {font-family: "iconfont-video";
+        src: url('./fonts/iconfont.eot?t=1491818377252'); /* IE9*/
+        src: url('./fonts/iconfont.eot?t=1491818377252#iefix') format('embedded-opentype'), /* IE6-IE8 */
+        url('./fonts/iconfont.woff?t=1491818377252') format('woff'), /* chrome, firefox */
+        url('./fonts/iconfont.ttf?t=1491818377252') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+        url('./fonts/iconfont.svg?t=1491818377252#iconfont') format('svg'); /* iOS 4.1- */
+    }
+
     $color-border : #e5e9ef;
     $color-over : #00a1d6;
     $color-load : #8adced;
@@ -14,13 +22,13 @@
         border-bottom: 1px solid $color-border;
         position: relative;
         font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif;
-        padding-bottom: $tool-height;
+        display: flex;
+        flex-direction: column;
 
         .vue-app-video-box {
             width: 100%;
             height: 100%;
             position: relative;
-            cursor: pointer;
             display: flex;
             flex: 1;
             align-items: center;
@@ -55,18 +63,21 @@
                 height: 60px;
                 border-radius: 5px;
                 background-color: rgba(0, 0, 0, 0.8);
+                font-family: 'iconfont-video' !important;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
 
-                &:after {
+                &:before {
                     position: absolute;
                     left: 0;
                     top: 0;
                     width: 100%;
                     height: 100%;
-                    content: '';
-                    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAEhElEQVR4Xu1bjVEUUQxOKlAqECoQKhAqUCoQKxArUCtQKxAqQCoQKhAqECoQK4jzzeQ577J5f3t3u3u3lxlGZ2733sv3ki/JS45p5sIz1592AOwsYAAERGSfiF4REf49JKLnuiz+/0BE75j5boCtdJZYmwuICJR7S0RvVPGcfk/MvLcVAIgIlP5UofSCvsy8tsPIAbuyRfsqrpuDC1xspAWoqX8houOCArdEdKM+D7+HwPRH8f2w16UsQETeE9HXjOLXRPQDf8z8NMYJl9bsBYCIgMW/K8F5a1yCB5g5nHRpH6N93gyAKv9Tw5ndOE78fEjFRQSu9xHupOG0ydKaAMgo/5eIzpgZ5j6oiMifKK8An5y0uFs1ABnl7+EKQ556QFj3BABiaQKhBYArx+eh/HEL4qs2DxFB+ETuEcsNM5/UrFUFgIicExFCXSyjKx9ZggfCN2bGvrNSBEDj/K+pKh+BANN/afYJPkDukZQaAMD4cZIDwjscw+dziigfIOw+i557YOaD3gCIyJnG+/g7Tsdg+5Ip43MNiTiwWD4zM2oTV7IWICK/TVFzy8yllLdmr2t7xiFF5AUHKaJOApA4fXzRpLO7hCskrSAHAIgPNX2QS2aGS0xeRAQmj+wwSJILXAASzD/50w/aJqzA5a4UAKjwUOkFuWZm3OxsjDhc4FpwCgBr/qNdWPRFXERwYMheg7jXbh0AEvn13pjp7hIgiHn3yF7AeABY5O6ZOSbDvvsZ/D0RQXX6Olr4AzMvXOB4AFgGrcqpB9euYkEnGnTCoQeALSw6qFWsPYlHHB7oJHIeACge0MQIUiwoJqGtswknNZ4dAOCuuJLtJESeBdgQuLEWAKMQkYVIYBswHgC2rp4dANvEAdYFHpkZDdr/siNBS541ycNUWd/RxSZ1VVFg9omQRe2OmY825dTjfYqI5bOqVBgkgauwWOZTDGnstKFwG8rhTgSArrsLEc+3t+RKzPYM3YQudylq3WCTL0Vd80+6gPKA1xSZ/MWo3miBxMMoHtRpvxZXENADeBG5CUZdTqccEp3LULTy9psbIxkrmE9rTEGwyQRaTbhcnFSHKGH6Sd8PVlzTHbYVFd5tmsJYt8tkpleKpXwRALUCb0BiMimyiGBizbbtsl3hagsIDzpV4uiWoCePyRWrfHUXu8oC1AoQVsAHdgoD7gBiHJQTCkNb1XNL1QAUQAgzeoOMyeltL9pecazHFpvnlpoAKICAjwEASs61WEPG5Hspn80Ec8ytG0EDJW47hVdgDfgMHaWVAKHroVsNMranjnUxiI1ZxaYp0d4ARMToRYcYO1jEBTNjhLZZRAQA44ImN5hRxfapxZtdwH6RVo44cUuO9lEQqB2Xh89Cwru4jMEf5pBKs0h4F3PJ2TG4EupLAxBZA04J94lx7VBav8/nyO0xiZ4b06/+3pUBMAAQj/rbBLhUs6+vzQVSX6yuAY6AKfe1CigNE4fSS5n64ADEC+rP5gCE/dlc6EKDxYMEnsDA80qiSM4fVu4C1c43kQd3AEzkIEbbxuwt4B+9hiBf8rBjrAAAAABJRU5ErkJggg==);
-                    background-repeat: no-repeat;
-                    background-size: 40px;
-                    background-position: center;
+                    content: '\e756';
+                    font-size: 40px;
+                    text-align: center;
+                    line-height: 60px;
+                    color: #fff;
                     -webkit-animation: unlimited 1s infinite linear;
                 }
             }
@@ -85,10 +96,6 @@
         }
 
         .vue-app-video-tool {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
             height: $tool-height;
             background-color: #fff;
             border-left: 1px solid $color-border;
@@ -99,47 +106,31 @@
             button {
                 width: $tool-btn-width;
                 height: 100%;
-                background-color: #fff;
                 background-size: 20px;
-                background-repeat: no-repeat;
-                background-position: center;
-                transition: background-color .3s;
+                transition: .3s ease-in-out;
                 outline: none;
                 border: none;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: #e6e9f0;
-                }
-            }
-
-            .vue-app-range {
-                background-color: $color-border;
-                width: 100%;
-                height: 100%;
-                cursor: pointer;
+                cursor: default;
+                font-family: 'iconfont-video' !important;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
                 position: relative;
-                border-radius: 4px;
-
-                span {
-                    border-radius: 4px;
-                }
-            }
-
-            .v-dot {
-                position: absolute;
-                display: block;
-                width: 14px;
-                height: 14px;
-                border-radius: 50%;
+                color: #99A2AA;
                 background-color: #fff;
-                border: 1px solid $color-border;
-                cursor: pointer;
-                box-sizing: border-box;
-                transition: box-shadow .3s;
 
-                &:hover {
-                    box-shadow: 0 0 3px $color-over;
+                &:before {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    font-size: 20px;
+                    line-height: $tool-height;
+                }
+
+                &:hover, &:active {
+                    background-color: #F4F5F7;
+                    color: #6D757A;
                 }
             }
         }
@@ -163,57 +154,40 @@
         width: 100%;
     }
 
-    .vue-app-video-btn-playing {
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABkklEQVR4Xu2awW0CMRREPxUkJdGNtSdCBaQErv+WVqgIaMCJkIjEBZ6lHWFLHq4D49mZZ067ick/m8mfP1yACZi8AV+ByQHwn6CvgK/A5A34CqwFIDO/I2IXEZ/gdam17pdl+Xn1PbUfPd9qAjLz3PDw/zlOpZQtFCD1e0cBv3TIg95SgNSPsikIkAbOTKmfC4AGTAAhQroaWbUf5TcB1BDp6sXUfpTfBFBDpKsXU/tRfhNADZGuXkztR/lNADVEunoxtR/lNwHUEOnqxdR+lN8EUEOkqxdT+1F+E0ANka5eTO1H+U0ANUS6ejG1H+U3AdQQ6erF1H6U3wRQQ6SrF1P7UX4TQA2Rrl5M7Uf5TQA1RLp6MbUf5TcB1BDp6sXUfpTfBFBDpKsXU/tRfhNADZGuXkztR/lNADVEunqxzLxExAede9fxnSPyURBwe03uQAdFxLXW+tX4mlyL3+3IfSnl2HD206+sLmDN4SP81gWMsELPDCagZ/sjnG0CRlihZwYT0LP9Ec42ASOs0DPD9AT8AYaCnFADEBKrAAAAAElFTkSuQmCC);
-
-        &:hover {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABnklEQVR4Xu2aQU4CQRREf59Aj+SBIECcDbPRlWyIMZkLeBVPJF6AJgGiu3mTdJnupIttQXVN1WtWk6LzT+r8+cMFmIDOG/AV6BwA/wn6CvgKdN6Ar0ApAKthfE05NpHicdYrxyly7Kb3t8+576n96PmKCVg/j9/48L8p8td0PDzNhVL7/X8Bw5jpkD99QQFiP8pWToA48Frs5wKgARNAiJCuRlbtR/lNADVEunoxtR/lNwHUEOnqxdR+lN8EUEOkqxdT+1F+E0ANka5eTO1H+U0ANUS6ejG1H+U3AdQQ6erF1H6U3wRQQ6SrF1P7UX4TQA2Rrl5M7Uf5TQA1RLp6MbUf5TcB1BDp6sXUfpTfBFBDpKsXU/tRfhNADZGuXkztR/lNADVEunoxtR/lNwHUEOnqxdR+lN8EUEOkqxdT+1F+E0ANka5ebDXsTynSA5170/mdI/IpJuD6WlvECx2UI/+kc9ouek1ugd+9gN10PHzQ2XN6cQElh7fwWxfQwgo1M5iAmu23cLYJaGGFmhlMQM32WzjbBLSwQs0M3RNwAQRc6VBR5skLAAAAAElFTkSuQmCC);
-        }
+    .vue-app-video-btn-playing:before {
+        content: "\e62a";
     }
 
-    .vue-app-video-btn-paused {
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAC7ElEQVR4Xu2az5XbIBDGgQMck+1gO4g7yKaCtGBfjHSzK4jUgX2SdNK6A6eDdQVxOtjtIHv0hckbPylPb5MsSOgPYPkqJDM/vm+AAUpu/EdvPH4yA5gVcOMEWlmgLMuPl8vlM6V0AQBnIcRptVr98pmhMYCiKL4RQpK3wQLAoxBi6ysIIwB5npeU0uU7I40q2HHO976B0ALIsmzJGCtNZA4Az5TSREp5MGnvQhstgKIofhBCFm06CwBPAJDGcfzU5r0p2poAgK4dw/xQgXju+o2h3xsUQNV5p/PDGACuHFzND6MBaEj5rJTaupIfpgBQszhWICbND1MCqEEkU64fXACAIDBRbqZYP7gCoFbD6PnBNQD1jIELqVUcx4PnBycBNGYM3F+kQ+4vXAdwzQ8AkERRtB9iVegDgD8LqcoWve4vvAFQjz5utBhj2/V6fe5DEd4BaIDopRDjLYDmRktKmXZVg+8AmhutrZTy2BZEEABs8kNQABqjj2U5I1uECgBZoCV2OkuEDIBwzu90q8igAZioIHQAqZTyr8Ocpi1mALokURRF57K47ttDP1dKfdHVHoNVAAD8jKJIe6ATKoBXpdTCpKASHAAA+C6EWOqmv9p+wQBAyQPARuf5t3knBAAodwz8sUtS9R1Ayjnfmcr9X4B8BXBQSiUmSU6nCt8AnKrAe6sL+gLgpQq8k8/fU4HrAF6ru0dWPvcVQG8+9w1A7z73BcBLdULcurCpy/SuA7j6XLdvtwnSZQAHzvnGZiFjC2aqWeBEKd30dbxlA2FsADifL9tuWGwC1L07FgD0OdbqtWVqXYf7fj44AADYCyGSKX0+VRLE+RzlPvg1FxtVaBWQ5/mRUvq1xZ8453MrBWRZds8Yw8sIHzQQrAoTLQD32lSrAPy3LMseGGO4QvsfBOvCRK9RtfiYEYAKwj3O3YSQB0rpJ6zBEULwOtvOdZ9bWaAFTC+bGivAy+gMOj0DMIAUdJNZAUEPr0FwvwEUy7JQSJuGMAAAAABJRU5ErkJggg==);
-
-        &:hover {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADDUlEQVR4Xu2aTXLaQBCFXyNFXia5QW4QbhDnBLkC3kOVlLBwsYnYgKsCKVFWsrV9A3IDOEHIDZwbkHWE2iXZ/FQce0Z/aGaALTOD+tN7Tz0jCAf+oQOvH0cARwUcOIFMFnBd/1Vs/30Xg5sN0KIRvZgHgb/UmaE0gHa395kA/1GxjGtr5Xi6gpAC0PnUuwKh9eSdZiyZENiRM9ENhBBA52OvhQaupGTOfBsD/rfx8EZqvAKDhADa3d5PAppZrpXBM4D74ehilmVeHWOFADrdHue+sDQf4n4QXNzmXqPiidUCSC5e8XyoHsD6DiqaD/sD8ACCgQUQe6rkw94BbAXBU3vFXt35UBuADQjAr7N/qB1ACoKxjMFuHf2DGgBqzAelAGxtwTM74rN95IOSALa9DwdWdNKvcn+hOICHRgrww/FgUkVTqD6AnUaKic/K7h/0AbAJSp7FRN73L4NFGYrQDsCm6JIOYvQFsLPRCkeDfl416A1gNx8ALxwPp1lBmAGgQD4YBWB3fyFrCyMB3INg73I0DESWMBgAYEXOa1EXaTQAGRUYDYCBfjgaPH6Zs+OLIwBRSBQ6FhctXvH3jPi9aO9grAKY+Vc4Hgpf6BgJgMF/7IibMgcqJgL4YUVOS/T4W7vPGACJ5EHsijz/b+xoDyCRO8XkXn4dXOfJVK0BJM95O3ICWbn/D5CWAJj5xl6xLxNyIlVoBoDnDPaz+vw5CFoAYMZvYvh5fa4tgCTgAEr+e1TI51oCKNPnmgEo3+daAEh8DrCb52BTlPRKA1j7XLRvL1KksgDufX7iFmlkioKp6THI8xWRW9brrSIQ9gog9TnFrTIbmSLFJ3P3AiDdsAC+zDF10YKyzq8cADMm9srx6/R5TSHIcyviVhkblqx3Nct4GQUkLxw/yC6qos8LKcB1z99ENi0I9PK5hYoeTMgCLnucUAHJD7a756cATZ+CUMbBRNmFya4nBSBZLFWC1XABPiWit+kZHGhmr+JAdZ8XsoAsSV3HSStA1wJF130EICJk+vdHBZh+h0X13QG5389QxD7b+gAAAABJRU5ErkJggg==);
-        }
+    .vue-app-video-btn-paused:before {
+        content: "\e6c5";
     }
 
-    .v-btn-volume {
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABACAYAAACjgtGkAAAEmklEQVR4Xu2bzVXbQBDHteI9cQxUEFJBoIJABaGD2BdWOhEqCKkg5CQNFycVkFQQpwJIBZAKYo74sJs3fis/fcysZEmWLNn7Xi5BH7s/zfxndmYtnN1IERA7HmkCOyAZi+gcyGQyOZjP55da65EQ4sBxnKnneePxeDzrwno7BXJ7e3uslLoTQhxlFv9dSjnaKiBhGI5c151wi1ZKvQmC4KltKJ1YSBRFEyGE1QKUUmdBEEwHDcToxS/HcY6LFqqUGgdB8K3ouqb/3pqFoF5orREGCmeZ8VlKeV3mwiavaQWI0YsvK8DANQ4TCAAgiI8VvuKwgKBevLy8YEg9rQBjWBZiyS9WYTMMC6moFxSo/gOpoReNAzEhHhO/c8dxZkqpqzJhvJEo04BeNA4EAO4MjOWzy+Q2LJAwDI9c1710HAdFsTCRWkUcSl5by2UAQFPvKYJCAmnY9EuuP3dZXSC4W35FvHwmhDi7uLh4oCaWAwIA9x1ZRHZ+dYFg7oM5UG5orZ/29/dPqBJDCkgURTdCCHSTTRgsEAD4hPqgtZ65rnvFfW0AwL3QBwbKV9/3cwnjEojRjMdNIGHmQAKhPpoQ4oSDEkXRgxDiLaMnuR31EsiGWQebqTJiyeqCCb9YV8npidZ66vv+WRLWEsgGaUc8P9JCuOhh0wVbMSpbd0kCIcNUhy5U2mUSc2RLjwCAVvKaWE/qnt4BwQUV6AJZegzD8NR1XazH5IbneYdxxOklEKMLmEfkvjilCzEBDmQyWeslEFyg7YtzBWoucGitf/q+j3sep7dAcPIAgEXod1kf4NJzU8bExDM7ZlLKw94D4aJH8otnVw4AZEof60ivLcRoyT9KKKWU3D6Ns6pFktZrIDa32QHJmMmqwhrrTu8tJIqiH0KI94Swkp0/AMBeD24OU2MwQLhIw7kMF3rjFL73FsLtwbZSQ7iShdb6j+/7ZNmTs6hBhF1LHkIWf0xUojaxz1LKRc+51y4TRdEjcdjG4QpGAIDpOVbjU2MQqbulxvFXSpk9kbQAYCkpXkkpb3prIbajFbY2A2dRyZyldy5jmmL3lKvYxLTsvicJhOtjUFuFNv6PKyHmOnLxZLhjWDaIWYtKFpnJjK+NlTPvWKmmanMVLjulLCrZhrCeCuwADAeEsmS2llqgN3wbAhdsq1VuChBCC1gYpjyAvabcuTauZpKqGRiaWC+geqJtM2E7d6Z8iE14rHQtwiU1LK2VZ8/zjgpbmfjQDYJSq7dra7zZzsCSVSVjatj3xH9dWUstII0eh0ianzFP9EHrGRGt9TnXQ63oa40DKTobkspUK056eZuxKvRnstte4fm1gCRdBsOr1vqmtSNVycVyMb9tIPg+jEh7e3sP3MkAak6NnDHLPtiERrSWOvpTy0IqfIDFLWsB0lC0GhYQhGL2ENOKYjs8IDGU+XxeRWyHCST25QpiO2wgseq7rltWbIcPZEWxXZb1qkaMKvetLcrYJlNGbLfiN3dJSEWZ7Vb9KrNEZvtbSln1h0dVPGV5TycuQ2S2p0II3Flj+wCPXY+28pfdtT7lmm7eCAtZ09oqPfY/7gRUbmZDb1IAAAAASUVORK5CYII=);
-
-        &:hover {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABACAYAAACjgtGkAAAE0ElEQVR4Xu2bXXLTQAzHpSRDHyknoJwAOAHpCegNCK+MM3WJman9QnlJmCGhZpLhtXCCwgkaTtBygoYTEB7bSSLGzkcdR9rYXqepnfrZa3t/q/1LK8kI99ccAbznMU/gHkjIItYOxDSPtgel630kqgDgNgF1S8Ot16571F+H9a4VyJt3zrPiiE4BcSc4eSL63mk1KhsFpPrWqUABTqRJFwejJ677sXfbUNZiIdWacwIISgsgGO12mh+7uQYy0YszBHi2dKIjeN3+XP+29L6Ub7g1CxnrBZwBwnaUORDAh06zfhTl3jTvuRUgvl4gHEeF4U0wt0Cqln0MgGbcVcwdkLFeXJ0iYDkujNxZiBRfxAGTGwtJohccqFwASaoXqwDib9ni1Qki7gFBHwgOorjxVLyMrl6sAohRs099GMErQmwjAjHNw51hCfcJsBwpkIojEBHu1d0yVcsh9jVLoLBA0jT9CHNnb9EFYlh2HwEfLjycoD8swO7XT/UL7sULQAzLOV+HRYQ/ThdI1bJNADzmaVOvONx6zqUY5oAYNcdFhP2kq5rmOBUQw3LeA8AeAPVHiAfSahs1+xsivmI1iuBLp1VfCBhnQMaaUbhMc1I6z5KAcIs2RHiugHKBiE954V48Uc+A3CXrUEWqrFgqdGHiAXucnnjZuU6zsRuEdQPkjmjH9OMkCxG9B8m6oEpGhfMuMyDii3TsXmNsnC0zg6hIPRo1p4cIjxfEOzQmc0C8CRk1W9QFKfVoWIdlhMIZt0bFwYNHU4+TSSDjsPz6gl1xRhemEESQgWAtk0B8K1GuOJ+gVjiOn+1m3Q/zMwvE+/iqZXcB8MXCNhDCcz8tQXDORa/tVv1R9oHIpYzZiocnL4X0Ux3JtIV4WjIsXf/lhLLdrEvnNNaqpu4300BU2+YeSMhMRPcrndcmupMDC3F+AMDLxdMyX/kzLOcIAbzD4fyVHyC8p5G2jOR6c6MhUv5mIzVESlkQ0e9Oq8HWj6XYJRduVzrFkpD8GXulxVwrAf3rNBt+zTnTolqt2ZfhZhtvUlLCyKjZe4h4ysQt2Q/dFdbxp9Oqz3UkBQ53QkqRDtrNhptZC1G2VijKDJJFBWOWzG0ZP1wvXp1zW0UpphHPPYEUolDH0Mh66QyVM2ZMRW7yIqkNSwURQhYVtBA24tOZlM7Y2DlVxVaRolPOom6ALOkK1JlckrGihTAVOVUbp0pvOIsKFarkXGWSSemMES0ktHAqGOOtcn0ptHKxOZM5IB7NAlGXrYnqzC7BWHXl7rAMUCgjUH/qLrlXSGG9F4iVBls7S0uZ3kPvChTd2q6q8KbqgWWzSpN+UhOAzHVZiy6QVNshgubnZbeBcBsQ1c22RF5YzNZQE+wY7bZMFohOw0zcSUxamFyp2h73eboWEtwynntFQvfWWqrmLUrISMUkogvEP9m+dSrDIlxInQHcJ6XSYxZ+sPchVCBXR3/SABJzDfzbVwIkDW+VOyAelImudJOIbS6BBKDEFtvcApklZ6T0v7DRcw9kqvpRxXYjgMQT25u0XhJvkXTMyryM6oOiiO1G/HMXhLQsst2ovzKXR7b0q91sJPrxKOlWmY5by5YJf/SkPcokoh1E7BUHDyob+We37mquYvydsJBVTCzpM/8D6LpZbscd1k0AAAAASUVORK5CYII=);
-        }
+    .vue-app-video-btn-volume:before {
+        content: "\e691";
     }
 
-    .v-btn-silent {
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABACAYAAACjgtGkAAADxElEQVR4Xu3by3HbMBAAUKwO0DFKB04FcQexK4g7iHUiebJdQZIKYp8I+CKnAisVRB1EqcAqQT5KB25mPaBCcfhZQByTgKUZnwxRwNNi8RWI42tPAI4e+wJHkFJE9A4ym80m2+32SghxgYgTAJhHUXTTV+T2CnJ/f3+aZdkjAJwUARDxLo7j6z5QegNJ0/RyNBrNahq9llJ+mE6n69dG6QVEKTUDgMumxmZZdp4kySJoEJMvfgshTtsaGjwI5QtEJIxJGwb9P2gQky9+cDGCBtFaE4T1iBFchFC+2Gw2NKSecbpIuUxQIHXzCxuYYEBc8kUVVBAgrvkiOBAzv6BZ54VNt/BqYpam6cloNLpCxFPXxHgIzqC6TJeh74oyGBCt9WOXoe81iFLqFgBob6L3V1WEpGl6BgBfTeVW4/H45pAVsdaankX7MGsAuIuiaL5b7Zqc8dS7hKlAGcSshf6U6reUUp7bojQsMm92IEOKjqq1jFJqDgCfK74wK5SWFfdyB6K1Jv3WZflrRVA5QrTWtDfyqebzWSiM7YfnIgi+VmM5n1MBQgtEWijWvRpRGBj03J/egFBtlVJLAPhoi8LBQMS/4/H4zCsQs4Je2KDYYFBy9gqEIsMGhcpvt9vGLcs8MvKRyjsQGxTTtWoHijIGlfcShCpu5k1LIcQ7TpIul6nC8BqEKm8mazQcW6HUYXgP4oLShBEEiA1KG0ZoIJwzn9YZrbdJNU+StgdgQohGFK9BHDByx1oUb0EOwGhE8RKEg4GIv8xecO2QjIiLOI7Pi3MU70A4GLRqjaLokjNPQcSHOI6nOYpXIDYYpaTbOHkrongD4oJhifJyjcsbEKXUU/kuWml98tJN6tY1nO5Dm1JFELrPZbUmcFlUcd9T3DFjbIA3YlhEyvfiJnPdJi63DZ2Wq9hCrNviZGEwUf7vurfcCuy0sZyHlUFqTgWsMFpQnqWUJ3u3EBl7lpy2dFKm6qBKa/1NCPFyASfLsockSR5cP4y6IQDQwdyEDqoQ8TpJktUeCCfxuFbA9n2DOdsdCspgQOibNDvVdA5Cf72MPIMCKYY3HTBzwt30x6YzE85jdmUGC8JthYmqWyHEF+57msp5D5I3zowE+ZUFZ5tgQEjAzGkoWpzzT1AghHLoaBUcSD5abTabtrPYym4VJEhhCLdOtsGCuCbb4EFsk+2bALFJtm8GhJts3xQIJ9lKKd/bXrd0ngUW3tjLrzKLFddaV12mc9r4CQKkkFcIhn7QvJJSXvcRHVSX3iOki2+1y2ccQUqa/wCiGWvOOsO2SAAAAABJRU5ErkJggg==);
-
-        &:hover {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABACAYAAACjgtGkAAAD7klEQVR4Xu2bT1LbMBTGv5d4wrLpDdITlBs0nKDcoHTbiQfTuDPEm9INYQHFHbKHngB6AnID0hPAEcISJsnryPlTx3FsyclgS8Rby4708/c+PT0phM01R4A2POYJbIBEFJE7EMc5qg6s530Au8RcBeHm4rR9kJdycwXy5Zu3XR7xNYhqYQDM+NU5O3bygJIbEPurt4cSLmMHzeiXh5V3vn/Uf2kouQCxm94lCHtJg2WMdjqnJ12jgUz84paA7bSBGg9k7Be4BaGaBkPcNxpI4BeEc1kYRgOx3dY5QMozhnEKGfvF0zWB6jIhEm1jFJBl+YUKGGOAZPGLOFBGAMnqF8YBCfyi/HRJRLsqYaFVYuY4h7WhRfsMbGc1xlXgFCpk1in9rFAKA6TRbF2vU/paA2k0PZ8IojaR+xWnkIZ7WAfou+gcMT2Uh5WDVVbEDdcT79oFuI+g5NC+ma12x55Rus+dxKQDUSBBbsO4m6ubAD1rUNlRhbJ8kckHMyBFUkfcWsZ2vRsAHxczWjUoSStuBnr/gbjencyy/KUUFFWI7ba6AH2Iz1nkoKSVHxj8OANiux6/1GBlficGiAPQ+bJnxddNCp80GIEqmX9rA0R0uNFs9YjovSoUSRh/reFWXSsgk4y4qwJFBYYwZ62ACGWoQBHtB9ZzYsmSmQNlTGcq7YCoQAnylYT6bRTGpP04IotuqlHfEHnTwKIegd7ImPTCdB1RxvS+lgqZdl4kayXmriqUOGUYAUQMQhVKEgytQyYcArJQ0mAYBURmzycteTMCiPoGWHJGq72pyihDZUGoLRBVZchC0RKIJIw/DK4nTckM7nZO2zthWNoBkYEhVq2ds/ae1OzDuLo4O/6sZR6iAkMpeQtB0UYhWWCoQJke49IGiN1s3UfPooVjfxomy9Y1MuEjilKhEmKrr7omyLKokn0mXDFLK4CnwZBVCgM/wgqJLeLKDmDd7RZLiPElTlkYclBCVffEU4HrHq3E+6JA4nYFVGEkQREFZmuwVZs7hZhWs5QYx9qaxG9UeUcEHh/AGdHVxc/jq6w/OAlDH+AqQP3yYOT4/snDHBAZ48naAdXnCrO3WxQohQEivuSkUu0A7OQ18xQKSFje4w1miYvJT9oekHjDXJPCApEdyGR7QED5JPtMUjvtgUwH13DFTIDgyMIqlzFABASR03CJ/VX8xyggAsqqs5VxQGazVfkpcS92WVgZCSQERdlsjQWS1WyNB6Jqtq8CiIrZvhogsmb7qoDImG15UHmretxylURw+mwu/8oMd9x2WwuH6bIWfowAMvOVETtEqDHjwRpuOXmoQ/Qld4Ws46uu8x0bIBGa/wCgzz6+MCD5IQAAAABJRU5ErkJggg==);
-        }
+    .vue-app-video-btn-silent:before {
+        content: "\e690";
     }
 
-    .vue-app-video-btn-screen {
-        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADAElEQVR4Xu2ay3HbMBCGsdSI0i1OBXEHsSqwXUGcDqKLQJ6SDuJ0kJxI6MKU4FQQpwLLHTgVRLrpMSIyOyPNKBLxICGJYLi8igLwf/ixALELrOUPtFw/IwDkgJYToCXQcgPog2CWZRer1eqtAdJsNBpNzglyPB5fMcZe6frsdrvPw+FwahpX4RJIkuQSADIAuDGJx3fqACClfDRBwHeklMM4jl9UOg4A4KwvFosnALj0Ufx2TOgCSwgvvV5voHLDAYA0Tb8CwEefxVeA8C2Kok9Fmg4ACCGeGGO4xlTPrA7bqwZj6YQJ53xgC0A2RXwZJ3DOC+NdkQNUALya+f1JMjnBFYDX4m2c4AKgEeJNEKoCsBK/sd9nxhieGy5Mhw/H3/Fw8wgAX1Tnj6LlUAlAnue3cRzjgUP5bDrDnePsDwAMVBCSJPkQBEG2HVRpAHme4wnqu0lVmqYPAPDO9N4pfpdS/oii6E7V9i6EUgBsxWPHQog/Z7C9SuOUc/5aB3cLwRoA/sFm5redCiF054ZTTPw/baqE7b6k0+R8H9AEALpZIACuHiUHNCAG0BLQEKAYQDHAkQAFQQqC/p8EaRegXUBNgLZBx00AP4e9/xqkGEAxgGKAkgAFQQqCjgT+u12g9ZeiOKMlr8W9PgeUvhbfWtoWgs9LoHJiZCcsvOecP+jChBACc3XagiXHMKP7+4xzXpiLdE6NbXqdAsCtrgjKx9RYUb7SOjNUYGkthBqTo4WZ6814fu6n61wAoBmMEPI8v9+U1Z16OcywOiwIgvt9Z6rEowBXAEYIJ1znVk3rxB8LgLcQTOJLAUjTdAIAuvJYY2C0mrIjvWQjXkr5HEVRYelf1UJJLyDYiEfOUkr7QkkslV0ul1j8/MYwSbVCsBXPGPsdhuGVdaksisZi6SAIsDzm2kcIJcT/CsPwTlc1rr0PQDfM53Nd2SzrdDrTOqrF1+u1thqt3+9PKpfLHyk+NaIZ5xuhRqg85aUoAWg4AVoCDZ9A5+GTA5wRNryB1jvgL+d2Il/7xWOVAAAAAElFTkSuQmCC);
+    .vue-app-video-btn-screen:before {
+        content: "\e63e";
+    }
 
-        &:hover {
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADRklEQVR4Xu2aX27TQBDGZ2JDeKOcgN6A5ASkJ6DcoH1FiYiaIFG/EF6cSiQoKBav7RHgBIQTNL1BewLcNwqxB63VSCXxrmfX+eMk68fEa+/3229n1zuDsOMX7rh+sACsA3acgJ0CO24AdRBsNjt70aO7FypIEeDt10/+eJUg37zzKg7QU9U7nb/lq8GgE2b1K3UKNJvv9ycuniNgTfUAArqNEWvrAFAiGiGgEgIBjdwJHQ8GZ9cyHXMAklF37i4Bcb+I4qd9Ei7gQACiaycqV2VumANQb3kDRHhbZPG6EIjgS9D3m2ma5gG0vUsEqMgArMv2sv5wnEAA46DnV1kAGm2PNkW8jhOGPT813s39KANQtJGfHaQsJ+QCUHTxHCcYA9gU8VkQjABwxSf2i+lDsm9A2MvafOT6nyAU63tcwo+y/UfadDAEEB8EvbORqsPJrozgMpcow8YRQlUGoXHiHUEJzqeP1gcQw/Hws3+R1bdG2/sGAK+y7lvS/9+HPf9Q9uyHEPQAMMWLFzda3q+l216+LofDvv9MBXcKgQ/gxDvijPz0pap9w5JG/b/HyoQ9vElAkGnKfR6wCQBUA2EB5LWpdYDi2yEvXE57TgywU0BBwMYAjs2U66ydAvLzg7xwOe1tDJAcdHDgiXtsDOCSkn5w2BhgY4D0EDWvuzjtbRC0QTD9uJvjHrsK2GXQ7gPsRsjuBGejpeoAMS2ybsKJkNahaCJI51i84Fth/WPxqSAmhCI7wDwxcu91Inod9Lsi8yO96u3TMKtWh7sp0b1P5C6DXjc1F5k/NSZ6QxBGJThQFUEVMTWWlq/kZ4Zm53QGhHUlR2WZ66Q/MfyYTdeZA2A44R5Ch4Bqy54OQjgCjiKEzqwzZeKFhHwAGBB05++i71eJXwyAAkPIEq8FoN46HSOivDyWERgXPbqq53HEE9FV0O+mlv4ZFUpyVodVQOCIT4yrUygpSmUnzp8xIjxXilizEzTE37jR4wq7VFaIFsXSkYsXAPiyiBC44gHopzMpH6qqxpVfg4kb3N/SslkBJ8ZSuJ5q8VhZjeZOnoyNy+VXMX+L8o7c5wFFEWLaDwvAlNy2tLMO2JaRNNVhHWBKblva7bwD/gHC/TJfpvyS+gAAAABJRU5ErkJggg==);
-        }
+    .vue-app-video-btn-full:before {
+        content: "\e79f";
     }
 
     .vue-app-video-btn-voice:hover {
         & + .vue-app-video-voice-bar {
-            display: block;
+            visibility: visible;
         }
     }
 
     .vue-app-video-voice-bar {
-        display: none;
         background-color: #fff;
         position: absolute;
-        width: 4px;
+        width: 40px;
         height: 70px;
         bottom: $tool-height;
         right: 40px;
@@ -221,28 +195,16 @@
         border-top: 1px solid $color-border;
         border-left: 1px solid $color-border;
         border-right: 1px solid $color-border;
-        padding: 15px 17px;
+        padding: 15px 0;
         box-sizing: content-box;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
 
         &:hover {
-            display: block;
-        }
-
-        .vue-app-range {
-
-            .v-current {
-                display: block;
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                background-color: $color-over;
-                width: 100%;
-            }
-
-            .v-dot {
-                left: -5px;
-                top: -7px;
-            }
+            visibility: visible;
         }
     }
 
@@ -257,34 +219,11 @@
     .vue-app-video-progress-bar {
         box-sizing: border-box;
         height: 100%;
-        padding: ($tool-height - 6) / 2 10px;
+        margin: 0 10px;
         flex: 1;
-
-        .vue-app-range {
-            .v-loading {
-                position: absolute;
-                left: 0;
-                top: 0;
-                display: block;
-                height: 100%;
-                background-color: $color-load;
-            }
-
-            .v-current {
-                position: absolute;
-                left: 0;
-                top: 0;
-                display: block;
-                height: 100%;
-                background-color: $color-over;
-                transition: .1s;
-
-                .v-dot {
-                    top: -4px;
-                    right: -7px;
-                }
-            }
-        }
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
 </style>
 
@@ -293,65 +232,62 @@
          ref="box">
         <div class="vue-app-video-box"
              ref="mask"
-             @click="play"
+             @click="handlePlay(true)"
              @dblclick="screen"
              @mousemove="tool">
             <video preload="metadata"
                    ref="video">
-                <source v-for="data in source" :src="data.src" :type="data.type">
+                   <source v-for="data in source" :src="data.src" :type="data.type">
             </video>
             <div class="vue-app-video-loading"
-                 ref="load">
+                 v-show=" ! iPhone"
+                 ref="loading">
             </div>
             <div class="vue-app-video-waiting"
                  ref="waiting">
             </div>
         </div>
-        <transition name="fade">
+        <transition name="fade" v-if=" ! iPhone">
             <div v-show="state.show"
                  class="vue-app-video-tool"
-                 :style="fullScreenStyle">
+                 :class="{ 'v-tool-full' : state.isFull }">
                 <button :class="[ state.playing ? 'vue-app-video-btn-playing' : 'vue-app-video-btn-paused' ]"
-                        @click="play">
+                        @click="handlePlay(false)">
                 </button>
                 <div class="vue-app-video-time">
                     <span v-text="value.curTime"></span>
                 </div>
                 <div class="vue-app-video-progress-bar">
-                    <div class="vue-app-range"
-                         @click="jump">
-                        <span class="v-loading"
-                              :style="{ width : value.loading + '%' }">
-                        </span>
-                        <span class="v-current"
-                              :style="{ width : value.playing + '%' }">
-                            <em class="v-dot"></em>
-                        </span>
-                    </div>
+                    <v-range v-model="value.playing"
+                             :loading="value.loading"
+                             :max="value.duration"
+                             @rangeChangeEvent="handleSeek"
+                    ></v-range>
                 </div>
                 <div class="vue-app-video-time">
                     <span v-text="value.allTime"></span>
                 </div>
                 <button class="vue-app-video-btn-voice"
-                        :class="[ state.isMuted ? 'v-btn-silent' : 'v-btn-volume' ]"
-                        @click="muted">
+                        :class="[ value.voice ? 'vue-app-video-btn-volume' : 'vue-app-video-btn-silent' ]"
+                        @click="handleMuted">
                 </button>
                 <div class="vue-app-video-voice-bar">
-                    <div class="vue-app-range"
-                         @click="volume">
-                        <span class="v-current"
-                              :style="{ height : value.voice + '%' }">
-                            <em class="v-dot"></em>
-                        </span>
-                    </div>
+                    <v-range v-model="value.voice"
+                             @rangeChangeEvent="volume"
+                             :vertical="true"
+                    ></v-range>
                 </div>
-                <button class="vue-app-video-btn-screen" @click="screen"></button>
+                <button :class="[ state.isFull ? 'vue-app-video-btn-full' : 'vue-app-video-btn-screen' ]"
+                        @click="screen">
+                </button>
             </div>
         </transition>
     </div>
 </template>
 
 <script lang="babel">
+
+    import Range from '../range/range.vue'
 
     let addEvent = (function () {
         if (document.addEventListener) {
@@ -382,6 +318,10 @@
     export default {
         name: 'v-video',
 
+        components: {
+            vRange: Range
+        },
+
         props: {
             source : {
                 default : null,
@@ -399,11 +339,6 @@
             }
         },
 
-        watch: {
-            'value.voice' (val) {
-                this.state.isMuted = val === 0
-            }
-        },
         data () {
             return {
                 video: null,
@@ -417,82 +352,79 @@
                     waiting: true
                 },
                 value: {
+                    duration: 0,
                     loading: 0,
                     playing: 0,
                     curTime: '00:00',
                     allTime: '00:00',
                     voiceTemp: 0,
                     voice: 60
-                }
+                },
+                touchable: true,
+                iPhone: false
             }
         },
+
+        created () {
+            this.iPhone = window.navigator.userAgent.match('iPhone') == 'iPhone';
+            this.touchable = 'ontouchstart' in window
+        },
+
         methods: {
-            play () {
-                if (this.state.waiting) return;
+
+            handlePlay (bool = false) {
+                if (this.state.waiting || (this.state.isFull && this.touchable && bool)) return;
 
                 if (this.video.paused) {
-                    this.$refs.video.play();
+                    this.video.play();
                     this.state.playing = true;
                 } else {
-                    this.$refs.video.pause();
+                    this.video.pause();
                     this.state.playing = false;
                 }
             },
-            clickBar (e, vertical) {
-                let cur, ret;
-                let ele = e.currentTarget;
-                if (vertical) {
-                    let size = ele.offsetHeight;
-                    cur = e.clientY;
-                    ret = (size - cur + ele.getBoundingClientRect().top) / size * 100;
-                } else {
-                    cur = e.clientX;
-                    ret = (cur - ele.getBoundingClientRect().left) / ele.offsetWidth * 100;
-                }
-                if (ret > 100) {
-                    return 100;
-                } else if (ret < 0) {
-                    return 0;
-                } else {
-                    return ret;
-                }
+
+            volume (val) {
+                this.video.muted = val ? false : true;
+                this.value.voice = val;
+                this.video.volume = val / 100;
             },
-            volume (e) {
-                let ret = this.clickBar(e, true);
-                this.value.voice = ret;
-                this.$refs.video.volume = ret / 100;
-            },
-            muted () {
+
+            handleMuted () {
+                if (this.touchable) return;
+
                 if (this.state.isMuted) {
-                    this.$refs.video.muted = false;
+                    this.video.muted = false;
                     this.value.voice = this.value.voiceTemp;
-                    this.$refs.video.volume = this.value.voice / 100;
+                    this.video.volume = this.value.voice / 100;
+                    this.state.isMuted = false;
                 } else {
-                    this.$refs.video.muted = true;
+                    this.video.muted = true;
                     this.value.voiceTemp = this.value.voice;
                     this.value.voice = 0;
+                    this.state.isMuted = true;
                 }
             },
-            jump (e) {
-                let ret = this.clickBar(e, false);
-                this.value.playing = ret;
-                this.$refs.video.currentTime = ret * this.$refs.video.duration / 100;
+
+            handleSeek (val) {
+                this.video.currentTime = val;
                 if (this.video.paused) {
-                    this.play()
+                    this.handlePlay(false)
                 }
             },
+
             tool () {
                 if (this.state.isFull) {
-                    var vm = this;
                     this.state.show = true;
-                    this.state.timer = setTimeout(function () {
-                        if (vm.state.isFull) {
-                            vm.state.show = false;
+                    this.state.timer = setTimeout(() => {
+                        if (this.state.isFull) {
+                            this.state.show = false
                         }
-                        clearTimeout(vm.state.timer);
+                        clearTimeout(this.state.timer);
                     }, 5000)
                 }
             },
+
             screen () {
                 if(this.checkIsFullScreen()) {
                     this.exitFullScreen();
@@ -500,24 +432,26 @@
                     this.launchFullScreen(this.$refs.mask);
                 }
             },
+
             screenToggle() {
-                var vm = this;
                 this.state.isFull = this.checkIsFullScreen() === true;
                 this.state.show = true;
                 this.$refs.box.style.width = "100%";
                 this.$refs.box.style.height = "100%";
                 this.$refs.mask.style.width = "100%";
                 if (this.state.isFull) {
-                    this.state.timer = setTimeout(function () {
-                        if (vm.state.isFull) {
-                            vm.state.show = false;
+                    this.state.timer = setTimeout(() => {
+                        if (this.state.isFull) {
+                            this.state.show = false
                         }
+                        clearTimeout(this.state.timer);
                     }, 5000)
                 } else {
-                    clearTimeout(vm.state.timer);
-                    vm.state.show = true;
+                    clearTimeout(this.state.timer);
+                    this.state.show = true;
                 }
             },
+
             exitFullScreen() {
                 if (document.exitFullscreen) {
                     document.exitFullscreen()
@@ -533,6 +467,7 @@
                     document.IsFullScreen = false
                 }
             },
+
             launchFullScreen(e) {
                 if (e.requestFullscreen) {
                     e.requestFullscreen()
@@ -548,9 +483,11 @@
                     document.IsFullScreen = true
                 }
             },
+
             checkIsFullScreen () {
                 return this.invokeFieldOrMethod(document,'FullScreen') || this.invokeFieldOrMethod(document,'IsFullScreen') || document.IsFullScreen
             },
+
             invokeFieldOrMethod (ele, method) {
                 let usablePrefixMethod;
 
@@ -571,6 +508,7 @@
 
                 return usablePrefixMethod;
             },
+
             formatSeconds (second) {
                 let h = 0,
                     m = 0,
@@ -591,10 +529,10 @@
             },
         },
         mounted () {
+            let video = this.video = this.$refs.video;
+            video.volume = this.value.voice / 100;
+            video.controls = this.iPhone;
             let self = this;
-            let video = self.$refs.video;
-            self.video = self.$refs.video;
-            video.volume = self.value.voice / 100;
 
             addEvent(video, 'abort', function () {
                 console.log('abort : Sent when playback is aborted; for example, if the media is playing and is restarted from the beginning, this event is sent.')
@@ -605,7 +543,7 @@
                 self.$refs.waiting.style.display = 'none';
                 self.state.waiting = false;
                 if (self.state.hasPlaying) {
-                    this.play()
+                    self.handlePlay(false)
                 }
             });
 
@@ -619,12 +557,14 @@
 
             addEvent(video, 'loadeddata', function () {
                 console.log('loadeddata : 媒体的第一帧已经加载完毕');
-                self.$refs.load.style.display = 'none';
+                self.$refs.loading.style.display = 'none';
             });
 
             addEvent(video, 'loadedmetadata', function () {
                 console.log('loadedmetadata : 媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息');
-                let timeArr = self.formatSeconds(this.duration);
+                let duration = this.duration;
+                let timeArr = self.formatSeconds(duration);
+                self.value.duration = duration;
                 self.value.allTime = timeArr[1] + ':' + timeArr[2]
             });
 
@@ -694,7 +634,7 @@
                 console.log('timeupdate : 元素的currentTime属性表示的时间已经改变');
                 let current = this.currentTime;
                 let timeArr = self.formatSeconds(current);
-                self.value.playing = current / this.duration * 100;
+                self.value.playing = current;
                 self.value.curTime = timeArr[1] + ':' + timeArr[2]
             });
 
@@ -702,22 +642,23 @@
                 console.log('progress : 正在下载视频');
                 let bf = this.buffered;
                 if (this.duration > 0) {
-                    self.value.loading = (bf.end(bf.length - 1) / this.duration * 100).toFixed(2)
+                    self.value.loading = bf.end(bf.length - 1)
                 }
-                console.log(self.value.loading)
             });
 
             addEvent(video, 'ended', function () {
                 console.log("ended : 播放完毕");
                 self.value.playing = 0;
                 self.state.playing = false;
-                this.pause()
+                if ( ! this.paused) {
+                    this.pause()
+                }
             });
 
             addEvent(document, 'keydown', function (e) {
                 if (e.keyCode == 32) {
                     e.preventDefault();
-                    self.play()
+                    self.handlePlay(true)
                 } else if (e.keyCode == 40 && self.checkIsFullScreen()) {
                     let down = self.value.voice - 10;
                     video.volume = down >= 0 ? down / 100 : 0;

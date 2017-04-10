@@ -6,13 +6,11 @@
     }
 
     .vue-app-range {
-        cursor: pointer;
         position: relative;
         border-radius: $range-radius;
         background-color: #e5e9ef;
 
         .vue-app-range-progress, .vue-app-range-loading {
-            cursor: pointer;
             border-radius: $range-radius;
             position: absolute;
             left: 0;
@@ -30,7 +28,6 @@
         }
 
         .vue-app-range-tail {
-            cursor: pointer;
             background-color: #fff;
             box-sizing: border-box;
             border: 1px solid #e5e9ef;
@@ -64,7 +61,7 @@
             </div>
             <div class="vue-app-range-tail"
                  :style="tailStyle"
-                 @touchmove.stop="handleDragEvent"
+                 @touchmove.stop.prevent="handleDragEvent"
                  @mousemove.prevent="handleMouseEvent"
                  @mousedown="dragging = true">
             </div>
@@ -73,6 +70,32 @@
 </template>
 
 <script lang="babel">
+
+    let addEvent = (function () {
+        if (document.addEventListener) {
+            return function(el, type, fn){
+                if (el.length) {
+                    for(var i=0; i<el.length; i++) {
+                        addEvent(el[i], type, fn);
+                    }
+                } else {
+                    el.addEventListener(type, fn, false);
+                }
+            };
+        } else {
+            return function(el, type, fn) {
+                if (el.length) {
+                    for(var i=0; i<el.length; i++) {
+                        addEvent(el[i], type, fn);
+                    }
+                } else {
+                    el.attachEvent('on' + type, function(){
+                        return fn.call(el, window.event);
+                    });
+                }
+            };
+        }
+    })();
 
     export default {
         name: 'v-range',
@@ -93,7 +116,7 @@
             },
             step: {
                 type: Number,
-                default: 1
+                default: 0
             },
             vertical: {
                 type: Boolean,
@@ -117,17 +140,20 @@
         computed: {
             containerStyle () {
                 let style = {};
-                let size = this.size * 3;
-                if (size < 20) {
-                    size = 20
+                let size = this.size * 2;
+                if (size < 14) {
+                    size = 14
                 }
                 size = (size - this.size) / 2 + 'px';
                 if (this.vertical) {
                     style.paddingLeft = size;
                     style.paddingRight = size;
+                    style.height = '100%';
+                    style.width = size * 2 + this.size + 'px'
                 } else {
                     style.paddingTop = size;
                     style.paddingBottom = size;
+                    style.width = '100%'
                 }
 
                 return style
@@ -150,9 +176,9 @@
             tailStyle () {
                 this.getWarpSize();
                 let style = {};
-                let size = this.size * 3;
-                if (size < 20) {
-                    size = 20
+                let size = this.size * 2;
+                if (size < 14) {
+                    size = 14
                 }
                 let base = (this.size - size) / 2;
                 let doubleBorderSize = 2;
@@ -163,11 +189,11 @@
                 if (this.vertical) {
                     style.top = 0;
                     style.left = base + 'px';
-                    style.transform = `translate3d(0px, ${((100 - this.curRange) / 100 * this.warpSize) - doubleBorderSize}px, 0px)`;
+                    style.transform = `translate3d(0px, ${((this.max - this.curRange) / this.max * this.warpSize) - doubleBorderSize}px, 0px)`;
                 } else {
                     style.left = 0;
                     style.top = base + 'px';
-                    style.transform = `translate3d(${base + (this.curRange / 100 * this.warpSize) - doubleBorderSize}px, 0px, 0px)`;
+                    style.transform = `translate3d(${base + (this.curRange / this.max * this.warpSize) - doubleBorderSize}px, 0px, 0px)`;
                 }
 
                 return style
@@ -178,10 +204,10 @@
 
                 if (this.vertical) {
                     style.width = '100%';
-                    style.height = this.loading / 100 * this.warpSize + 'px';
+                    style.height = this.loading / this.max * this.warpSize + 'px';
                 } else {
                     style.height = '100%';
-                    style.width = this.loading / 100 * this.warpSize + 'px'
+                    style.width = this.loading / this.max * this.warpSize + 'px'
                 }
 
                 return style
@@ -192,10 +218,10 @@
 
                 if (this.vertical) {
                     style.width = '100%';
-                    style.height = this.curRange / 100 * this.warpSize + 'px';
+                    style.height = this.curRange / this.max * this.warpSize + 'px';
                 } else {
                     style.height = '100%';
-                    style.width = this.curRange / 100 * this.warpSize + 'px'
+                    style.width = this.curRange / this.max * this.warpSize + 'px'
                 }
 
                 return style
@@ -213,12 +239,22 @@
             handleClick (evt) {
                 this.getWarpSize();
                 let result = this.vertical ? ((1 - (evt.clientY - this.warpOffset) / this.warpSize) * 100).toFixed(2) : ((evt.clientX - this.warpOffset) / this.warpSize * 100).toFixed(2);
+                result = parseFloat(result);
 
                 if (result < this.min) {
                     result = this.min
                 } else if (result > this.max) {
                     result = this.max
+                } else {
+                    if (this.step) {
+                        let remainder = result % this.step;
+                        if (remainder) {
+                            result += (this.step - remainder)
+                        }
+                    }
                 }
+
+                this.$emit('rangeChangeEvent', result);
 
                 this.curRange = result
             },
@@ -233,8 +269,8 @@
                 this.handleClick(evt.changedTouches ? evt.changedTouches[0] : evt)
             },
 
-            getWarpSize () {
-                if ( ! this.warpWidth) {
+            getWarpSize (resize = false) {
+                if ( ! this.warpWidth || resize) {
                     if ( ! this.$el) {
                         setTimeout(() => {
                             this.getWarpSize()
@@ -250,6 +286,13 @@
                     }
                 }
             }
+        },
+
+        mounted () {
+            let self = this;
+            addEvent(window, 'resize', function () {
+                self.getWarpSize(true)
+            })
         }
     }
 </script>
