@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     $range-radius: 4px;
 
     .vue-app-range-container {

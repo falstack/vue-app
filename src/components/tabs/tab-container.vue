@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     .vue-tab-container {
         height: 100%;
         width: 100%;

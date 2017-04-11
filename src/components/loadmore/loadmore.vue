@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
   @component-namespace mint {
     @component loadmore {
       overflow: hidden;

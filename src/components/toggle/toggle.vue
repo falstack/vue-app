@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     $color-gray: #d9d9d9;
     $color-blue: #26a2ff;
 

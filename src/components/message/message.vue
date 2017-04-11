@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     $item-width: 300px;
     $pos-top-down: 12px;
     $pos-rig-left: 12px;

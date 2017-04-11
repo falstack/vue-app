@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     $fadeInTime: .2s;
     $fadeOutTime: .1s;
 

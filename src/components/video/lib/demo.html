@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="https://ss2.meipian.me/official/resource/favicon.ico">
+    <title>Document</title>
+    <link rel="stylesheet" href="./vueVideo.css">
+</head>
+<body>
+<div id="demo" style="width: 100%;height: 300px">
+    <v-video :source="source"
+             :poster="'https://ss2.meipian.me/official/resource/video-cover.gif'"
+             :className="'video-style'">
+    </v-video>
+</div>
+<script src="http://cdn.bootcss.com/vue/2.0.1/vue.min.js"></script>
+<script src="./index.js"></script>
+<script>
+    new Vue({
+        el: '#demo',
+        components: {
+            'vVideo': window.vueVideo
+        },
+        data () {
+            return {
+                source : [
+                    {
+                        src: 'http://static2.ivwen.com/official/resource/meipian.mp4?',
+                        type: 'video/mp4'
+                    },
+                    {
+                        src: 'http://static2.ivwen.com/official/resource/meipian.webm?',
+                        type: 'video/webm;codecs="vp8, vorbis"'
+                    }
+                ]
+            }
+        }
+    });
+</script>
+</body>
+</html>

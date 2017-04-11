@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     .vue-app-list-container {
         position: relative;
         width: 100%;

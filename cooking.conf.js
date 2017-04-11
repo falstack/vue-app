@@ -16,22 +16,19 @@ cooking.set({
 
   // production
   clean: true,
-  hash: true,
-  sourceMap: true,
+  hash: false,
+  sourceMap: false,
   minimize: true,
-  chunk: true, // see https://cookingjs.github.io/zh-cn/configuration.html#chunk
+  chunk: false, // see https://cookingjs.github.io/zh-cn/configuration.html#chunk
   postcss: [
     require('autoprefixer')({
       browsers: [
-        'ie >= 8',
-        'ie_mob >= 10',
-        'ff >= 26',
-        'chrome >= 30',
-        'safari >= 6',
-        'opera >= 23',
-        'ios >= 5',
-        'android >= 2.3',
-        'bb >= 10'
+        'ie >= 9',
+        'ff >= 45',
+        'chrome >= 56',
+        'safari >= 8',
+        'ios >= 8.4',
+        'android >= 4.4'
       ]
     })
   ],
@@ -39,7 +36,7 @@ cooking.set({
   assetsPath: 'static',
   urlLoaderLimit: 10000,
   static: true,
-  extractCSS: '[name].[contenthash:7].css',
+  extractCSS: '[name].css',
   alias: {
     'src': path.join(__dirname, 'src')
   },

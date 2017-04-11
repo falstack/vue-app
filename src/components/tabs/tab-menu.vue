@@ -7,7 +7,7 @@
         overflow: hidden;
         height: $menu-height;
         min-height: $menu-height;
-        z-index: 2;
+        z-index: 1;
 
         .vue-tab-menu {
             box-sizing: border-box;
@@ -55,6 +55,7 @@
         position: fixed;
         left: 0;
         right: 0;
+        z-index: 3;
     }
 
     .vue-tab-menu-block {
@@ -253,7 +254,7 @@
                 let parent = this.$el.parentNode;
                 let el = document.createElement('div');
                 el.classList.add('vue-tab-menu-block');
-                parent.insertBefore(el, parent.childNodes[0])
+                parent.insertBefore(el, this.$el)
             }
         }
     }
