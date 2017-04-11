@@ -148,13 +148,18 @@
                 warpWidth: 0,
                 noMore: null,
                 toLeft: false,
-                maxOffset: 0
+                maxOffset: 0,
+                timer: null
             }
         },
 
         methods: {
 
             menuSwitch (name) {
+                if (this.timer) {
+                    clearInterval(this.timer)
+                }
+
                 let i = this.arrayFindIndex(name);
                 let dom = this.$refs.warp;
                 let attack = this.$refs.buttons[i];
@@ -197,9 +202,9 @@
                         }
                         if (role) {
                             let divide = offset / 15
-                            let timer = setInterval(() => {
+                            this.timer = setInterval(() => {
                                 if (dom.scrollLeft === endOffset) {
-                                    clearInterval(timer)
+                                    clearInterval(this.timer);
                                 } else {
                                     dom.scrollLeft -= divide
                                     if (dom.scrollLeft < endOffset) {
@@ -218,9 +223,9 @@
                                 endOffset = this.maxOffset
                             }
                             let divide = offset / 15
-                            let timer = setInterval(() => {
+                            this.timer = setInterval(() => {
                                 if (dom.scrollLeft === endOffset) {
-                                    clearInterval(timer)
+                                    clearInterval(this.timer)
                                 } else {
                                     dom.scrollLeft += divide
                                     if (dom.scrollLeft > endOffset) {
@@ -258,7 +263,6 @@
                 let el = document.createElement('div');
                 el.style.height = self.offsetHeight + 'px';
                 el.style.minHeight = self.offsetHeight + 'px';
-                el.classList.add('vue-tab-menu-block');
                 parent.insertBefore(el, self)
             }
         }

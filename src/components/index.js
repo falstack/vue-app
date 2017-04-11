@@ -11,6 +11,7 @@ import TabMenu from './tabs/menu'
 import List from './list'
 import Video from './video'
 import Range from './range'
+import Ripple from './ripple'
 
 const version = '0.1.4'
 const install = function(Vue) {
@@ -26,6 +27,7 @@ const install = function(Vue) {
     Vue.component(List.name, List)
     Vue.component(Video.name, Video)
     Vue.component(Range.name, Range)
+    Vue.component(Ripple.name, Ripple)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {

@@ -68,11 +68,13 @@
                         <v-tab-menu :className="'bar-style'"
                                     v-model="active_1"
                                     :menu="menu_1"
-                                    :lineWidth="10">
+                                    :lineWidth="15">
                         </v-tab-menu>
                         <v-tab-content v-model="active_1">
                             <v-tab-item :name="menu_1[0]" :init="true">
-                                <h1>vue-app</h1>
+                                <v-ripple>
+                                    <h1>vue-app</h1>
+                                </v-ripple>
                                 <p>A vue project.</p>
                                 <button @click="showModal_1">测试 modal_1</button>
                                 <button @click="showModal_3">测试 modal_3</button>
@@ -157,7 +159,7 @@
                         <v-tab-menu :className="'bar-style'"
                                     v-model="active_2"
                                     :menu="menu_2"
-                                    :lineWidth="10">
+                                    :lineWidth="15">
                         </v-tab-menu>
                         <v-tab-content v-model="active_2">
                             <v-tab-item :name="menu_2[0]" :init="true">
