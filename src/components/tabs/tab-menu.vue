@@ -7,7 +7,7 @@
         overflow: hidden;
         height: $menu-height;
         min-height: $menu-height;
-        z-index: 1;
+        background-color: #fff;
 
         .vue-tab-menu {
             box-sizing: border-box;
@@ -22,7 +22,7 @@
             .button {
                 box-sizing: border-box;
                 flex: 1;
-                height: 100%;
+                height: $menu-height;
                 transition: $menu-transition;
                 font-size: 12px;
                 white-space: nowrap;
@@ -30,7 +30,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                padding: 2px 6px 3px;
+                padding: 0 6px;
 
                 &.vue-tab-menu-selected {
                     color: $menu-selected-color;
@@ -55,12 +55,7 @@
         position: fixed;
         left: 0;
         right: 0;
-        z-index: 3;
-    }
-
-    .vue-tab-menu-block {
-        height: $menu-height;
-        min-height: $menu-height;
+        bottom: 0;
     }
 </style>
 
@@ -68,6 +63,7 @@
     <div class="vue-tab-menu-container"
          :class="[{ 'vue-tab-menu-fixed' : fixed }, className]">
         <div class="vue-tab-menu"
+             @scroll="handleScroll"
              ref="warp">
             <div class="button"
                  :class="{'vue-tab-menu-selected': index === idx}"
@@ -170,6 +166,7 @@
                 if (this.noMore === null && this.warpWidth) {
                     let lastBtn = this.$refs.buttons[this.$refs.buttons.length - 1];
                     this.noMore = lastBtn.clientWidth + lastBtn.offsetLeft <= this.warpWidth
+                    // iOS bug, offsetLeft, clientWidth 最大为屏幕宽度
                     this.maxOffset = lastBtn.clientWidth + lastBtn.offsetLeft - this.warpWidth
                 }
 
@@ -234,8 +231,13 @@
                         }
                     }
                 }
-
                 this.index = i
+            },
+
+            handleScroll (evt) {
+                if (evt.currentTarget.scrollLeft === this.maxOffset) {
+                    evt.preventDefault()
+                }
             },
 
             arrayFindIndex (name) {
@@ -251,10 +253,13 @@
         mounted () {
             this.menuSwitch(this.value);
             if (this.fixed) {
-                let parent = this.$el.parentNode;
+                let self = this.$el;
+                let parent = self.parentNode;
                 let el = document.createElement('div');
+                el.style.height = self.offsetHeight + 'px';
+                el.style.minHeight = self.offsetHeight + 'px';
                 el.classList.add('vue-tab-menu-block');
-                parent.insertBefore(el, this.$el)
+                parent.insertBefore(el, self)
             }
         }
     }

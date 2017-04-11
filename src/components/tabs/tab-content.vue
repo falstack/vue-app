@@ -4,10 +4,11 @@
         overflow-y: auto;
         position: relative;
         height: 100%;
-        z-index: 2;
 
         .vue-tab-content-wrap {
+            height: 100%;
             display: flex;
+            position: relative;
         }
 
         .swipe-transition {
