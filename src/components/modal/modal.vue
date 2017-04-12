@@ -99,7 +99,7 @@
                     'active': state == 1,
                     'ng-enter ng-enter-active active': state == 2,
                     'ng-leave ng-leave-active': state == 3},
-                    className
+                    clazz
                 ]">
             <div class="bar bar-header">
                 <button class="btn-cancel" @click="hide(false)">取消</button>
@@ -121,7 +121,7 @@
     export default {
         name: 'v-modal',
 
-        props: ['title', 'className'],
+        props: ['title', 'clazz'],
 
         data () {
             return {

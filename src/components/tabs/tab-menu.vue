@@ -61,7 +61,7 @@
 
 <template>
     <div class="vue-tab-menu-container"
-         :class="[{ 'vue-tab-menu-fixed' : fixed }, className]">
+         :class="[{ 'vue-tab-menu-fixed' : fixed }, clazz]">
         <div class="vue-tab-menu"
              @scroll="handleScroll"
              ref="warp">
@@ -89,7 +89,7 @@
 
         props: {
             value: {},
-            className: {
+            clazz: {
                 type: String
             },
             menu: {

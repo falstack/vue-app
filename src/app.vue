@@ -65,7 +65,7 @@
             <v-tab-content v-model="active" :swipeable="false">
                 <v-tab-item :name="menu[0]" :init="true">
                     <v-tab-container>
-                        <v-tab-menu :className="'bar-style'"
+                        <v-tab-menu :clazz="'bar-style'"
                                     v-model="active_1"
                                     :menu="menu_1"
                                     :lineWidth="15">
@@ -81,7 +81,7 @@
                                 <div style="width: 80%; margin: 10%; height:280px">
                                     <v-video :source="source"
                                              :poster="'https://ss2.meipian.me/official/resource/video-cover.gif'"
-                                             :className="'video-style'">
+                                             :clazz="'video-style'">
                                     </v-video>
                                 </div>
                                 <v-popup ref="popup1">
@@ -94,7 +94,7 @@
                                     <v-toggle v-model="toggle_2">toggle_2 is {{ toggle_2 }}</v-toggle>
                                     <v-toggle v-model="toggle_3">toggle_3 is {{ toggle_3 }}</v-toggle>
                                 </v-popup>
-                                <v-modal ref="modal1" :title="'测试模态框'" :className="'test-style'">
+                                <v-modal ref="modal1" :title="'测试模态框'" :clazz="'test-style'">
                                     <div slot="content">
                                         <button @click="showAlert">测试 alert</button>
                                         <button @click="showMessage">测试 message</button>
@@ -156,7 +156,7 @@
                 </v-tab-item>
                 <v-tab-item :name="menu[1]">
                     <v-tab-container>
-                        <v-tab-menu :className="'bar-style'"
+                        <v-tab-menu :clazz="'bar-style'"
                                     v-model="active_2"
                                     :menu="menu_2"
                                     :lineWidth="15">
@@ -176,7 +176,7 @@
                 </v-tab-item>
                 <v-tab-item :name="menu[2]">
                     <v-tab-container>
-                        <v-tab-menu :className="'bar-style'"
+                        <v-tab-menu :clazz="'bar-style'"
                                     v-model="active_3"
                                     :menu="menu_3">
                         </v-tab-menu>
@@ -234,7 +234,7 @@
                 </v-tab-item>
                 <v-tab-item :name="menu[3]">
                     <v-tab-container>
-                        <v-tab-menu :className="'bar-style'"
+                        <v-tab-menu :clazz="'bar-style'"
                                     v-model="active_4"
                                     :menu="menu_4">
                         </v-tab-menu>
@@ -264,7 +264,7 @@
                     :showLine="false"
                     :showIcon="true"
                     :fixed="true"
-                    :className="'menu-style'"
+                    :clazz="'menu-style'"
             ></v-tab-menu>
         </v-tab-container>
     </div>
