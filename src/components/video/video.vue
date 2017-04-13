@@ -731,26 +731,30 @@
                 }
             });
 
-            if (self.keyboard) {
-                addEvent(document, 'keydown', function (e) {
-                    if (e.keyCode == 32) {
+            addEvent(document, 'keydown', function (e) {
+                if (e.keyCode == 32) {
+                    if (self.keyboard || self.checkIsFullScreen()) {
                         e.preventDefault();
                         self.handlePlay(true)
-                    } else if (e.keyCode == 40 && self.checkIsFullScreen()) {
+                    }
+                } else if (e.keyCode == 40) {
+                    if (self.checkIsFullScreen()) {
                         let down = self.value.voice - 10;
                         video.volume = down >= 0 ? down / 100 : 0;
                         self.value.voice = down >= 0 ? down : 0
-                    } else if (e.keyCode == 38 && self.checkIsFullScreen()) {
+                    }
+                } else if (e.keyCode == 38) {
+                    if (self.checkIsFullScreen()) {
                         let up = self.value.voice + 10;
                         video.volume = up >= 100 ? 1 : up / 100;
                         self.value.voice = up >= 100 ? 100 : up
-                    } else if (e.keyCode == 39) {
-                        video.currentTime += 5
-                    } else if (e.keyCode == 37) {
-                        video.currentTime -= 5
                     }
-                });
-            }
+                } else if (e.keyCode == 39) {
+                    video.currentTime += 5
+                } else if (e.keyCode == 37) {
+                    video.currentTime -= 5
+                }
+            });
 
             addEvent(document, 'fullscreenchange', function () {
                 self.screenToggle()
