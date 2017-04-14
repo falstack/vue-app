@@ -57,19 +57,6 @@
                 height: 100%;
             }
 
-            .vue-app-video-init {
-                position: absolute;
-                width : 100%;
-                height : 100%;
-                left: 0;
-                top: 0;
-                background-color: #000;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                z-index: 3;
-            }
-
             .vue-app-video-waiting {
                 position: absolute;
                 left: 50%;
@@ -111,6 +98,37 @@
                     -webkit-transform: rotate(360deg);
                 }
             }
+
+            .vue-app-video-init {
+                position: absolute;
+                width : 100%;
+                height : 100%;
+                left: 0;
+                top: 0;
+                background-color: #000;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                z-index: 5;
+            }
+
+            .vue-app-video-debug {
+                background-color: rgba(0, 0, 0, .3);
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 50%;
+                overflow-y: scroll;
+                padding: 20px 10px;
+                z-index: 4;
+
+                p {
+                    color: lawngreen;
+                    font-weight: bold;
+                    font-size: 13px;
+                }
+            }
         }
 
         .vue-app-video-tool {
@@ -120,6 +138,7 @@
             border-right: 1px solid $color-border;
             font-size: 13px;
             display: flex;
+            z-index: 3;
 
             button {
                 width: $tool-btn-width;
@@ -259,8 +278,8 @@
          ref="box">
         <div class="vue-app-video-box"
              ref="mask"
-             @click.stop="handlePlay(true)"
-             @dblclick="screen"
+             @click.stop="screenclick ? handlePlay(true) : ''"
+             @dblclick="screenclick ? screen() : ''"
              @mousemove="tool">
             <video :preload="auto ? 'auto' : 'metadata'"
                    :poster="poster"
@@ -284,9 +303,13 @@
                  v-show="state.waiting"
                  ref="waiting">
             </div>
+            <div class="vue-app-video-debug"
+                 v-if="debug">
+                <p v-for="txt in logs" v-text="txt"></p>
+            </div>
         </div>
         <transition name="fade" v-if=" ! hiddenToolBar">
-            <div v-show="state.show"
+            <div v-show="state.showTool"
                  class="vue-app-video-tool"
                  :class="{ 'v-tool-full' : state.isFull }">
                 <button :class="[ state.playing ? 'vue-app-video-btn-playing' : 'vue-app-video-btn-paused' ]"
@@ -307,7 +330,8 @@
                 </div>
                 <button class="vue-app-video-btn-voice"
                         :class="[ value.voice ? 'vue-app-video-btn-volume' : 'vue-app-video-btn-silent' ]"
-                        @click="handleMuted">
+                        @click="handleMuted"
+                        v-if="showvioce">
                     <div class="vue-app-video-voice-bar">
                         <v-range v-model="value.voice"
                                  @rangeChangeEvent="volume"
@@ -389,6 +413,18 @@
             },
             loading: {
                 type: String
+            },
+            screenclick: {
+                type: Boolean,
+                default: true
+            },
+            showvioce: {
+                type: Boolean,
+                default: true
+            },
+            debug: {
+                type: Boolean,
+                default: false
             }
         },
 
@@ -409,11 +445,12 @@
                     playing: false,
                     isMuted: false,
                     isFull: false,
-                    timer: null,
-                    show: true,
+                    showTool: true,
                     waiting: true,
                     firstPlay: true,
-                    init: true
+                    init: true,
+                    ended: false,
+                    seeking: false
                 },
                 value: {
                     duration: 0,
@@ -422,10 +459,12 @@
                     curTime: '00:00',
                     allTime: '00:00',
                     voiceTemp: 0,
-                    voice: 60
+                    voice: 60,
+                    timer: null
                 },
                 touchable: true,
-                hiddenToolBar: false
+                hiddenToolBar: false,
+                logs: []
             }
         },
 
@@ -444,10 +483,10 @@
 
                 if (this.video.paused) {
                     this.video.play();
-                    this.state.playing = true;
+                    this.state.playing = true
                 } else {
                     this.video.pause();
-                    this.state.playing = false;
+                    this.state.playing = false
                 }
             },
 
@@ -482,12 +521,12 @@
 
             tool () {
                 if (this.state.isFull) {
-                    this.state.show = true;
-                    this.state.timer = setTimeout(() => {
+                    this.state.showTool = true;
+                    this.value.timer = setTimeout(() => {
                         if (this.state.isFull) {
-                            this.state.show = false
+                            this.state.showTool = false
                         }
-                        clearTimeout(this.state.timer);
+                        clearTimeout(this.value.timer);
                     }, 5000)
                 }
             },
@@ -502,20 +541,20 @@
 
             screenToggle() {
                 this.state.isFull = this.checkIsFullScreen() === true;
-                this.state.show = true;
+                this.state.showTool = true;
                 this.$refs.box.style.width = "100%";
                 this.$refs.box.style.height = "100%";
                 this.$refs.mask.style.width = "100%";
                 if (this.state.isFull) {
-                    this.state.timer = setTimeout(() => {
+                    this.value.timer = setTimeout(() => {
                         if (this.state.isFull) {
-                            this.state.show = false
+                            this.state.showTool = false
                         }
-                        clearTimeout(this.state.timer);
+                        clearTimeout(this.value.timer);
                     }, 5000)
                 } else {
-                    clearTimeout(this.state.timer);
-                    this.state.show = true;
+                    clearTimeout(this.value.timer);
+                    this.state.showTool = true;
                 }
             },
 
@@ -593,6 +632,14 @@
                 s = s < 10 ? '0' + s : s;
                 m = m < 10 ? '0' + m : m;
                 return [h, m, s]
+            },
+
+            debugLog(log) {
+                if (this.debug) {
+                    console.log(log);
+                    console.log(this.state);
+                    this.logs.push(log + JSON.stringify(this.state))
+                }
             }
         },
         mounted () {
@@ -603,11 +650,11 @@
             video.controls = self.hiddenToolBar;
 
             addEvent(video, 'abort', function () {
-                console.log('abort : Sent when playback is aborted; for example, if the media is playing and is restarted from the beginning, this event is sent.')
+                self.debugLog('abort : 音频/视频的加载已放弃时 | 在退出时运行')
             });
 
             addEvent(video, 'canplaythrough', function () {
-                console.log('canplaythrough : 媒体可以在保持当前的下载速度的情况下不被中断地播放完毕');
+                self.debugLog('canplaythrough : 媒体可以在保持当前的下载速度的情况下不被中断地播放完毕');
                 self.state.waiting = false;
                 if (self.state.firstPlay) {
                     self.state.init = false
@@ -619,19 +666,19 @@
             });
 
             addEvent(video, 'emptied', function () {
-                console.log('emptied : The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it');
+                self.debugLog('emptied : 目前的播放列表为空时 | 发生故障并且文件突然不可用时运');
             });
 
             addEvent(video, 'error', function () {
-                console.log('error : 在发生错误时触发');
+                self.debugLog('error : 在发生错误时触发');
             });
 
             addEvent(video, 'loadeddata', function () {
-                console.log('loadeddata : 媒体的第一帧已经加载完毕');
+                self.debugLog('loadeddata : 媒体的第一帧已经加载完毕');
             });
 
             addEvent(video, 'loadedmetadata', function () {
-                console.log('loadedmetadata : 媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息');
+                self.debugLog('loadedmetadata : 媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息');
                 if (self.state.firstPlay && self.hiddenToolBar) {
                     self.state.init = false;
                     self.state.waiting = false
@@ -643,19 +690,20 @@
             });
 
             addEvent(video, 'loadstart', function () {
-                console.log('loadstart : 媒体开始加载');
+                self.debugLog('loadstart : 媒体开始加载');
             });
 
             addEvent(video, 'mozaudioavailable', function () {
-                console.log('mozaudioavailable');
+                self.debugLog('mozaudioavailable');
             });
 
             addEvent(video, 'play', function () {
-                console.log('play : 在媒体回放被暂停后再次开始时触发');
+                self.debugLog('play : 在媒体回放被暂停后再次开始时触发');
+                self.state.ended = false
             });
 
             addEvent(video, 'pause', function () {
-                console.log('pause : 播放暂停时触发');
+                self.debugLog('pause : 播放暂停时触发');
                 if ( ! this.seeking) {
                     self.state.playing = false;
                 }
@@ -665,58 +713,70 @@
             });
 
             addEvent(video, 'playing', function () {
-                console.log('playing : 在媒体开始播放时触发');
+                self.debugLog('playing : 在媒体开始播放时触发');
                 self.state.firstPlay = false;
                 self.state.playing = true;
             });
 
             addEvent(video, 'ratechange', function () {
-                console.log('ratechange : 在回放速率变化时触发');
+                self.debugLog('ratechange : 在回放速率变化时触发');
             });
 
             addEvent(video, 'seeked', function () {
-                console.log('seeked : 在跳跃操作完成时触发');
-                if (this.paused) {
-                    this.play()
+                self.debugLog('seeked : 在跳跃操作完成时触发');
+                self.state.seeking = false;
+                if (this.paused && ! self.state.ended) {
+                    setTimeout(() => {
+                        if ( ! self.state.seeking) {
+                            this.play()
+                        }
+                    }, 400)
                 }
             });
 
             addEvent(video, 'seeking', function () {
-                console.log('seeking : 在跳跃操作开始时触发');
-                if ( ! this.paused) {
-                    this.pause()
+                self.debugLog('seeking : 在跳跃操作开始时触发');
+                self.state.seeking = true;
+                if ( ! this.paused && ! self.state.ended && ! self.state.firstPlay) {
+                    setTimeout(() => {
+                        if (self.state.seeking) {
+                            this.pause()
+                        }
+                    }, 400)
                 }
             });
 
             addEvent(video, 'stalled', function () {
-                console.log('stalled : Sent when the user agent is trying to fetch media data, but data is unexpectedly not forthcoming');
+                self.debugLog('stalled : 浏览器尝试获取媒体数据，但数据不可用时 | 浏览器不论何种原因未能取回媒介数据');
             });
 
             addEvent(video, 'suspend', function () {
-                console.log('suspend : 在媒体资源加载终止时触发，这可能是因为下载已完成或因为其他原因暂停');
+                self.debugLog('suspend : 在媒体资源加载终止时触发，这可能是因为下载已完成或因为其他原因暂停');
             });
 
             addEvent(video, 'volumechange', function () {
-                console.log('volumechange : 在音频音量改变时触发 volume 或 muted');
+                self.debugLog('volumechange : 在音频音量改变时触发');
             });
 
             addEvent(video, 'canplay', function () {
-                console.log('canplay : 缓冲已足够开始时')
+                self.debugLog('canplay : 缓冲已足够开始时');
             });
 
             addEvent(video, 'durationchange', function () {
-                console.log('durationchange : 视频/音频（audio/video）的时长发生变化');
-                let timeArr = self.formatSeconds(this.duration);
+                self.debugLog('durationchange : 视频/音频（audio/video）的时长发生变化');
+                let duration = this.duration;
+                let timeArr = self.formatSeconds(duration);
+                self.value.duration = duration;
                 self.value.allTime = timeArr[1] + ':' + timeArr[2]
             });
 
             addEvent(video, 'waiting', function () {
-                console.log('waiting : 在一个待执行的操作（如回放）因等待另一个操作（如跳跃或下载）被延迟时触发');
+                self.debugLog('waiting : 在一个待执行的操作（如回放）因等待另一个操作（如跳跃或下载）被延迟时触发');
                 self.state.waiting = true
             });
 
             addEvent(video, 'timeupdate', function () {
-                console.log('timeupdate : 元素的currentTime属性表示的时间已经改变');
+                self.debugLog('timeupdate : 元素的currentTime属性表示的时间已经改变');
                 let current = this.currentTime;
                 let timeArr = self.formatSeconds(current);
                 self.value.playing = current;
@@ -724,7 +784,7 @@
             });
 
             addEvent(video, 'progress', function () {
-                console.log('progress : 正在下载视频');
+                self.debugLog('progress : 正在下载视频');
                 let bf = this.buffered;
                 if (this.duration > 0) {
                     self.value.loading = bf.end(bf.length - 1)
@@ -732,9 +792,10 @@
             });
 
             addEvent(video, 'ended', function () {
-                console.log("ended : 播放完毕");
+                self.debugLog("ended : 播放完毕");
                 self.value.playing = 0;
                 self.state.playing = false;
+                self.state.ended = true;
                 if ( ! this.paused) {
                     this.pause()
                 }

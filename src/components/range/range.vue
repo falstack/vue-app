@@ -70,7 +70,7 @@
             <div class="vue-app-range-loading"
                  v-if="loading"
                  @click.stop="handleClick"
-                 :style="{ width: loading / max * 100 + '%', height: barSize + 'px' }">
+                 :style="loadingStyle">
             </div>
             <div class="vue-app-range-progress"
                  @click.stop="handleClick"
@@ -141,11 +141,11 @@
                 type: Number,
                 default: 0
             },
-            barSize: {
+            barsize: {
                 type: Number,
                 default: 6
             },
-            tailSize: {
+            tailsize: {
                 type: Number,
                 default: 14
             },
@@ -168,44 +168,58 @@
         computed: {
             containerStyle() {
                 let style = {};
-                let size = (this.tailSize - this.barSize) / 2 + 'px';
+                let size = (this.tailsize - this.barsize) / 2 + 'px';
                 if (this.vertical) {
                     style.paddingLeft = size;
                     style.paddingRight = size;
                     style.height = '100%';
-                    style.width = this.tailSize + 'px'
+                    style.width = this.tailsize + 'px'
                 } else {
                     style.paddingTop = size;
                     style.paddingBottom = size;
                     style.width = '100%';
-                    style.height = this.tailSize + 'px'
+                    style.height = this.tailsize + 'px'
                 }
 
                 return style
             },
 
             progressStyle() {
+                this.getOffset();
+
                 let style = {};
                 let offset = this.progress();
 
                 if (this.vertical) {
-                    style.width = this.barSize + 'px';
+                    style.width = this.barsize + 'px';
                     style.height = offset + '%';
                     style.top =  100 - offset + '%';
                 } else {
                     style.width = offset + '%';
-                    style.height = this.barSize + 'px';
+                    style.height = this.barsize + 'px';
                     style.left = 0;
                 }
 
                 return style
             },
 
+            loadingStyle() {
+                this.getOffset();
+
+                if (this.vertical) {
+                    return { height: this.loading / this.max * 100 + '%', width: this.barsize + 'px' }
+                } else {
+                    return { width: this.loading / this.max * 100 + '%', height: this.barsize + 'px' }
+                }
+            },
+
             thumbStyle() {
+                this.getOffset();
+
                 let style = {};
 
-                style.width = this.tailSize + 'px';
-                style.height = this.tailSize + 'px';
+                style.width = this.tailsize + 'px';
+                style.height = this.tailsize + 'px';
 
                 if (this.vertical) {
                     style.top = 100 - this.progress() - this.offset + '%';
@@ -228,12 +242,14 @@
         methods: {
             progress() {
                 const value = this.value;
-                if (typeof value === 'undefined' || value === null) return 0;
+                if (typeof value === 'undefined' || value === null || value - this.min === 0) return 0;
                 return Math.floor((value - this.min) / (this.max - this.min) * 100)
             },
 
             getOffset() {
-                this.offset = this.tailSize / (this.vertical ? this.$refs.content.offsetHeight : this.$refs.content.offsetWidth) * 50
+                if (this.$refs.content) {
+                    this.offset = this.tailsize / (this.vertical ? this.$refs.content.offsetHeight : this.$refs.content.offsetWidth) * 50
+                }
             },
 
             handleClick(event) {
