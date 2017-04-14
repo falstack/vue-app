@@ -47,6 +47,7 @@
             height: 100%;
             position: relative;
             display: flex;
+            justify-content: center;
             align-items: center;
             background-color: #000;
 
@@ -62,14 +63,14 @@
                 height : 100%;
                 left: 0;
                 top: 0;
-                background-color:#000;
+                background-color: #000;
                 background-position: center;
                 background-repeat: no-repeat;
+                background-size: cover;
                 z-index: 3;
             }
 
             .vue-app-video-waiting {
-                display: none;
                 position: absolute;
                 left: 50%;
                 top: 50%;
@@ -276,11 +277,11 @@
                 <source v-for="data in source" :src="data.src" :type="data.type">
             </video>
             <div class="vue-app-video-init"
-                 v-if=" ! hiddenToolBar"
-                 ref="init">
+                 :style="{ backgroundImage: loading ? 'url(' + loading + ')' : '' }"
+                 v-if="state.init">
             </div>
             <div class="vue-app-video-waiting"
-                 v-if=" ! hiddenToolBar"
+                 v-show="state.waiting"
                  ref="waiting">
             </div>
         </div>
@@ -324,7 +325,7 @@
 
 <script lang="babel">
 
-    import Range from '../range/range.vue'
+    import Range from './range.vue'
 
     let addEvent = (function () {
         if (document.addEventListener) {
@@ -385,6 +386,9 @@
             cover: {
                 type: Boolean,
                 default: false
+            },
+            loading: {
+                type: String
             }
         },
 
@@ -408,7 +412,8 @@
                     timer: null,
                     show: true,
                     waiting: true,
-                    firstPlay: true
+                    firstPlay: true,
+                    init: true
                 },
                 value: {
                     duration: 0,
@@ -588,7 +593,7 @@
                 s = s < 10 ? '0' + s : s;
                 m = m < 10 ? '0' + m : m;
                 return [h, m, s]
-            },
+            }
         },
         mounted () {
             let self = this;
@@ -598,37 +603,39 @@
             video.controls = self.hiddenToolBar;
 
             addEvent(video, 'abort', function () {
-                //console.log('abort : Sent when playback is aborted; for example, if the media is playing and is restarted from the beginning, this event is sent.')
+                console.log('abort : Sent when playback is aborted; for example, if the media is playing and is restarted from the beginning, this event is sent.')
             });
 
             addEvent(video, 'canplaythrough', function () {
-                //console.log('canplaythrough : 媒体可以在保持当前的下载速度的情况下不被中断地播放完毕');
-                if ( ! self.hiddenToolBar) {
-                    self.$refs.waiting.style.display = 'none';
-                }
+                console.log('canplaythrough : 媒体可以在保持当前的下载速度的情况下不被中断地播放完毕');
                 self.state.waiting = false;
-                if (this.paused && ! self.state.firstPlay) {
-                    self.handlePlay(false)
+                if (self.state.firstPlay) {
+                    self.state.init = false
+                } else {
+                    if (this.paused) {
+                        self.handlePlay(false)
+                    }
                 }
             });
 
             addEvent(video, 'emptied', function () {
-                //console.log('emptied : The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it');
+                console.log('emptied : The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it');
             });
 
             addEvent(video, 'error', function () {
-                //console.log('error : 在发生错误时触发');
+                console.log('error : 在发生错误时触发');
             });
 
             addEvent(video, 'loadeddata', function () {
-                //console.log('loadeddata : 媒体的第一帧已经加载完毕');
-                if ( ! self.hiddenToolBar) {
-                    self.$refs.init.style.display = 'none';
-                }
+                console.log('loadeddata : 媒体的第一帧已经加载完毕');
             });
 
             addEvent(video, 'loadedmetadata', function () {
-                //console.log('loadedmetadata : 媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息');
+                console.log('loadedmetadata : 媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息');
+                if (self.state.firstPlay && self.hiddenToolBar) {
+                    self.state.init = false;
+                    self.state.waiting = false
+                }
                 let duration = this.duration;
                 let timeArr = self.formatSeconds(duration);
                 self.value.duration = duration;
@@ -636,19 +643,19 @@
             });
 
             addEvent(video, 'loadstart', function () {
-                //console.log('loadstart : 媒体开始加载');
+                console.log('loadstart : 媒体开始加载');
             });
 
             addEvent(video, 'mozaudioavailable', function () {
-                //console.log('mozaudioavailable');
+                console.log('mozaudioavailable');
             });
 
             addEvent(video, 'play', function () {
-                //console.log('play : 在媒体回放被暂停后再次开始时触发');
+                console.log('play : 在媒体回放被暂停后再次开始时触发');
             });
 
             addEvent(video, 'pause', function () {
-                //console.log('pause : 播放暂停时触发');
+                console.log('pause : 播放暂停时触发');
                 if ( ! this.seeking) {
                     self.state.playing = false;
                 }
@@ -658,56 +665,58 @@
             });
 
             addEvent(video, 'playing', function () {
-                //console.log('playing : 在媒体开始播放时触发');
+                console.log('playing : 在媒体开始播放时触发');
                 self.state.firstPlay = false;
                 self.state.playing = true;
             });
 
             addEvent(video, 'ratechange', function () {
-                //console.log('ratechange : 在回放速率变化时触发');
+                console.log('ratechange : 在回放速率变化时触发');
             });
 
             addEvent(video, 'seeked', function () {
-                //console.log('seeked : 在跳跃操作完成时触发');
+                console.log('seeked : 在跳跃操作完成时触发');
+                if (this.paused) {
+                    this.play()
+                }
             });
 
             addEvent(video, 'seeking', function () {
-                //console.log('seeking : 在跳跃操作开始时触发');
+                console.log('seeking : 在跳跃操作开始时触发');
+                if ( ! this.paused) {
+                    this.pause()
+                }
             });
 
             addEvent(video, 'stalled', function () {
-                //console.log('stalled : Sent when the user agent is trying to fetch media data, but data is unexpectedly not forthcoming');
+                console.log('stalled : Sent when the user agent is trying to fetch media data, but data is unexpectedly not forthcoming');
             });
 
             addEvent(video, 'suspend', function () {
-                //console.log('suspend : 在媒体资源加载终止时触发，这可能是因为下载已完成或因为其他原因暂停');
+                console.log('suspend : 在媒体资源加载终止时触发，这可能是因为下载已完成或因为其他原因暂停');
             });
 
             addEvent(video, 'volumechange', function () {
-                //console.log('volumechange : 在音频音量改变时触发 volume 或 muted');
+                console.log('volumechange : 在音频音量改变时触发 volume 或 muted');
             });
 
             addEvent(video, 'canplay', function () {
-                //console.log('canplay : 缓冲已足够开始时')
+                console.log('canplay : 缓冲已足够开始时')
             });
 
             addEvent(video, 'durationchange', function () {
-                //console.log('durationchange : 视频/音频（audio/video）的时长发生变化');
+                console.log('durationchange : 视频/音频（audio/video）的时长发生变化');
                 let timeArr = self.formatSeconds(this.duration);
                 self.value.allTime = timeArr[1] + ':' + timeArr[2]
             });
 
             addEvent(video, 'waiting', function () {
-                //console.log('waiting : 在一个待执行的操作（如回放）因等待另一个操作（如跳跃或下载）被延迟时触发');
-                if ( ! self.hiddenToolBar) {
-                    self.$refs.waiting.style.display = 'block';
-                }
-                self.state.waiting = true;
-                this.pause();
+                console.log('waiting : 在一个待执行的操作（如回放）因等待另一个操作（如跳跃或下载）被延迟时触发');
+                self.state.waiting = true
             });
 
             addEvent(video, 'timeupdate', function () {
-                //console.log('timeupdate : 元素的currentTime属性表示的时间已经改变');
+                console.log('timeupdate : 元素的currentTime属性表示的时间已经改变');
                 let current = this.currentTime;
                 let timeArr = self.formatSeconds(current);
                 self.value.playing = current;
@@ -715,7 +724,7 @@
             });
 
             addEvent(video, 'progress', function () {
-                //console.log('progress : 正在下载视频');
+                console.log('progress : 正在下载视频');
                 let bf = this.buffered;
                 if (this.duration > 0) {
                     self.value.loading = bf.end(bf.length - 1)
@@ -723,7 +732,7 @@
             });
 
             addEvent(video, 'ended', function () {
-                //console.log("ended : 播放完毕");
+                console.log("ended : 播放完毕");
                 self.value.playing = 0;
                 self.state.playing = false;
                 if ( ! this.paused) {

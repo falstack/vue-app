@@ -1,44 +1,57 @@
-<style lang="scss" scoped>
-    $range-radius: 4px;
-
+<style lang="scss">
     .vue-app-range-container {
-        box-sizing: border-box;
-    }
-
-    .vue-app-range {
         position: relative;
-        border-radius: $range-radius;
-        background-color: #e5e9ef;
+        display: flex;
+        box-sizing: border-box;
 
-        .vue-app-range-progress, .vue-app-range-loading {
-            border-radius: $range-radius;
+        & > * {
+            display: flex;
+            display: -webkit-box;
+        }
+
+        .vue-app-range {
+            overflow: hidden;
+            border-radius: 4px;
+            position: relative;
+            flex: 1;
+        }
+
+        .vue-app-range-runway {
             position: absolute;
             left: 0;
+            right: 0;
             bottom: 0;
+            top: 0;
+            background-color: #e5e9ef;
         }
 
         .vue-app-range-progress {
+            position: absolute;
+            left: 0;
+            display: block;
             background-color: #00a1d6;
-            z-index: 2;
         }
 
         .vue-app-range-loading {
+            position: absolute;
+            display: block;
             background-color: #8adced;
-            z-index: 1;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
         }
 
-        .vue-app-range-tail {
+        .vue-app-range-thumb {
             background-color: #fff;
-            box-sizing: border-box;
-            border: 1px solid #e5e9ef;
-            border-radius: 50%;
             position: absolute;
-            transition: box-shadow .3s ease-in-out;
-            z-index: 3;
+            left: 0;
+            top: 0;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,.4);
+        }
 
-            &:hover {
-                box-shadow: 0 0 3px #00a1d6;
-            }
+        .vue-app-range-disabled {
+            opacity: 0.5;
         }
     }
 </style>
@@ -46,30 +59,34 @@
 <template>
     <div class="vue-app-range-container"
          :style="containerStyle"
-         @mouseout.prevent="dragging = false"
-         @mouseup.prevent="dragging = false"
-         @mousemove.prevent>
+         :class="{ 'vue-app-range-disabled': disabled }"
+         @touchmove.stop
+         @click.stop>
         <div class="vue-app-range"
-             :style="rangeStyle"
-             @click="handleClick">
-            <div class="vue-app-range-progress"
-                 :style="progressStyle">
+             ref="content">
+            <div class="vue-app-range-runway"
+                 @click.stop="handleClick">
             </div>
             <div class="vue-app-range-loading"
                  v-if="loading"
-                 :style="loadingStyle">
+                 @click.stop="handleClick"
+                 :style="{ width: loading / max * 100 + '%', height: barSize + 'px' }">
             </div>
-            <div class="vue-app-range-tail"
-                 :style="tailStyle"
-                 @touchmove.stop.prevent="handleDragEvent"
-                 @mousemove.prevent="handleMouseEvent"
-                 @mousedown="dragging = true">
+            <div class="vue-app-range-progress"
+                 @click.stop="handleClick"
+                 :style="progressStyle">
             </div>
+        </div>
+        <div class="vue-app-range-thumb"
+             :style="thumbStyle"
+             ref="thumb"
+             @click.stop>
         </div>
     </div>
 </template>
 
 <script lang="babel">
+    import draggable from './draggable';
 
     let addEvent = (function () {
         if (document.addEventListener) {
@@ -101,30 +118,40 @@
         name: 'v-range',
 
         props: {
-            value: {},
-            size: {
+            min: {
                 type: Number,
-                default: 6
+                default: 0
             },
             max: {
                 type: Number,
                 default: 100
             },
-            min: {
-                type: Number,
-                default: 0
-            },
             step: {
                 type: Number,
                 default: 0
             },
-            vertical: {
+            disabled: {
                 type: Boolean,
                 default: false
+            },
+            value: {
+                type: Number
             },
             loading: {
                 type: Number,
                 default: 0
+            },
+            barSize: {
+                type: Number,
+                default: 6
+            },
+            tailSize: {
+                type: Number,
+                default: 14
+            },
+            vertical: {
+                type: Boolean,
+                default: false
             }
         },
 
@@ -137,161 +164,157 @@
                 this.$emit('input', val)
             }
         },
+
         computed: {
-            containerStyle () {
+            containerStyle() {
                 let style = {};
-                let size = this.size * 2;
-                if (size < 14) {
-                    size = 14
-                }
-                size = (size - this.size) / 2 + 'px';
+                let size = (this.tailSize - this.barSize) / 2 + 'px';
                 if (this.vertical) {
                     style.paddingLeft = size;
                     style.paddingRight = size;
                     style.height = '100%';
-                    style.width = size * 2 + this.size + 'px'
+                    style.width = this.tailSize + 'px'
                 } else {
                     style.paddingTop = size;
                     style.paddingBottom = size;
-                    style.width = '100%'
+                    style.width = '100%';
+                    style.height = this.tailSize + 'px'
                 }
 
                 return style
             },
 
-            rangeStyle () {
+            progressStyle() {
                 let style = {};
+                let offset = this.progress();
 
                 if (this.vertical) {
-                    style.width = this.size + 'px';
-                    style.height = '100%'
+                    style.width = this.barSize + 'px';
+                    style.height = offset + '%';
+                    style.top =  100 - offset + '%';
                 } else {
-                    style.height = this.size + 'px';
-                    style.width = '100%'
-                }
-
-                return style
-            },
-
-            tailStyle () {
-                this.getWarpSize();
-                let style = {};
-                let size = this.size * 2;
-                if (size < 14) {
-                    size = 14
-                }
-                let base = (this.size - size) / 2;
-                let doubleBorderSize = 2;
-
-                style.width = size + 'px';
-                style.height = size + 'px';
-
-                if (this.vertical) {
-                    style.top = 0;
-                    style.left = base + 'px';
-                    style.transform = `translate3d(0px, ${((this.max - this.curRange) / this.max * this.warpSize) - doubleBorderSize}px, 0px)`;
-                } else {
+                    style.width = offset + '%';
+                    style.height = this.barSize + 'px';
                     style.left = 0;
-                    style.top = base + 'px';
-                    style.transform = `translate3d(${base + (this.curRange / this.max * this.warpSize) - doubleBorderSize}px, 0px, 0px)`;
                 }
 
                 return style
             },
 
-            loadingStyle () {
+            thumbStyle() {
                 let style = {};
 
-                if (this.vertical) {
-                    style.width = '100%';
-                    style.height = this.loading / this.max * this.warpSize + 'px';
-                } else {
-                    style.height = '100%';
-                    style.width = this.loading / this.max * this.warpSize + 'px'
-                }
-
-                return style
-            },
-
-            progressStyle () {
-                let style = {};
+                style.width = this.tailSize + 'px';
+                style.height = this.tailSize + 'px';
 
                 if (this.vertical) {
-                    style.width = '100%';
-                    style.height = this.curRange / this.max * this.warpSize + 'px';
+                    style.top = 100 - this.progress() - this.offset + '%';
                 } else {
-                    style.height = '100%';
-                    style.width = this.curRange / this.max * this.warpSize + 'px'
+                    style.left = this.progress() - this.offset + '%';
                 }
 
                 return style
             }
         },
+
         data () {
             return {
                 curRange: this.value,
-                warpSize: 0,
-                warpOffset: 0,
-                dragging: false
+                dragState: null,
+                offset: 0
             }
         },
-        methods: {
-            handleClick (evt) {
-                this.getWarpSize();
-                let result = this.vertical ? ((1 - (evt.clientY - this.warpOffset) / this.warpSize) * 100).toFixed(2) : ((evt.clientX - this.warpOffset) / this.warpSize * 100).toFixed(2);
-                result = parseFloat(result);
 
-                if (result < this.min) {
-                    result = this.min
-                } else if (result > this.max) {
-                    result = this.max
-                } else {
-                    if (this.step) {
-                        let remainder = result % this.step;
-                        if (remainder) {
-                            result += (this.step - remainder)
-                        }
-                    }
+        methods: {
+            progress() {
+                const value = this.value;
+                if (typeof value === 'undefined' || value === null) return 0;
+                return Math.floor((value - this.min) / (this.max - this.min) * 100)
+            },
+
+            getOffset() {
+                this.offset = this.tailSize / (this.vertical ? this.$refs.content.offsetHeight : this.$refs.content.offsetWidth) * 50
+            },
+
+            handleClick(event) {
+                if (this.disabled) return;
+                this.getOffset();
+                this.getPosition(event)
+            },
+
+            getPosition(event) {
+                const contentBox = this.$refs.content.getBoundingClientRect();
+                let delta, newPosition, baseOffset, maxOffset;
+                if ( ! this.dragState) {
+                    this.getThumbPosition()
                 }
 
-                this.$emit('rangeChangeEvent', result);
+                if (this.vertical) {
+                    baseOffset = this.dragState.y;
+                    maxOffset = contentBox.height;
+                    delta = event.pageY - contentBox.top - baseOffset;
+                } else {
+                    baseOffset = this.dragState.x;
+                    maxOffset = contentBox.width;
+                    delta = event.pageX - contentBox.left - baseOffset;
+                }
 
+                if (this.step) {
+                    const stepCount = Math.ceil((this.max - this.min) / this.step);
+                    newPosition = (baseOffset + delta) - (baseOffset + delta) % (maxOffset / stepCount);
+                } else {
+                    newPosition = baseOffset + delta;
+                }
+
+                let newProgress = newPosition / maxOffset;
+
+                if (newProgress < 0) {
+                    newProgress = 0;
+                } else if (newProgress > 1) {
+                    newProgress = 1;
+                }
+
+                if (this.vertical) {
+                    newProgress = 1 - newProgress;
+                }
+
+                const result = Math.round(this.min + newProgress * (this.max - this.min));
+
+                this.$emit('rangeChangeEvent', result);
                 this.curRange = result
             },
 
-            handleMouseEvent (evt) {
-                if (this.dragging) {
-                    this.handleClick(evt)
-                }
-            },
+            getThumbPosition() {
+                const contentBox = this.$refs.content.getBoundingClientRect();
+                const thumbBox = this.$refs.thumb.getBoundingClientRect();
 
-            handleDragEvent (evt) {
-                this.handleClick(evt.changedTouches ? evt.changedTouches[0] : evt)
-            },
-
-            getWarpSize (resize = false) {
-                if ( ! this.warpWidth || resize) {
-                    if ( ! this.$el) {
-                        setTimeout(() => {
-                            this.getWarpSize()
-                        }, 10);
-                        return
-                    }
-                    if (this.vertical) {
-                        this.warpSize = this.$el.clientHeight;
-                        this.warpOffset = this.$el.getBoundingClientRect().top
-                    } else {
-                        this.warpSize = this.$el.clientWidth;
-                        this.warpOffset = this.$el.getBoundingClientRect().left
-                    }
+                this.dragState = {
+                    x: thumbBox.left - contentBox.left,
+                    y: thumbBox.top - contentBox.top
                 }
             }
         },
 
-        mounted () {
+        mounted() {
+            this.getOffset();
+
+            draggable(this.$refs.thumb, {
+                start: () => {
+                    if (this.disabled) return;
+                    this.getThumbPosition()
+                },
+                drag: (event) => {
+                    this.handleClick(event)
+                },
+                end: () => {
+                    if (this.disabled) return;
+                    this.dragState = null
+                }
+            });
+
             let self = this;
             addEvent(window, 'resize', function () {
-                self.getWarpSize(true)
+                self.getOffset()
             })
         }
     }
