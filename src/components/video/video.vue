@@ -325,7 +325,7 @@
 
 <script lang="babel">
 
-    import Range from './range.vue'
+    import Range from '../range/range.vue'
 
     let addEvent = (function () {
         if (document.addEventListener) {

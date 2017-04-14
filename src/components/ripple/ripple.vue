@@ -1,15 +1,12 @@
 <style lang="scss">
     .vue-app-ripple {
         position: relative;
-        border-width: 0;
-        outline-width: 0;
         overflow: hidden;
     }
 </style>
 
 <template>
-    <div class="vue-app-ripple"
-         @click="handle">
+    <div class="vue-app-ripple">
         <slot></slot>
     </div>
 </template>
@@ -21,39 +18,18 @@
     export default {
         name: 'v-ripple',
 
-        data () {
-            return {
-                dragging: false,
-                timeout: 0.4,
-                ripple: null,
-                begin: 0
-            }
-        },
-
-        watch: {
-            'ripple' (val, oldVal) {
-                if (val) {
-                    console.log('hold');
-                } else {
-                    console.log('remove');
-                    setTimeout(() => {
-                        this.$el.removeChild(oldVal)
-                    }, this.timeout * 1000)
-                }
-            }
-        },
-
         methods: {
-            handle(e) {
+            handle(evt) {
                 let self = this.$el;
                 let dom = document.createElement("div");
                 let content = self.getBoundingClientRect();
 
-                let initLeft = e.pageX - content.left;
-                let initTop = e.pageY - content.top;
+                let initLeft = evt.pageX - content.left;
+                let initTop = evt.pageY - content.top;
                 let initSize = 0;
                 let initFunc = 'linear';
                 let initColor = 'rgba(0, 0, 0, .3)';
+                let timeout = 400;
 
                 dom.style.width = initSize;
                 dom.style.height = initSize;
@@ -62,8 +38,8 @@
                 dom.style.left = initLeft + 'px';
                 dom.style.top = initTop + 'px';
                 dom.style.backgroundColor = initColor;
-                dom.style.transitionDuration = this.timeout + 's';
-                dom.style.webkitTransitionDuration = this.timeout + 's';
+                dom.style.transitionDuration = timeout + 'ms';
+                dom.style.webkitTransitionDuration = timeout + 'ms';
                 dom.style.transitionTimingFunction = initFunc;
                 dom.style.webkitTransitionTimingFunction = initFunc;
 
@@ -75,20 +51,16 @@
                 dom.style.left = initLeft - r + 'px';
                 dom.style.top = initTop - r + 'px';
                 dom.style.backgroundColor = 'rgba(0, 0, 0, .1)';
-                return dom
+                setTimeout(() => {
+                    self.removeChild(dom)
+                }, timeout)
             }
         },
 
         mounted() {
             draggable(this.$el, {
                 start: (evt) => {
-                    this.dragging = true;
-                    this.ripple = this.handle(evt);
-                    this.begin = new Date().getTime()
-                },
-                end: (evt) => {
-                    this.dragging = false;
-                    this.ripple = null
+                    this.handle(evt)
                 }
             })
         }
