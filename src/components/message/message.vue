@@ -43,7 +43,6 @@
             margin-bottom: 10px;
             pointer-events: auto;
             width: $item-width;
-            cursor: pointer;
             display: flex;
             opacity: .8;
             transition: .4s ease-in-out;

@@ -7,7 +7,7 @@ class Backdrop {
     }
 
     show (opt) {
-        if ( ! document.querySelectorAll('.vue-app-backdrop').length) {
+        if ( ! document.querySelectorAll('.vue-pwa-backdrop').length) {
             this._selector = 'v-app-backdrop-' + Math.random().toString(36).substring(3, 6)
             this._el = document.createElement('div')
             this._el.id = this._selector
@@ -22,7 +22,7 @@ class Backdrop {
     }
 
     hide (force = false) {
-        if (this._vm && document.querySelectorAll('.vue-app-dialog').length === 1 || force) {
+        if (this._vm && document.querySelectorAll('.vue-pwa-dialog').length === 1 || force) {
             this._vm.hide();
             setTimeout(() => {
                 this._vm.$destroy()

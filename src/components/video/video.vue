@@ -14,7 +14,7 @@
     $tool-btn-width : 40px;
     $tool-color: #fff;
 
-    .vue-app-video {
+    .vue-pwa-video {
         box-sizing: border-box;
         overflow: hidden;
         background-color: #000;
@@ -24,17 +24,17 @@
         position: relative;
         font-family: 'Microsoft YaHei',Arial,Helvetica,sans-serif;
 
-        &.vue-app-video-flex {
+        &.vue-pwa-video-flex {
             display: flex;
             flex-direction: column;
 
-            .vue-app-video-box {
+            .vue-pwa-video-box {
                 flex: 1;
             }
         }
 
-        &.vue-app-video-cover {
-            .vue-app-video-tool {
+        &.vue-pwa-video-cover {
+            .vue-pwa-video-tool {
                 position: absolute;
                 left: 0;
                 right: 0;
@@ -42,7 +42,7 @@
             }
         }
 
-        .vue-app-video-box {
+        .vue-pwa-video-box {
             width: 100%;
             height: 100%;
             position: relative;
@@ -57,7 +57,7 @@
                 height: 100%;
             }
 
-            .vue-app-video-waiting {
+            .vue-pwa-video-waiting {
                 position: absolute;
                 left: 50%;
                 top: 50%;
@@ -99,7 +99,7 @@
                 }
             }
 
-            .vue-app-video-init {
+            .vue-pwa-video-init {
                 position: absolute;
                 width : 100%;
                 height : 100%;
@@ -112,7 +112,7 @@
                 z-index: 5;
             }
 
-            .vue-app-video-debug {
+            .vue-pwa-video-debug {
                 background-color: rgba(0, 0, 0, .3);
                 position: absolute;
                 left: 0;
@@ -131,7 +131,7 @@
             }
         }
 
-        .vue-app-video-tool {
+        .vue-pwa-video-tool {
             height: $tool-height;
             background-color: $tool-color;
             border-left: 1px solid $color-border;
@@ -195,37 +195,37 @@
         width: 100%;
     }
 
-    .vue-app-video-btn-playing:before {
+    .vue-pwa-video-btn-playing:before {
         content: "\e62a";
     }
 
-    .vue-app-video-btn-paused:before {
+    .vue-pwa-video-btn-paused:before {
         content: "\e6c5";
     }
 
-    .vue-app-video-btn-volume:before {
+    .vue-pwa-video-btn-volume:before {
         content: "\e691";
     }
 
-    .vue-app-video-btn-silent:before {
+    .vue-pwa-video-btn-silent:before {
         content: "\e690";
     }
 
-    .vue-app-video-btn-screen:before {
+    .vue-pwa-video-btn-screen:before {
         content: "\e63e";
     }
 
-    .vue-app-video-btn-full:before {
+    .vue-pwa-video-btn-full:before {
         content: "\e79f";
     }
 
-    .vue-app-video-btn-voice:hover {
-        .vue-app-video-voice-bar {
+    .vue-pwa-video-btn-voice:hover {
+        .vue-pwa-video-voice-bar {
             visibility: visible;
         }
     }
 
-    .vue-app-video-voice-bar {
+    .vue-pwa-video-voice-bar {
         background-color: $tool-color;
         position: absolute;
         width: 40px;
@@ -249,7 +249,7 @@
         }
     }
 
-    .vue-app-video-time {
+    .vue-pwa-video-time {
         background-color: $tool-color;
         width: $tool-btn-width;
         height: 100%;
@@ -260,7 +260,7 @@
         align-items: center;
     }
 
-    .vue-app-video-progress-bar {
+    .vue-pwa-video-progress-bar {
         background-color: $tool-color;
         box-sizing: border-box;
         height: 100%;
@@ -273,10 +273,10 @@
 </style>
 
 <template>
-    <div class="vue-app-video"
-         :class="[ cover ? 'vue-app-video-cover' : 'vue-app-video-flex', clazz ]"
+    <div class="vue-pwa-video"
+         :class="[ cover ? 'vue-pwa-video-cover' : 'vue-pwa-video-flex', clazz ]"
          ref="box">
-        <div class="vue-app-video-box"
+        <div class="vue-pwa-video-box"
              ref="mask"
              @click.stop="screenclick ? handlePlay(true) : ''"
              @dblclick="screenclick ? screen() : ''"
@@ -295,51 +295,51 @@
                    v-else>
                 <source v-for="data in source" :src="data.src" :type="data.type">
             </video>
-            <div class="vue-app-video-init"
+            <div class="vue-pwa-video-init"
                  :style="{ backgroundImage: loading ? 'url(' + loading + ')' : '' }"
                  v-if="state.init">
             </div>
-            <div class="vue-app-video-waiting"
+            <div class="vue-pwa-video-waiting"
                  v-show="state.waiting"
                  ref="waiting">
             </div>
-            <div class="vue-app-video-debug"
+            <div class="vue-pwa-video-debug"
                  v-if="debug">
                 <p v-for="txt in logs" v-text="txt"></p>
             </div>
         </div>
         <transition name="fade" v-if=" ! hiddenToolBar">
             <div v-show="state.showTool"
-                 class="vue-app-video-tool"
+                 class="vue-pwa-video-tool"
                  :class="{ 'v-tool-full' : state.isFull }">
-                <button :class="[ state.playing ? 'vue-app-video-btn-playing' : 'vue-app-video-btn-paused' ]"
+                <button :class="[ state.playing ? 'vue-pwa-video-btn-playing' : 'vue-pwa-video-btn-paused' ]"
                         @click="handlePlay(false)">
                 </button>
-                <div class="vue-app-video-time">
+                <div class="vue-pwa-video-time">
                     <span v-text="value.curTime"></span>
                 </div>
-                <div class="vue-app-video-progress-bar">
+                <div class="vue-pwa-video-progress-bar">
                     <v-range v-model="value.playing"
                              :loading="value.loading"
                              :max="value.duration"
                              @rangeChangeEvent="handleSeek"
                     ></v-range>
                 </div>
-                <div class="vue-app-video-time">
+                <div class="vue-pwa-video-time">
                     <span v-text="value.allTime"></span>
                 </div>
-                <button class="vue-app-video-btn-voice"
-                        :class="[ value.voice ? 'vue-app-video-btn-volume' : 'vue-app-video-btn-silent' ]"
+                <button class="vue-pwa-video-btn-voice"
+                        :class="[ value.voice ? 'vue-pwa-video-btn-volume' : 'vue-pwa-video-btn-silent' ]"
                         @click="handleMuted"
                         v-if="showvioce">
-                    <div class="vue-app-video-voice-bar">
+                    <div class="vue-pwa-video-voice-bar">
                         <v-range v-model="value.voice"
                                  @rangeChangeEvent="volume"
                                  :vertical="true"
                         ></v-range>
                     </div>
                 </button>
-                <button :class="[ state.isFull ? 'vue-app-video-btn-full' : 'vue-app-video-btn-screen' ]"
+                <button :class="[ state.isFull ? 'vue-pwa-video-btn-full' : 'vue-pwa-video-btn-screen' ]"
                         @click="screen">
                 </button>
             </div>

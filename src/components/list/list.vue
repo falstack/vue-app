@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-    .vue-app-list-container {
+    .vue-pwa-list-container {
         position: relative;
         width: 100%;
         height: 100%;
@@ -15,7 +15,7 @@
 </style>
 
 <template>
-    <div class="vue-app-list-container" @scroll="scrolling" ref="container">
+    <div class="vue-pwa-list-container" @scroll="scrolling" ref="container">
         <div class="content" ref="content">
             <slot name="content" v-for="item in list" :text="item"></slot>
         </div>

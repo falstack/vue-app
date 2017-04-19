@@ -1,5 +1,5 @@
 <style lang="scss">
-    .vue-app-range-container {
+    .vue-pwa-range-container {
         position: relative;
         display: flex;
         box-sizing: border-box;
@@ -9,14 +9,14 @@
             display: -webkit-box;
         }
 
-        .vue-app-range {
+        .vue-pwa-range {
             overflow: hidden;
             border-radius: 4px;
             position: relative;
             flex: 1;
         }
 
-        .vue-app-range-runway {
+        .vue-pwa-range-runway {
             position: absolute;
             left: 0;
             right: 0;
@@ -25,14 +25,14 @@
             background-color: #e5e9ef;
         }
 
-        .vue-app-range-progress {
+        .vue-pwa-range-progress {
             position: absolute;
             left: 0;
             display: block;
             background-color: #00a1d6;
         }
 
-        .vue-app-range-loading {
+        .vue-pwa-range-loading {
             position: absolute;
             display: block;
             background-color: #8adced;
@@ -41,7 +41,7 @@
             width: 0;
         }
 
-        .vue-app-range-thumb {
+        .vue-pwa-range-thumb {
             background-color: #fff;
             position: absolute;
             left: 0;
@@ -50,34 +50,34 @@
             box-shadow: 0 1px 3px rgba(0,0,0,.4);
         }
 
-        .vue-app-range-disabled {
+        .vue-pwa-range-disabled {
             opacity: 0.5;
         }
     }
 </style>
 
 <template>
-    <div class="vue-app-range-container"
+    <div class="vue-pwa-range-container"
          :style="containerStyle"
-         :class="{ 'vue-app-range-disabled': disabled }"
+         :class="{ 'vue-pwa-range-disabled': disabled }"
          @touchmove.stop
          @click.stop>
-        <div class="vue-app-range"
+        <div class="vue-pwa-range"
              ref="content">
-            <div class="vue-app-range-runway"
+            <div class="vue-pwa-range-runway"
                  @click.stop="handleClick">
             </div>
-            <div class="vue-app-range-loading"
+            <div class="vue-pwa-range-loading"
                  v-if="loading"
                  @click.stop="handleClick"
                  :style="loadingStyle">
             </div>
-            <div class="vue-app-range-progress"
+            <div class="vue-pwa-range-progress"
                  @click.stop="handleClick"
                  :style="progressStyle">
             </div>
         </div>
-        <div class="vue-app-range-thumb"
+        <div class="vue-pwa-range-thumb"
              :style="thumbStyle"
              ref="thumb"
              @click.stop>

@@ -61,6 +61,9 @@
 
 <template>
     <div id="main">
+        <v-ripple>
+            <h1>vue-pwa</h1>
+        </v-ripple>
         <v-tab-container>
             <v-tab-content v-model="active" :swipeable="false">
                 <v-tab-item :name="menu[0]" :init="true">
@@ -72,18 +75,9 @@
                         </v-tab-menu>
                         <v-tab-content v-model="active_1">
                             <v-tab-item :name="menu_1[0]" :init="true">
-                                <v-ripple>
-                                    <h1>vue-app</h1>
-                                </v-ripple>
-                                <p>A vue project.</p>
-                                <button @click="showModal_1">测试 modal_1</button>
-                                <button @click="showModal_3">测试 modal_3</button>
-                                <div style="width: 80%; margin: 10%; height:280px">
-                                    <v-video :source="source"
-                                             :poster="'https://ss2.meipian.me/official/resource/video-cover.gif'"
-                                             :clazz="'video-style'">
-                                    </v-video>
-                                </div>
+                                <v-button :clazz="'test-btn-style'">A vue project.</v-button>
+                            </v-tab-item>
+                            <v-tab-item :name="menu_1[1]">
                                 <v-popup ref="popup1">
                                     <p>测试表单1 {{ msg }}</p>
                                     <input placeholder="父组件" v-model="msg" type="text">
@@ -94,14 +88,40 @@
                                     <v-toggle v-model="toggle_2">toggle_2 is {{ toggle_2 }}</v-toggle>
                                     <v-toggle v-model="toggle_3">toggle_3 is {{ toggle_3 }}</v-toggle>
                                 </v-popup>
+                                <button @click="showAlert">测试 alert</button>
+                                <button @click="showConfirm">测试 confirm</button>
+                                <button @click="showPopup_1">测试 popup_1</button>
+                                <button @click="showPopup_2">测试 popup_2</button>
+                            </v-tab-item>
+                            <v-tab-item :name="menu_1[2]">
+                                <button @click="showToast">测试 toast</button>
+                            </v-tab-item>
+                            <v-tab-item :name="menu_1[3]">
+                                <button @click="showLoading">测试 loading</button>
+                            </v-tab-item>
+                            <v-tab-item :name="menu_1[4]">
+                                <button @click="showMessage">测试 message</button>
+                            </v-tab-item>
+                        </v-tab-content>
+                    </v-tab-container>
+                </v-tab-item>
+                <v-tab-item :name="menu[1]">
+                    <v-tab-container>
+                        <v-tab-menu :clazz="'bar-style'"
+                                    v-model="active_2"
+                                    :menu="menu_2"
+                                    :lineWidth="15">
+                        </v-tab-menu>
+                        <v-tab-content v-model="active_2">
+                            <v-tab-item :name="menu_2[0]" :init="true">
+                                this page in tabs
+                            </v-tab-item>
+                            <v-tab-item :name="menu_2[1]">
+                                <button @click="showModal_1">测试 modal_1</button>
+                                <button @click="showModal_2">测试 modal_2</button>
+                                <button @click="showModal_3">测试 modal_3</button>
                                 <v-modal ref="modal1" :title="'测试模态框'" :clazz="'test-style'">
                                     <div slot="content">
-                                        <button @click="showAlert">测试 alert</button>
-                                        <button @click="showMessage">测试 message</button>
-                                        <button @click="showConfirm">测试 confirm</button>
-                                        <button @click="showPopup_1">测试 popup_1</button>
-                                        <button @click="showPopup_2">测试 popup_2</button>
-                                        <button @click="showModal_2">测试 modal_2</button>
                                         <p>666</p>
                                         <p>666</p>
                                         <p>666</p>
@@ -142,34 +162,11 @@
                                     </div>
                                 </v-modal>
                             </v-tab-item>
-                            <v-tab-item :name="menu_1[1]">
-                                <h3 v-for="item in 20">11</h3>
-                            </v-tab-item>
-                            <v-tab-item :name="menu_1[2]">
-                                <h3 v-for="item in 20">12</h3>
-                            </v-tab-item>
-                            <v-tab-item :name="menu_1[3]">
-                                <h3 v-for="item in 20">13</h3>
-                            </v-tab-item>
-                        </v-tab-content>
-                    </v-tab-container>
-                </v-tab-item>
-                <v-tab-item :name="menu[1]">
-                    <v-tab-container>
-                        <v-tab-menu :clazz="'bar-style'"
-                                    v-model="active_2"
-                                    :menu="menu_2"
-                                    :lineWidth="15">
-                        </v-tab-menu>
-                        <v-tab-content v-model="active_2">
-                            <v-tab-item :name="menu_2[0]" :init="true">
-                                <h3 v-for="item in 20">20</h3>
-                            </v-tab-item>
-                            <v-tab-item :name="menu_2[1]">
-                                <h3 v-for="item in 20">21</h3>
-                            </v-tab-item>
                             <v-tab-item :name="menu_2[2]">
                                 <h3 v-for="item in 20">22</h3>
+                            </v-tab-item>
+                            <v-tab-item :name="menu_2[3]">
+                                <h3 v-for="item in 20">23</h3>
                             </v-tab-item>
                         </v-tab-content>
                     </v-tab-container>
@@ -240,19 +237,19 @@
                         </v-tab-menu>
                         <v-tab-content v-model="active_4">
                             <v-tab-item :name="menu_4[0]" :init="true">
-                                <h3 v-for="item in 20">40</h3>
+                                <p>测试视频播放器</p>
+                                <div style="height:244px">
+                                    <v-video :source="source"
+                                             :poster="'https://ss2.meipian.me/official/resource/video-cover.gif'"
+                                             :clazz="'video-style'">
+                                    </v-video>
+                                </div>
                             </v-tab-item>
                             <v-tab-item :name="menu_4[1]">
                                 <h3 v-for="item in 20">41</h3>
                             </v-tab-item>
                             <v-tab-item :name="menu_4[2]">
                                 <h3 v-for="item in 20">42</h3>
-                            </v-tab-item>
-                            <v-tab-item :name="menu_4[3]">
-                                <h3 v-for="item in 20">43</h3>
-                            </v-tab-item>
-                            <v-tab-item :name="menu_4[4]">
-                                <h3 v-for="item in 20">44</h3>
                             </v-tab-item>
                         </v-tab-content>
                     </v-tab-container>
@@ -290,16 +287,16 @@ export default {
                 'perfect is shit'
             ],
             theme: ['success', 'warning', 'error', 'info'],
-            active: '阿里云',
-            active_1: '域名注册',
-            active_2: '监控报警',
+            active: 'intro',
+            active_1: 'intro',
+            active_2: 'tabs',
             active_3: '直播',
-            active_4: '订单管理',
-            menu: ['阿里云', '控制台', '分区', '我的'],
-            menu_1: ['域名注册', '云服务器 ECS', '安骑士', '对象存储 OSS'],
-            menu_2: ['监控报警', '急需续费', '工单'],
+            active_4: 'video',
+            menu: ['intro', 'layouts', 'tools', 'others'],
+            menu_1: ['intro', 'popup', 'toast', 'loading', 'message'],
+            menu_2: ['tabs', 'modal', 'waterfall', 'swiper', 'header', 'drawer', 'search', 'menu'],
             menu_3: ['直播', '番剧', '动画', '国创', '音乐', '舞蹈', '游戏', '科技', '生活', '鬼畜', '时尚', '广告', '娱乐', '电影', '电视剧', '游戏中心'],
-            menu_4: ['订单管理', '发票管理', '当月消费', '账户余额', '卡卷'],
+            menu_4: ['video', 'music', 'ripple'],
             list: 100,
             page: 1,
             take: 10,
@@ -423,26 +420,31 @@ export default {
         },
 
         random (array) {
-            var n = Math.floor(Math.random() * array.length + 1) - 1;
-            return array[n];
+            let n = Math.floor(Math.random() * array.length + 1) - 1;
+            return array[n]
+        },
+
+        showToast () {
+            $toast.show({
+                tips: 'this is a toast',
+                icon: 'http://cn.vuejs.org/images/logo.png',
+                showIcon: true,
+                position: 2
+            }).then(() => {
+
+            })
+        },
+
+        showLoading () {
+            $loading.show({
+                tips: 'this is a loading',
+                position: 0
+            });
+
+            setTimeout(() => {
+                $loading.hide()
+            }, 3000)
         }
-    },
-    mounted () {
-//        $toast.show({
-//            tips: 'this is a toast',
-//            icon: 'http://cn.vuejs.org/images/logo.png',
-//            showIcon: true,
-//            position: 2
-//        }).then(() => {
-//            $loading.show({
-//                tips: 'this is a loading',
-//                position: 0
-//            })
-//        })
-//
-//        setTimeout(() => {
-//            $loading.hide()
-//        }, 5000)
     }
 }
 </script>

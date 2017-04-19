@@ -46,7 +46,7 @@
         }
     }
 
-    .vue-app-container {
+    .vue-pwa-container {
         position: fixed;
         left: 0;
         top: 0;
@@ -63,7 +63,7 @@
         }
     }
 
-    .vue-app-confirm {
+    .vue-pwa-confirm {
         width: 320px;
         background-color: #fff;
         border-radius: 15px;
@@ -135,9 +135,9 @@
 </style>
 
 <template>
-    <div class="vue-app-container"
+    <div class="vue-pwa-container"
          :class="{ 'hidden' : !state } ">
-        <div class="vue-app-confirm vue-app-dialog"
+        <div class="vue-pwa-confirm vue-pwa-dialog"
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
             <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>

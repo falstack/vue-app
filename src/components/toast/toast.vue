@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
 
-    .vue-app-container {
+    .vue-pwa-container {
         position: fixed;
         left: 0;
         top: 0;
@@ -90,7 +90,7 @@
 </style>
 
 <template>
-    <div class="vue-app-container"
+    <div class="vue-pwa-container"
         :class="{ 'hidden' : !state } ">
         <div class="loading"
              :class="{ 'show' : state === 2, 'top' : showIcon && position === 0, 'right' : position === 1, 'bottom' : position === 2, 'left' : position === 3 }">

@@ -1,5 +1,5 @@
 <style lang="scss" rel="scss">
-    .vue-app-container {
+    .vue-pwa-container {
         position: fixed;
         left: 0;
         top: 0;
@@ -23,7 +23,7 @@
 
     $title-height: 44px;
 
-    .vue-app-modal {
+    .vue-pwa-modal {
         position: absolute;
         top: 0;
         left: 0;
@@ -87,14 +87,14 @@
 </style>
 
 <template>
-    <div class="vue-app-container"
+    <div class="vue-pwa-container"
          v-if="state"
          :class="{
                 'fadeIn': state === 1 || state === 2,
                 'active': state === 2,
                 'fadeOut': state === 3
             }">
-        <div class="vue-app-modal slide-in-up"
+        <div class="vue-pwa-modal slide-in-up"
              :class="[{
                     'active': state == 1,
                     'ng-enter ng-enter-active active': state == 2,

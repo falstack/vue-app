@@ -2,7 +2,7 @@
     $color-gray: #d9d9d9;
     $color-blue: #26a2ff;
 
-    .vue-app-toggle {
+    .vue-pwa-toggle {
         height: 48px;
         display: flex;
         justify-content: space-between;
@@ -58,7 +58,7 @@
 </style>
 
 <template>
-    <div class="vue-app-toggle">
+    <div class="vue-pwa-toggle">
         <slot></slot>
         <div class="toggle-btn" :class="{ 'active' : value }" @click="onToggle"></div>
     </div>

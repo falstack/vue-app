@@ -1,4 +1,4 @@
-# vue-app
+# vue-pwa
 > A vue project.
 
 ## Development

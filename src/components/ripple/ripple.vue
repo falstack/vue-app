@@ -1,12 +1,12 @@
 <style lang="scss">
-    .vue-app-ripple {
+    .vue-pwa-ripple {
         position: relative;
         overflow: hidden;
     }
 </style>
 
 <template>
-    <div class="vue-app-ripple">
+    <div class="vue-pwa-ripple">
         <slot></slot>
     </div>
 </template>

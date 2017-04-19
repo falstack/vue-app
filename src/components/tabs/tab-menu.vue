@@ -43,7 +43,7 @@
                 box-sizing: border-box;
                 background-color: $menu-selected-color;
                 position: absolute;
-                top: $menu-height - $line-height;
+                top: $menu-height - $line-height * 2;
                 z-index: 1;
                 transition: $menu-transition;
                 transform-origin: 0 0;

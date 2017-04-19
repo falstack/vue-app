@@ -46,7 +46,7 @@
         }
     }
 
-    .vue-app-container {
+    .vue-pwa-container {
         position: fixed;
         left: 0;
         top: 0;
@@ -63,7 +63,7 @@
         }
     }
 
-    .vue-app-popup {
+    .vue-pwa-popup {
         width: 280px;
         background-color: #fff;
         border-radius: 10px;
@@ -140,9 +140,9 @@
 </style>
 
 <template>
-    <div class="vue-app-container"
+    <div class="vue-pwa-container"
          v-if="state">
-        <div class="vue-app-popup"
+        <div class="vue-pwa-popup"
              :class="{
                 'enter' : state === 1,
                 'leave' : state === 3

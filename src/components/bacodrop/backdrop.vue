@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-    .vue-app-backdrop {
+    .vue-pwa-backdrop {
         position: fixed;
         left: 0;
         top: 0;
@@ -22,7 +22,7 @@
 </style>
 
 <template>
-    <div class="vue-app-backdrop"
+    <div class="vue-pwa-backdrop"
          :class="[ active ? 'show' : 'fade' ]"
     ></div>
 </template>
