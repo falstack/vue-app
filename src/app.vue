@@ -56,6 +56,12 @@
                 background-color: #fff;
             }
         }
+
+        .video-style {
+            .test-init {
+                background-color:grey;width:100%;height:100%
+            }
+        }
     }
 </style>
 
@@ -242,6 +248,7 @@
                                     <v-video :source="source"
                                              :poster="'https://ss2.meipian.me/official/resource/video-cover.gif'"
                                              :clazz="'video-style'">
+                                        <div class="test-init"></div>
                                     </v-video>
                                 </div>
                             </v-tab-item>

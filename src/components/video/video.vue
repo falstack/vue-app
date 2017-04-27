@@ -296,12 +296,15 @@
                 <source v-for="data in source" :src="data.src" :type="data.type">
             </video>
             <div class="vue-pwa-video-init"
-                 :style="{ backgroundImage: loading ? 'url(' + loading + ')' : '' }"
                  v-if="state.init">
+                <slot></slot>
             </div>
             <div class="vue-pwa-video-waiting"
-                 v-show="state.waiting"
-                 ref="waiting">
+                 v-show="state.waiting">
+            </div>
+            <div class="vue-pwa-video-error"
+                 v-show="state.error">
+                <!--<button>retry</button>-->
             </div>
             <div class="vue-pwa-video-debug"
                  v-if="debug">
@@ -450,7 +453,8 @@
                     firstPlay: true,
                     init: true,
                     ended: false,
-                    seeking: false
+                    seeking: false,
+                    error: false
                 },
                 value: {
                     duration: 0,
@@ -671,6 +675,7 @@
 
             addEvent(video, 'error', function () {
                 self.debugLog('error : 在发生错误时触发');
+                self.state.error = true;
             });
 
             addEvent(video, 'loadeddata', function () {
