@@ -13,7 +13,7 @@
 
 <script lang="babel">
 
-    import draggable from './draggable';
+    import draggable from '../../utils/draggable';
 
     export default {
         name: 'v-ripple',

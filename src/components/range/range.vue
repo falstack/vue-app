@@ -86,13 +86,13 @@
 </template>
 
 <script lang="babel">
-    import draggable from './draggable';
+    import draggable from '../../utils/draggable';
 
     let addEvent = (function () {
         if (document.addEventListener) {
             return function(el, type, fn){
                 if (el.length) {
-                    for(var i=0; i<el.length; i++) {
+                    for(let i=0; i<el.length; i++) {
                         addEvent(el[i], type, fn);
                     }
                 } else {
@@ -102,7 +102,7 @@
         } else {
             return function(el, type, fn) {
                 if (el.length) {
-                    for(var i=0; i<el.length; i++) {
+                    for(let i=0; i<el.length; i++) {
                         addEvent(el[i], type, fn);
                     }
                 } else {

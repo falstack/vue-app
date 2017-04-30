@@ -81,7 +81,10 @@
                         </v-tab-menu>
                         <v-tab-content v-model="active_1">
                             <v-tab-item :name="menu_1[0]" :init="true">
-                                <v-button :clazz="'test-btn-style'">A vue project.</v-button>
+                                <v-button :clazz="'test-btn-style'"
+                                          @click="testFunc"
+                                          :icon="'http://cn.vuejs.org/images/logo.png'"
+                                >A vue project.</v-button>
                             </v-tab-item>
                             <v-tab-item :name="menu_1[1]">
                                 <v-popup ref="popup1">
@@ -248,7 +251,6 @@
                                     <v-video :source="source"
                                              :poster="'https://ss2.meipian.me/official/resource/video-cover.gif'"
                                              :clazz="'video-style'">
-                                        <div class="test-init"></div>
                                     </v-video>
                                 </div>
                             </v-tab-item>
@@ -451,6 +453,10 @@ export default {
             setTimeout(() => {
                 $loading.hide()
             }, 3000)
+        },
+
+        testFunc () {
+            console.log('123');
         }
     }
 }

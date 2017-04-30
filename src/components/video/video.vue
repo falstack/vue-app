@@ -297,7 +297,6 @@
             </video>
             <div class="vue-pwa-video-init"
                  v-if="state.init">
-                <slot></slot>
             </div>
             <div class="vue-pwa-video-waiting"
                  v-show="state.waiting">
