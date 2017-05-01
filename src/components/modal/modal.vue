@@ -73,16 +73,33 @@
     }
 
     .slide-in-up {
-        transform: translate3d(0, 100%, 0)
-    }
-    .slide-in-up.ng-enter,.slide-in-up>.ng-enter {
-        transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms
-    }
-    .slide-in-up.ng-enter-active,.slide-in-up>.ng-enter-active {
-        transform: translate3d(0, 0, 0)
-    }
-    .slide-in-up.ng-leave,.slide-in-up>.ng-leave {
-        transition: all ease-in-out 250ms
+        &.bottom {
+            transform: translate3d(0, 100%, 0)
+        }
+
+        &.top {
+            transform: translate3d(0, -100%, 0)
+        }
+
+        &.left {
+            transform: translate3d(-100%, 0, 0)
+        }
+
+        &.right {
+            transform: translate3d(100%, 0, 0)
+        }
+
+        &.ng-enter-active {
+            transform: translate3d(0, 0, 0)
+        }
+
+        &.ng-enter {
+            transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms
+        }
+
+        &.ng-leave {
+            transition: all ease-in-out 250ms
+        }
     }
 </style>
 
@@ -99,7 +116,7 @@
                     'active': state == 1,
                     'ng-enter ng-enter-active active': state == 2,
                     'ng-leave ng-leave-active': state == 3},
-                    clazz
+                    clazz, position[from]
                 ]">
             <div class="bar bar-header">
                 <button class="btn-cancel" @click="hide(false)">取消</button>
@@ -121,12 +138,24 @@
     export default {
         name: 'v-modal',
 
-        props: ['title', 'clazz'],
+        props: {
+            title: {
+                type: String
+            },
+            clazz: {
+                type: String
+            },
+            from: {
+                type: Number,
+                default: 2
+            }
+        },
 
         data () {
             return {
+                id: '',
                 state: 0,
-                id: ''
+                position: ['top', 'right', 'bottom', 'left'],
             }
         },
 

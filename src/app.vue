@@ -13,6 +13,10 @@
         height: 100%;
         min-height: 100%;
 
+        .test-tab-item {
+            padding: 0 15px;
+        }
+
         .test-style {
             top: 20%;
         }
@@ -25,6 +29,12 @@
 
             .button {
                 height: $tab-menu-height;
+                color: RGB(53, 73, 94);
+                transition-duration: 0s;
+            }
+
+            .vue-tab-menu-selected {
+                color: RGB(65, 184, 131);
             }
 
             .vue-tab-menu-icon {
@@ -46,7 +56,7 @@
         }
 
         .bar-style {
-            background-color: #39f;
+            background-color: RGB(65, 184, 131);
 
             .vue-tab-menu-selected, .button {
                 color: #fff;
@@ -62,14 +72,83 @@
                 background-color:grey;width:100%;height:100%
             }
         }
+
+        $color-blue: #00bfef;
+        $color-blue-hover: #00a7de;
+
+        $color-gray: #ccd0d7;
+        $color-gray-hover: #99a2aa;
+
+        $color-green: #52C6CA;
+        $color-green-hover: #00bb9c;
+
+        $color-pink: #ff9eb0;
+        $color-pink-hover: #ff607f;
+
+        $color-yellow: #f3cf4a;
+        $color-yellow-hover: #fdbc40;
+
+        $color-red: #fc605c;
+        $color-red-hover: #c84c44;
+
+        @mixin mixin-btn($bg, $bg-hover, $color) {
+            background-color: $bg;
+            color: $color;
+
+            @media (min-width: 1024px) {
+                &:hover {
+                    background-color: $bg-hover;
+                    transition-duration: 0s;
+                }
+            }
+        }
+
+        .test-btn-style {
+            margin-top: 15px;
+
+            &.info {
+                @include mixin-btn($color-blue, $color-blue-hover, #fff);
+            }
+
+            &.warn {
+                @include mixin-btn($color-yellow, $color-yellow-hover, #fff);
+            }
+
+            &.error {
+                @include mixin-btn($color-red, $color-red-hover, #fff);
+            }
+
+            &.success {
+                @include mixin-btn($color-green, $color-green-hover, #fff);
+            }
+
+            .icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            &.on-click:before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, .3);
+            }
+
+            &.primary {
+                border-radius: 4px;
+                height: 40px;
+                font-size: 18px;
+                padding: 0 12px;
+            }
+        }
     }
 </style>
 
 <template>
     <div id="main">
-        <v-ripple>
-            <h1>vue-pwa</h1>
-        </v-ripple>
         <v-tab-container>
             <v-tab-content v-model="active" :swipeable="false">
                 <v-tab-item :name="menu[0]" :init="true">
@@ -80,13 +159,15 @@
                                     :lineWidth="15">
                         </v-tab-menu>
                         <v-tab-content v-model="active_1">
-                            <v-tab-item :name="menu_1[0]" :init="true">
-                                <v-button :clazz="'test-btn-style'"
+                            <v-tab-item :name="menu_1[0]"
+                                        :clazz="'test-tab-item'"
+                                        :init="true">
+                                <v-button :clazz="'test-btn-style info primary'"
                                           @click="testFunc"
-                                          :icon="'http://cn.vuejs.org/images/logo.png'"
                                 >A vue project.</v-button>
                             </v-tab-item>
-                            <v-tab-item :name="menu_1[1]">
+                            <v-tab-item :name="menu_1[1]"
+                                        :clazz="'test-tab-item'">
                                 <v-popup ref="popup1">
                                     <p>测试表单1 {{ msg }}</p>
                                     <input placeholder="父组件" v-model="msg" type="text">
@@ -97,18 +178,29 @@
                                     <v-toggle v-model="toggle_2">toggle_2 is {{ toggle_2 }}</v-toggle>
                                     <v-toggle v-model="toggle_3">toggle_3 is {{ toggle_3 }}</v-toggle>
                                 </v-popup>
-                                <button @click="showAlert">测试 alert</button>
-                                <button @click="showConfirm">测试 confirm</button>
-                                <button @click="showPopup_1">测试 popup_1</button>
-                                <button @click="showPopup_2">测试 popup_2</button>
+                                <v-button @click="showAlert"
+                                          :clazz="'test-btn-style info primary'"
+                                >测试 alert</v-button>
+                                <v-button @click="showConfirm"
+                                          :clazz="'test-btn-style warn primary'"
+                                >测试 confirm</v-button>
+                                <v-button @click="showPopup_1"
+                                          :clazz="'test-btn-style success primary'"
+                                >测试 popup_1</v-button>
+                                <v-button @click="showPopup_2"
+                                          :clazz="'test-btn-style error primary'"
+                                >测试 popup_2</v-button>
                             </v-tab-item>
-                            <v-tab-item :name="menu_1[2]">
+                            <v-tab-item :name="menu_1[2]"
+                                        :clazz="'test-tab-item'">
                                 <button @click="showToast">测试 toast</button>
                             </v-tab-item>
-                            <v-tab-item :name="menu_1[3]">
+                            <v-tab-item :name="menu_1[3]"
+                                        :clazz="'test-tab-item'">
                                 <button @click="showLoading">测试 loading</button>
                             </v-tab-item>
-                            <v-tab-item :name="menu_1[4]">
+                            <v-tab-item :name="menu_1[4]"
+                                        :clazz="'test-tab-item'">
                                 <button @click="showMessage">测试 message</button>
                             </v-tab-item>
                         </v-tab-content>
@@ -122,10 +214,13 @@
                                     :lineWidth="15">
                         </v-tab-menu>
                         <v-tab-content v-model="active_2">
-                            <v-tab-item :name="menu_2[0]" :init="true">
+                            <v-tab-item :name="menu_2[0]"
+                                        :init="true"
+                                        :clazz="'test-tab-item'">
                                 this page in tabs
                             </v-tab-item>
-                            <v-tab-item :name="menu_2[1]">
+                            <v-tab-item :name="menu_2[1]"
+                                        :clazz="'test-tab-item'">
                                 <button @click="showModal_1">测试 modal_1</button>
                                 <button @click="showModal_2">测试 modal_2</button>
                                 <button @click="showModal_3">测试 modal_3</button>
@@ -153,9 +248,10 @@
                                         <p>666</p>
                                     </div>
                                 </v-modal>
-                                <v-modal ref="modal2" :title="'测试模态框'">
-                                    <div slot="content">
-                                    </div>
+                                <v-modal ref="modal2"
+                                         :from="from"
+                                         :title="'测试模态框'">
+                                    <div slot="content"></div>
                                 </v-modal>
                                 <v-modal ref="modal3" :title="'测试模态框'">
                                     <div slot="content">
@@ -171,10 +267,12 @@
                                     </div>
                                 </v-modal>
                             </v-tab-item>
-                            <v-tab-item :name="menu_2[2]">
+                            <v-tab-item :name="menu_2[2]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">22</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_2[3]">
+                            <v-tab-item :name="menu_2[3]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">23</h3>
                             </v-tab-item>
                         </v-tab-content>
@@ -184,55 +282,73 @@
                     <v-tab-container>
                         <v-tab-menu :clazz="'bar-style'"
                                     v-model="active_3"
+                                    :lineWidth="15"
                                     :menu="menu_3">
                         </v-tab-menu>
                         <v-tab-content v-model="active_3">
-                            <v-tab-item :name="menu_3[0]" :init="true">
+                            <v-tab-item :name="menu_3[0]"
+                                        :init="true"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">30</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[1]">
+                            <v-tab-item :name="menu_3[1]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">31</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[2]">
+                            <v-tab-item :name="menu_3[2]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">32</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[3]">
+                            <v-tab-item :name="menu_3[3]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">33</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[4]">
+                            <v-tab-item :name="menu_3[4]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">34</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[5]">
+                            <v-tab-item :name="menu_3[5]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">35</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[6]">
+                            <v-tab-item :name="menu_3[6]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">36</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[7]">
+                            <v-tab-item :name="menu_3[7]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">37</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[8]">
+                            <v-tab-item :name="menu_3[8]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">38</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[9]">
+                            <v-tab-item :name="menu_3[9]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">39</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[10]">
+                            <v-tab-item :name="menu_3[10]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">310</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[11]">
+                            <v-tab-item :name="menu_3[11]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">311</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[12]">
+                            <v-tab-item :name="menu_3[12]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">312</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[13]">
+                            <v-tab-item :name="menu_3[13]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">313</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[14]">
-                                <h3 v-for="item in 20">315</h3>
+                            <v-tab-item :name="menu_3[14]"
+                                        :clazz="'test-tab-item'">
+                                <h3 v-for="item in 20">314</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_3[15]">
+                            <v-tab-item :name="menu_3[15]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">315</h3>
                             </v-tab-item>
                         </v-tab-content>
@@ -242,6 +358,7 @@
                     <v-tab-container>
                         <v-tab-menu :clazz="'bar-style'"
                                     v-model="active_4"
+                                    :lineWidth="15"
                                     :menu="menu_4">
                         </v-tab-menu>
                         <v-tab-content v-model="active_4">
@@ -254,10 +371,12 @@
                                     </v-video>
                                 </div>
                             </v-tab-item>
-                            <v-tab-item :name="menu_4[1]">
+                            <v-tab-item :name="menu_4[1]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">41</h3>
                             </v-tab-item>
-                            <v-tab-item :name="menu_4[2]">
+                            <v-tab-item :name="menu_4[2]"
+                                        :clazz="'test-tab-item'">
                                 <h3 v-for="item in 20">42</h3>
                             </v-tab-item>
                         </v-tab-content>
@@ -320,7 +439,8 @@ export default {
                     type: 'video/webm;codecs="vp8, vorbis"'
                 }
             ],
-            range: 100
+            range: 100,
+            from: 0
         }
     },
 
@@ -390,6 +510,7 @@ export default {
         },
 
         showModal_2 () {
+            this.from = this.random([0, 1, 2, 3]);
             this.$refs.modal2.show().then(() => {
                 console.log('modal2 result ok');
             }).catch(() => {

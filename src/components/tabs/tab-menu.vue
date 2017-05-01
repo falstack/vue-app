@@ -1,7 +1,7 @@
 <style lang="scss" rel="scss">
     $menu-height: 40px;
     $menu-transition: 150ms ease-in-out;
-    $menu-selected-color: #39f;
+    $menu-selected-color: RGB(65, 184, 131);
 
     .vue-tab-menu-container {
         overflow: hidden;
