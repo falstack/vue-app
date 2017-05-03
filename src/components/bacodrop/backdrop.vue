@@ -23,6 +23,8 @@
 
 <template>
     <div class="vue-pwa-backdrop"
+         @mousemove.prevent.stop
+         @touchstart.prevent.stop
          :class="[ active ? 'show' : 'fade' ]"
     ></div>
 </template>

@@ -193,15 +193,21 @@
                             </v-tab-item>
                             <v-tab-item :name="menu_1[2]"
                                         :clazz="'test-tab-item'">
-                                <button @click="showToast">测试 toast</button>
+                                <v-button :clazz="'test-btn-style info primary'"
+                                          @click="showToast"
+                                >测试 toast</v-button>
                             </v-tab-item>
                             <v-tab-item :name="menu_1[3]"
                                         :clazz="'test-tab-item'">
-                                <button @click="showLoading">测试 loading</button>
+                                <v-button :clazz="'test-btn-style info primary'"
+                                          @click="showLoading"
+                                >测试 loading</v-button>
                             </v-tab-item>
                             <v-tab-item :name="menu_1[4]"
                                         :clazz="'test-tab-item'">
-                                <button @click="showMessage">测试 message</button>
+                                <v-button :clazz="'test-btn-style info primary'"
+                                          @click="showMessage"
+                                >测试 message</v-button>
                             </v-tab-item>
                         </v-tab-content>
                     </v-tab-container>
@@ -221,9 +227,12 @@
                             </v-tab-item>
                             <v-tab-item :name="menu_2[1]"
                                         :clazz="'test-tab-item'">
-                                <button @click="showModal_1">测试 modal_1</button>
-                                <button @click="showModal_2">测试 modal_2</button>
-                                <button @click="showModal_3">测试 modal_3</button>
+                                <v-button :clazz="'test-btn-style info primary'"
+                                          @click="showModal_1">测试 modal_1</v-button>
+                                <v-button :clazz="'test-btn-style info primary'"
+                                          @click="showModal_2">测试 modal_2</v-button>
+                                <v-button :clazz="'test-btn-style info primary'"
+                                          @click="showModal_3">测试 modal_3</v-button>
                                 <v-modal ref="modal1" :title="'测试模态框'" :clazz="'test-style'">
                                     <div slot="content">
                                         <p>666</p>
