@@ -138,7 +138,7 @@
             },
 
             startDrag(evt) {
-                if (!this.swipeable) return;
+                if (!this.swipeable || document.body.classList.contains('popup')) return;
                 evt = evt.changedTouches ? evt.changedTouches[0] : evt;
                 this.dragging = true;
                 this.start.x = evt.pageX;
@@ -146,6 +146,7 @@
             },
 
             onDrag(evt) {
+                if (document.body.classList.contains('popup')) return;
                 if (!this.dragging) return;
                 let swiping;
                 let width = this.$refs.wrap.clientWidth;
@@ -169,6 +170,9 @@
                 // 右滑(page--) 且 滑动距离小于页面宽度
                 if (absOffset > len * width ||
                 (offset > 0 && offset < width)) {
+                    if (x > document.body.offsetWidth / 5) {
+                        this.$emit('opendraw', absOffset > len * width)
+                    }
                     this.swiping = false;
                     return;
                 }

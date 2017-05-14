@@ -105,6 +105,7 @@
 
 <template>
     <div class="vue-pwa-container"
+         @click="hide(false)"
          v-if="state"
          :class="{
                 'fadeIn': state === 1 || state === 2,

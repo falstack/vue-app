@@ -46,7 +46,7 @@
         }
     }
 
-    .vue-pwa-container {
+    .vue-pwa-popup-container {
         position: fixed;
         left: 0;
         top: 0;
@@ -140,7 +140,7 @@
 </style>
 
 <template>
-    <div class="vue-pwa-container"
+    <div class="vue-pwa-popup-container"
          v-if="state">
         <div class="vue-pwa-popup"
              :class="{
@@ -188,6 +188,8 @@
                 this.buttons = (opt && opt.buttons) ? opt.buttons : ['好']
 
                 this.state = 1
+                document.body.classList.add('popup')
+
                 window.$backdrop.show({
                     dom: this.$el.parentNode
                 })
@@ -208,6 +210,8 @@
                 window.$backdrop.hide(true)
                 setTimeout(() => {
                     this.state = 0
+                    document.body.classList.remove('popup')
+
                     this.$emit('modalSubmitEvent', {index: index})
                 }, 200)
             }

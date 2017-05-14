@@ -13,6 +13,7 @@ import Video from './video'
 import Range from './range'
 import Ripple from './ripple'
 import Button from './button'
+import Drawer from './drawer'
 
 const version = '0.1.4'
 const install = function(Vue) {
@@ -30,6 +31,7 @@ const install = function(Vue) {
     Vue.component(Range.name, Range)
     Vue.component(Ripple.name, Ripple)
     Vue.component(Button.name, Button)
+    Vue.component(Drawer.name, Drawer)
 }
 
 if (typeof window !== 'undefined' && window.Vue) {

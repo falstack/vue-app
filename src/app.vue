@@ -17,7 +17,7 @@
             padding: 0 15px;
         }
 
-        .test-style {
+        .test-modal {
             top: 20%;
         }
 
@@ -149,6 +149,9 @@
 
 <template>
     <div id="main">
+        <v-drawer ref="drawer">
+            test drawer
+        </v-drawer>
         <v-tab-container>
             <v-tab-content v-model="active" :swipeable="false">
                 <v-tab-item :name="menu[0]" :init="true">
@@ -158,7 +161,8 @@
                                     :menu="menu_1"
                                     :lineWidth="15">
                         </v-tab-menu>
-                        <v-tab-content v-model="active_1">
+                        <v-tab-content v-model="active_1"
+                                       @opendraw="testDraw">
                             <v-tab-item :name="menu_1[0]"
                                         :clazz="'test-tab-item'"
                                         :init="true">
@@ -233,7 +237,7 @@
                                           @click="showModal_2">测试 modal_2</v-button>
                                 <v-button :clazz="'test-btn-style info primary'"
                                           @click="showModal_3">测试 modal_3</v-button>
-                                <v-modal ref="modal1" :title="'测试模态框'" :clazz="'test-style'">
+                                <v-modal ref="modal1" :title="'测试模态框'" :clazz="'test-modal'">
                                     <div slot="content">
                                         <p>666</p>
                                         <p>666</p>
@@ -570,7 +574,7 @@ export default {
                 showIcon: true,
                 position: 2
             }).then(() => {
-
+                console.log('toast closed');
             })
         },
 
@@ -587,6 +591,12 @@ export default {
 
         testFunc () {
             console.log('123');
+        },
+
+        testDraw(arg) {
+            if ( ! arg) {
+                this.$refs.drawer.show()
+            }
         }
     }
 }
