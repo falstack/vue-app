@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss">
+<style lang="scss" rel="scss" scoped>
     .vue-pwa-container {
         position: fixed;
         left: 0;
@@ -163,6 +163,7 @@
         methods: {
             show () {
                 this.state = 1
+                document.body.classList.add('modal-up')
                 this.id = new Date().getTime() + Math.random().toString(36).substring(3, 6)
 
                 setTimeout(() => {
@@ -189,6 +190,7 @@
                 this.state = 3
                 setTimeout(() => {
                     this.state = 0
+                    document.body.classList.remove('modal-up')
 
                     submit ? this.$emit('modalOkEvent' + this.id) : this.$emit('modalCancelEvent' + this.id)
 

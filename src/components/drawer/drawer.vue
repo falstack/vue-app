@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss">
+<style lang="scss" rel="scss" scoped>
     .vue-pwa-drawer-container {
         position: fixed;
         left: 0;
@@ -21,7 +21,7 @@
         }
     }
 
-    $drawer-size: 30%;
+    $drawer-size: 70%;
 
     .vue-pwa-drawer {
         position: absolute;
@@ -91,7 +91,7 @@
 
     const show_drawer_animate_dur = 400
     const hide_drawer_animate_dur = 250
-    const drawer_size = 60
+    const drawer_size = 70
 
     export default {
         name: 'v-drawer',

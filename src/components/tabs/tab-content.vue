@@ -138,7 +138,9 @@
             },
 
             startDrag(evt) {
-                if (!this.swipeable || document.body.classList.contains('popup')) return;
+                if (!this.swipeable ||
+                    document.body.classList.contains('popup') ||
+                    document.body.classList.contains('modal-up')) return;
                 evt = evt.changedTouches ? evt.changedTouches[0] : evt;
                 this.dragging = true;
                 this.start.x = evt.pageX;
@@ -146,7 +148,8 @@
             },
 
             onDrag(evt) {
-                if (document.body.classList.contains('popup')) return;
+                if (document.body.classList.contains('popup') ||
+                    document.body.classList.contains('modal-up')) return;
                 if (!this.dragging) return;
                 let swiping;
                 let width = this.$refs.wrap.clientWidth;
