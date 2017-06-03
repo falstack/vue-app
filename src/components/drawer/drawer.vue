@@ -112,7 +112,6 @@
                 position: ['top', 'right', 'bottom', 'left'],
             }
         },
-
         methods: {
             show () {
                 if ( ! this.state) {

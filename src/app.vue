@@ -13,6 +13,19 @@
         height: 100%;
         min-height: 100%;
 
+        .tips {
+            color: #31708f;
+            background-color: #d9edf7;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #bce8f1;
+            border-radius: 4px;
+
+            b {
+                font-weight: 700;
+            }
+        }
+
         .test-tab-item {
             padding: 0 15px;
         }
@@ -144,11 +157,47 @@
                 padding: 0 12px;
             }
         }
+
+        .custom-header {
+            height: 50px;
+            background-color: RGB(65, 184, 131);
+            padding: 0 20px;
+            color: #fff;
+
+            box-sizing: border-box;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            >div {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .drawer {
+                background-image: url("../static/images/drawer.png");
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+                width: 24px;
+                height: 24px;
+                margin-right: 10px;
+            }
+        }
     }
 </style>
 
 <template>
     <div id="main">
+        <div class="custom-header">
+            <div>
+                <v-button class="drawer" @click="testDraw(false)"></v-button>
+                <span>Vue PWA</span>
+            </div>
+        </div>
         <v-drawer ref="drawer">
             test drawer
         </v-drawer>
