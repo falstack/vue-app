@@ -1,1 +1,1 @@
-export { default } from './modal.vue'
+export { default } from './modal.vue';

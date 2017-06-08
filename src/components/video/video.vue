@@ -349,7 +349,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     import Range from '../range/range.vue'
 

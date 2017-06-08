@@ -8,7 +8,7 @@
     <div class="quill-editor"></div>
 </template>
 
-<script lang="babel">
+<script>
   require('quill/dist/quill.snow.css')
   require('quill/dist/quill.bubble.css')
   require('quill/dist/quill.core.css')

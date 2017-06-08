@@ -64,7 +64,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     export default {
         name: 'v-toggle',

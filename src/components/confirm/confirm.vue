@@ -140,7 +140,7 @@
         <div class="vue-pwa-confirm vue-pwa-dialog"
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
-            <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
+            <p class="sub-title" v-if="content" v-text="content"></p>
             <div class="buttons">
                 <button v-text="okText" @click="ok"></button>
                 <button v-text="cancelText" @click="cancel"></button>
@@ -149,7 +149,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     const fadeInTime = 200
     const fadeOutTime = 300
@@ -160,7 +160,7 @@
         data () {
             return {
                 title: '',
-                subTitle: '',
+                content: '',
                 cancelText: '',
                 okText: '',
                 state: 0
@@ -174,7 +174,7 @@
                 window.$backdrop.show()
 
                 this.title = (opt && opt.title) ? opt.title : '提示'
-                this.subTitle = (opt && opt.subTitle) ? opt.subTitle : ''
+                this.content = (opt && opt.content) ? opt.content : ''
                 this.okText = (opt && opt.okText) ? opt.okText : '好'
                 this.cancelText = (opt && opt.cancelText) ? opt.cancelText : '取消'
 

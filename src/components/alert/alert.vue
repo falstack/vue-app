@@ -140,7 +140,7 @@
         <div class="vue-pwa-alert vue-pwa-dialog"
              :class="{'hidden' : state === 0, 'enter' : state === 1, 'show' : state === 2, 'leave' : state === 3}">
             <h3 class="title" v-text="title"></h3>
-            <p class="sub-title" v-if="subTitle" v-text="subTitle"></p>
+            <p class="sub-title" v-if="content" v-text="content"></p>
             <div class="buttons">
                 <button v-text="btnText" @click="submit"></button>
             </div>
@@ -148,63 +148,63 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
-    const fadeInTime = 200
-    const fadeOutTime = 300
+    const fadeInTime = 200;
+    const fadeOutTime = 300;
 
     export default {
-        name: 'v-alert',
+      name: 'v-alert',
 
-        data () {
-            return {
-                title: '',
-                subTitle: '',
-                btnText: '',
-                state: 0
-            }
+      data() {
+        return {
+          title: '',
+          content: '',
+          btnText: '',
+          state: 0
+        };
+      },
+
+      methods: {
+        show(opt) {
+
+          this.state = 1;
+          window.$backdrop.show();
+
+          this.title = (opt && opt.title) ? opt.title : '提示';
+          this.content = (opt && opt.content) ? opt.content : '';
+          this.btnText = (opt && opt.btnText) ? opt.btnText : '好';
+
+          setTimeout(() => {
+            this.state = 2;
+          }, fadeInTime);
+
+          return new window.Promise((resolve) => {
+            this.$on('alertSubmitEvent', () => {
+              this.hide();
+              resolve();
+            });
+          });
         },
 
-        methods: {
-            show (opt) {
+        hide() {
+          this.state = 3;
+          window.$backdrop.hide();
 
-                this.state = 1
-                window.$backdrop.show()
-
-                this.title = (opt && opt.title) ? opt.title : '提示'
-                this.subTitle = (opt && opt.subTitle) ? opt.subTitle : ''
-                this.btnText = (opt && opt.btnText) ? opt.btnText : '好'
-
-                setTimeout(() => {
-                    this.state = 2
-                }, fadeInTime)
-
-                return new Promise((resolve) => {
-                    this.$on('alertSubmitEvent', () => {
-                        this.hide()
-                        resolve()
-                    })
-                })
-            },
-
-            hide () {
-                this.state = 3
-                window.$backdrop.hide()
-
-                setTimeout(() => {
-                    this.$destroy()
-                }, fadeOutTime)
-            },
-
-            submit (evt) {
-                evt.currentTarget.setAttribute('disabled', 'disabled')
-                evt.stopPropagation()
-                this.$emit('alertSubmitEvent')
-            }
+          setTimeout(() => {
+            this.$destroy();
+          }, fadeOutTime);
         },
 
-        destroyed () {
-            this.$el.parentNode.removeChild(this.$el)
+        submit(evt) {
+          evt.currentTarget.setAttribute('disabled', 'disabled');
+          evt.stopPropagation();
+          this.$emit('alertSubmitEvent');
         }
-    }
+      },
+
+      destroyed() {
+        this.$el.parentNode.removeChild(this.$el);
+      }
+    };
 </script>

@@ -106,7 +106,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     function preventDefault (e) {
         e.preventDefault()

@@ -29,7 +29,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     const on = (function() {
         if (document.addEventListener) {

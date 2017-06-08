@@ -131,7 +131,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     const show_modal_animate_dur = 400
     const hide_modal_animate_dur = 250

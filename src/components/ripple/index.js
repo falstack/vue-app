@@ -1,1 +1,1 @@
-export { default } from './ripple.vue'
+export { default } from './ripple.vue';

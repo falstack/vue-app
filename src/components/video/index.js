@@ -1,1 +1,1 @@
-export { default } from './video.vue'
+export { default } from './video.vue';

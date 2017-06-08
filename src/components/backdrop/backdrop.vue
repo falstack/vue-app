@@ -29,35 +29,35 @@
     ></div>
 </template>
 
-<script lang="babel">
+<script>
 
     const prevent = (e) => {
-        e.preventDefault()
-    }
+      e.preventDefault();
+    };
 
     export default {
-        name: 'v-backdrop',
+      name: 'v-backdrop',
 
-        data () {
-            return {
-                active: false
-            }
+      data() {
+        return {
+          active: false
+        };
+      },
+
+      methods: {
+        show() {
+          this.active = true;
+          document.body.addEventListener('touchmove', prevent);
         },
 
-        methods: {
-            show () {
-                this.active = true
-                document.body.addEventListener('touchmove', prevent)
-            },
-
-            hide () {
-                this.active = false
-                document.body.removeEventListener('touchmove', prevent)
-            }
-        },
-
-        destroyed () {
-            this.$el.parentNode.removeChild(this.$el)
+        hide() {
+          this.active = false;
+          document.body.removeEventListener('touchmove', prevent);
         }
-    }
+      },
+
+      destroyed() {
+        this.$el.parentNode.removeChild(this.$el);
+      }
+    };
 </script>

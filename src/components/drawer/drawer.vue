@@ -87,7 +87,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     const show_drawer_animate_dur = 400
     const hide_drawer_animate_dur = 250

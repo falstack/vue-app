@@ -1,1 +1,1 @@
-export { default } from './popup.vue'
+export { default } from './popup.vue';

@@ -40,7 +40,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     import draggable from '../../utils/draggable';
 

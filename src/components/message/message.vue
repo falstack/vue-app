@@ -121,7 +121,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     const fadeOutTime = 200
 
@@ -156,7 +156,7 @@
                     auto: !!opts.auto,
                     clear: !!opts.clear,
                     theme: opts.theme || 'info'
-                })
+                });
 
                 if (auto) {
                     setTimeout(() => {

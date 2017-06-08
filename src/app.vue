@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss">
+<style lang="scss">
     @import "./style";
 
     html, body {
@@ -188,6 +188,21 @@
             }
         }
     }
+
+    .info {
+        color: #31708f;
+        background-color: #d9edf7;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #bce8f1;
+        border-radius: 4px;
+        text-indent: 2em;
+        font-size: 13px;
+
+        b, strong {
+            font-weight: 700;
+        }
+    }
 </style>
 
 <template>
@@ -218,6 +233,9 @@
                                 <v-button :clazz="'test-btn-style info primary'"
                                           @click="testFunc"
                                 >A vue project.</v-button>
+                                <div class="info">
+                                    一个 <b>Vue.js</b> 的项目
+                                </div>
                             </v-tab-item>
                             <v-tab-item :name="menu_1[1]"
                                         :clazz="'test-tab-item'">
@@ -457,196 +475,197 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
 export default {
 
-    name: 'app',
+  name: 'app',
 
-    data () {
-        return {
-            msg : 'test',
-            toggle_1: false,
-            toggle_2: false,
-            toggle_3: false,
-            content: [
-                'You know what I\'d like to be?',
-                'I thought what I\'d do was,I\'d pretend I was one of those deaf-mutes',
-                'did you miss me?',
-                'Valar Morghulis, Valar Dohaeris',
-                'perfect is shit'
-            ],
-            theme: ['success', 'warning', 'error', 'info'],
-            active: 'intro',
-            active_1: 'intro',
-            active_2: 'tabs',
-            active_3: '直播',
-            active_4: 'video',
-            menu: ['intro', 'layouts', 'tools', 'others'],
-            menu_1: ['intro', 'popup', 'toast', 'loading', 'message'],
-            menu_2: ['tabs', 'modal', 'waterfall', 'swiper', 'header', 'drawer', 'search', 'menu'],
-            menu_3: ['直播', '番剧', '动画', '国创', '音乐', '舞蹈', '游戏', '科技', '生活', '鬼畜', '时尚', '广告', '娱乐', '电影', '电视剧', '游戏中心'],
-            menu_4: ['video', 'music', 'ripple'],
-            list: 100,
-            page: 1,
-            take: 10,
-            total: 500,
-            source : [
-                {
-                    src: 'http://static2.ivwen.com/official/resource/meipian.mp4?',
-                    type: 'video/mp4'
-                },
-                {
-                    src: 'http://static2.ivwen.com/official/resource/meipian.webm?',
-                    type: 'video/webm;codecs="vp8, vorbis"'
-                }
-            ],
-            range: 100,
-            from: 0
+  data() {
+    return {
+      msg: 'test',
+      toggle_1: false,
+      toggle_2: false,
+      toggle_3: false,
+      content: [
+        'You know what I\'d like to be?',
+        'I thought what I\'d do was,I\'d pretend I was one of those deaf-mutes',
+        'did you miss me?',
+        'Valar Morghulis, Valar Dohaeris',
+        'perfect is shit'
+      ],
+      theme: ['success', 'warning', 'error', 'info'],
+      active: 'intro',
+      active_1: 'intro',
+      active_2: 'tabs',
+      active_3: '直播',
+      active_4: 'video',
+      menu: ['intro', 'layouts', 'tools', 'others'],
+      menu_1: ['intro', 'popup', 'toast', 'loading', 'message'],
+      menu_2: ['tabs', 'modal', 'waterfall', 'swiper', 'header', 'drawer', 'search', 'menu'],
+      menu_3: ['直播', '番剧', '动画', '国创', '音乐', '舞蹈', '游戏', '科技', '生活', '鬼畜', '时尚', '广告', '娱乐', '电影', '电视剧', '游戏中心'],
+      menu_4: ['video', 'music', 'ripple'],
+      list: 100,
+      page: 1,
+      take: 10,
+      total: 500,
+      source: [
+        {
+          src: 'http://static2.ivwen.com/official/resource/meipian.mp4?',
+          type: 'video/mp4'
+        },
+        {
+          src: 'http://static2.ivwen.com/official/resource/meipian.webm?',
+          type: 'video/webm;codecs="vp8, vorbis"'
         }
+      ],
+      range: 100,
+      from: 0
+    };
+  },
+
+  created() {
+    this.getList(this.take);
+  },
+
+  methods: {
+
+    getList(take) {
+      if (this.list >= this.total) return;
+      this.list += take;
     },
 
-    created () {
-        this.getList(this.take)
+    showAlert() {
+      window.$alert.show({
+        content: '哈哈啊哈1'
+      }).then(() => {
+        console.log('alert submit');
+      });
+
+      window.$alert.show({
+        content: '哈哈啊哈2'
+      }).then(() => {
+        console.log('alert submit');
+      });
+
+      window.$alert.show({
+        content: '哈哈啊哈3'
+      }).then(() => {
+        console.log('alert submit');
+      });
     },
 
-    methods: {
+    showConfirm() {
+      window.$confirm.show({
+        content: '测试哈哈'
+      }).then(() => {
+        console.log('confirm ok');
+      }).catch(() => {
+        console.log('confirm cancel');
+      });
+    },
 
-        getList (take) {
-            if (this.list >= this.total) return
-            this.list += take
-        },
+    showPopup_1() {
+      this.$refs.popup1.show({
+        content: '...',
+        buttons: ['按钮一', '按钮二']
+      }).then((index) => {
+        console.log('modal result index : ' + index);
+      });
+    },
 
-        showAlert () {
-            $alert.show({
-                subTitle: '哈哈啊哈1'
-            }).then(() => {
-                console.log('alert submit')
-            })
+    showPopup_2() {
+      this.$refs.popup2.show({
+        buttons: ['按钮四', '按钮五', '按钮六']
+      }).then((index) => {
+        console.log('modal result index : ' + index);
+      });
+    },
 
-            $alert.show({
-                subTitle: '哈哈啊哈2'
-            }).then(() => {
-                console.log('alert submit')
-            })
+    showModal_1() {
+      this.$refs.modal1.show().then(() => {
+        console.log('modal1 result ok');
+      }).catch(() => {
+        console.log('modal1 result cancel');
+      });
+    },
 
-            $alert.show({
-                subTitle: '哈哈啊哈3'
-            }).then(() => {
-                console.log('alert submit')
-            })
-        },
+    showModal_2() {
+      this.from = this.random([0, 1, 2, 3]);
+      this.$refs.modal2.show().then(() => {
+        console.log('modal2 result ok');
+      }).catch(() => {
+        console.log('modal2 result cancel');
+      });
+    },
 
-        showConfirm () {
-            $confirm.show({
-                subTitle: '测试哈哈'
-            }).then(() => {
-                console.log('confirm ok')
-            }).catch(() => {
-                console.log('confirm cancel')
-            })
-        },
+    showModal_3() {
+      this.$refs.modal3.show().then(() => {
+        console.log('modal3 result ok');
+      }).catch(() => {
+        console.log('modal3 result cancel');
+      });
+    },
 
-        showPopup_1 () {
-            this.$refs.popup1.show({
-                buttons: ['按钮一', '按钮二']
-            }).then((index) => {
-                console.log('modal result index : ' + index)
-            })
-        },
+    showMessage() {
+      let content = this.random(this.content);
+      let auto = this.random([true, false]);
 
-        showPopup_2 () {
-            this.$refs.popup2.show({
-                buttons: ['按钮四', '按钮五', '按钮六']
-            }).then((index) => {
-                console.log('modal result index : ' + index)
-            })
-        },
+      if (auto) {
+        window.$message.show({
+          icon: this.random([true, false]),
+          content: content,
+          theme: this.random(this.theme),
+          auto: auto
+        });
+      } else {
+        window.$message.show({
+          icon: this.random([true, false]),
+          content: content,
+          theme: this.random(this.theme),
+          auto: auto
+        }).then(() => {
+          console.log('message close : ' + content);
+        });
+      }
+    },
 
-        showModal_1 () {
-            this.$refs.modal1.show().then(() => {
-                console.log('modal1 result ok');
-            }).catch(() => {
-                console.log('modal1 result cancel');
-            })
-        },
+    random(array) {
+      let n = Math.floor(Math.random() * array.length + 1) - 1;
+      return array[n];
+    },
 
-        showModal_2 () {
-            this.from = this.random([0, 1, 2, 3]);
-            this.$refs.modal2.show().then(() => {
-                console.log('modal2 result ok');
-            }).catch(() => {
-                console.log('modal2 result cancel');
-            })
-        },
+    showToast() {
+      window.$toast.show({
+        tips: 'this is a toast',
+        icon: 'http://cn.vuejs.org/images/logo.png',
+        showIcon: true,
+        position: 2
+      }).then(() => {
+        console.log('toast closed');
+      });
+    },
 
-        showModal_3 () {
-            this.$refs.modal3.show().then(() => {
-                console.log('modal3 result ok');
-            }).catch(() => {
-                console.log('modal3 result cancel');
-            })
-        },
+    showLoading() {
+      window.$loading.show({
+        tips: 'this is a loading',
+        position: 0
+      });
 
-        showMessage () {
-            let content = this.random(this.content)
-            let auto = this.random([true, false])
+      setTimeout(() => {
+        window.$loading.hide();
+      }, 3000);
+    },
 
-            if (auto) {
-                $message.show({
-                    icon : this.random([true, false]),
-                    content : content,
-                    theme : this.random(this.theme),
-                    auto : auto
-                })
-            } else {
-                $message.show({
-                    icon : this.random([true, false]),
-                    content : content,
-                    theme : this.random(this.theme),
-                    auto : auto
-                }).then(() => {
-                    console.log('message close : ' + content);
-                })
-            }
-        },
+    testFunc() {
+      console.log('123');
+    },
 
-        random (array) {
-            let n = Math.floor(Math.random() * array.length + 1) - 1;
-            return array[n]
-        },
-
-        showToast () {
-            $toast.show({
-                tips: 'this is a toast',
-                icon: 'http://cn.vuejs.org/images/logo.png',
-                showIcon: true,
-                position: 2
-            }).then(() => {
-                console.log('toast closed');
-            })
-        },
-
-        showLoading () {
-            $loading.show({
-                tips: 'this is a loading',
-                position: 0
-            });
-
-            setTimeout(() => {
-                $loading.hide()
-            }, 3000)
-        },
-
-        testFunc () {
-            console.log('123');
-        },
-
-        testDraw(arg) {
-            if ( ! arg) {
-                this.$refs.drawer.show()
-            }
-        }
+    testDraw(arg) {
+      if (!arg) {
+        this.$refs.drawer.show();
+      }
     }
-}
+  }
+};
 </script>

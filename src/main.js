@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './app.vue';
-import 'normalize.css'
-import { install as VueApp } from './components/index'
+import 'normalize.css';
+import { install as VueApp } from './components/index';
 
 Vue.use(VueApp);
 

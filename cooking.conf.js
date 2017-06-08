@@ -23,12 +23,17 @@ cooking.set({
   postcss: [
     require('autoprefixer')({
       browsers: [
-        'ie >= 9',
-        'ff >= 45',
-        'chrome >= 56',
-        'safari >= 8',
-        'ios >= 8.4',
-        'android >= 4.4'
+        'last 3 versions',
+        'ie >= 10',
+        'ie_mob >= 10',
+        'ff >= 30',
+        'chrome >= 34',
+        'safari >= 6',
+        'opera >= 12.1',
+        'ios >= 6',
+        'android >= 4.4',
+        'bb >= 10',
+        'and_uc 9.9'
       ]
     })
   ],

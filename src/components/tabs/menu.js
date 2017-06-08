@@ -1,1 +1,1 @@
-export { default } from './tab-menu.vue'
+export { default } from './tab-menu.vue';

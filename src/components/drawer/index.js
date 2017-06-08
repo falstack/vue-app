@@ -1,1 +1,1 @@
-export { default } from './drawer.vue'
+export { default } from './drawer.vue';

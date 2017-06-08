@@ -149,8 +149,8 @@
             }">
             <h3 class="title" v-text="title"></h3>
             <p class="sub-title"
-               v-if="subTitle"
-               v-text="subTitle"></p>
+               v-if="content"
+               v-text="content"></p>
             <div class="content">
                 <slot></slot>
             </div>
@@ -165,7 +165,7 @@
     </div>
 </template>
 
-<script lang="babel">
+<script>
 
     export default {
         name: 'v-popup',
@@ -173,7 +173,7 @@
         data () {
             return {
                 title: '',
-                subTitle: '',
+                content: '',
                 buttons: [],
                 state: 0
             }
@@ -184,7 +184,7 @@
             show (opt) {
 
                 this.title = (opt && opt.title) ? opt.title : '提示'
-                this.subTitle = (opt && opt.subTitle) ? opt.subTitle : ''
+                this.content = (opt && opt.content) ? opt.content : ''
                 this.buttons = (opt && opt.buttons) ? opt.buttons : ['好']
 
                 this.state = 1
