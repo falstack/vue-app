@@ -170,29 +170,30 @@ vertical | 垂直状态 | false
 <v-button :clazz="'test-btn-style info primary'"
           @click="showLoading">button</v-button>
 ```
-参数 | 描述 | 默认值
-----|------|----
-v-model | 数据双向绑定 | 
-min | 最小刻度 | 0 
-max | 最大刻度 | 100 
-step | 步长 | 0 （-infinity）
-disabled | 处于禁用状态 | false
-loading | 可选的最大刻度 | 0（infinity）
-barsize | range 的宽 | 6（px）
-tailsize | range 按钮的直径 | 14（px）
-vertical | 垂直状态 | false
 
 ### ripple
+```html
+<v-ripple>
+    <div> any dom </div>
+</v-ripple>
+```
 
 ### drawer
+```html
+<v-drawer ref="drawer">
+    this is drawer
+</v-drawer>
+```
+
+```javascript
+this.$refs.drawer.show();
+```
+
+## 运行
 
 ```shell
 npm i cooking-cli -g
 npm run dev
-```
-
-## 服务
-```
 npm run dist
 ```
 

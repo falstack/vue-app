@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss">
+<style lang="scss">
     @font-face {font-family: "iconfont-video";
         src: url('./fonts/iconfont.eot?t=1491818377252');
         src: url('./fonts/iconfont.eot?t=1491818377252#iefix') format('embedded-opentype'),
@@ -351,500 +351,500 @@
 
 <script>
 
-    import Range from '../range/range.vue'
+    import Range from '../range/range.vue';
 
-    let addEvent = (function () {
-        if (document.addEventListener) {
-            return function(el, type, fn){
-                if (el.length) {
-                    for(var i=0; i<el.length; i++) {
-                        addEvent(el[i], type, fn);
-                    }
-                } else {
-                    el.addEventListener(type, fn, false);
-                }
-            };
-        } else {
-            return function(el, type, fn) {
-                if (el.length) {
-                    for(var i=0; i<el.length; i++) {
-                        addEvent(el[i], type, fn);
-                    }
-                } else {
-                    el.attachEvent('on' + type, function(){
-                        return fn.call(el, window.event);
-                    });
-                }
-            };
-        }
+    let addEvent = (function() {
+      if (document.addEventListener) {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0; i < el.length; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.addEventListener(type, fn, false);
+          }
+        };
+      } else {
+        return function(el, type, fn) {
+          if (el.length) {
+            for (var i = 0; i < el.length; i++) {
+              addEvent(el[i], type, fn);
+            }
+          } else {
+            el.attachEvent('on' + type, function() {
+              return fn.call(el, window.event);
+            });
+          }
+        };
+      }
     })();
 
     export default {
-        name: 'v-video',
+      name: 'v-video',
 
-        components: {
-            vRange: Range
+      components: {
+        vRange: Range
+      },
+
+      props: {
+        source: {
+          default: null,
+          required: true
         },
-
-        props: {
-            source : {
-                default : null,
-                required : true
-            },
-            sourceissrc: {
-                type: Boolean,
-                default: false
-            },
-            clazz: {
-                type: String
-            },
-            poster: {
-                type: String
-            },
-            auto: {
-                type: Boolean,
-                default: false
-            },
-            keyboard: {
-                type: Boolean,
-                default: true
-            },
-            cover: {
-                type: Boolean,
-                default: false
-            },
-            loading: {
-                type: String
-            },
-            screenclick: {
-                type: Boolean,
-                default: true
-            },
-            showvioce: {
-                type: Boolean,
-                default: true
-            },
-            debug: {
-                type: Boolean,
-                default: false
-            }
+        sourceissrc: {
+          type: Boolean,
+          default: false
         },
-
-        computed: {
-            fullScreenStyle () {
-                if (this.state.isFull) {
-                    return {
-                        'z-index' : 2147483649
-                    }
-                }
-            }
+        clazz: {
+          type: String
         },
-
-        data () {
-            return {
-                video: null,
-                state: {
-                    playing: false,
-                    isMuted: false,
-                    isFull: false,
-                    showTool: true,
-                    waiting: true,
-                    firstPlay: true,
-                    init: true,
-                    ended: false,
-                    seeking: false,
-                    error: false
-                },
-                value: {
-                    duration: 0,
-                    loading: 0,
-                    playing: 0,
-                    curTime: '00:00',
-                    allTime: '00:00',
-                    voiceTemp: 0,
-                    voice: 60,
-                    timer: null
-                },
-                touchable: true,
-                hiddenToolBar: false,
-                logs: []
-            }
+        poster: {
+          type: String
         },
-
-        created () {
-            this.hiddenToolBar = window.navigator.userAgent.match(/iPhone|iPad|MicroMessenger/) !== null;
-            this.touchable = 'ontouchstart' in window;
-            if (this.auto) {
-                this.state.playing = true;
-                this.state.firstPlay = false
-            }
+        auto: {
+          type: Boolean,
+          default: false
         },
-
-        methods: {
-            handlePlay (bool = false) {
-                if (this.state.waiting || (this.state.isFull && this.touchable && bool)) return;
-
-                if (this.video.paused) {
-                    this.video.play();
-                    this.state.playing = true
-                } else {
-                    this.video.pause();
-                    this.state.playing = false
-                }
-            },
-
-            volume (val) {
-                this.video.muted = val ? false : true;
-                this.value.voice = val;
-                this.video.volume = val / 100;
-            },
-
-            handleMuted () {
-                if (this.touchable) return;
-
-                if (this.state.isMuted) {
-                    this.video.muted = false;
-                    this.value.voice = this.value.voiceTemp;
-                    this.video.volume = this.value.voice / 100;
-                    this.state.isMuted = false;
-                } else {
-                    this.video.muted = true;
-                    this.value.voiceTemp = this.value.voice;
-                    this.value.voice = 0;
-                    this.state.isMuted = true;
-                }
-            },
-
-            handleSeek (val) {
-                this.video.currentTime = val;
-                if (this.video.paused) {
-                    this.handlePlay(false)
-                }
-            },
-
-            tool () {
-                if (this.state.isFull) {
-                    this.state.showTool = true;
-                    this.value.timer = setTimeout(() => {
-                        if (this.state.isFull) {
-                            this.state.showTool = false
-                        }
-                        clearTimeout(this.value.timer);
-                    }, 5000)
-                }
-            },
-
-            screen () {
-                if(this.checkIsFullScreen()) {
-                    this.exitFullScreen();
-                } else {
-                    this.launchFullScreen(this.$refs.mask);
-                }
-            },
-
-            screenToggle() {
-                this.state.isFull = this.checkIsFullScreen() === true;
-                this.state.showTool = true;
-                this.$refs.box.style.width = "100%";
-                this.$refs.box.style.height = "100%";
-                this.$refs.mask.style.width = "100%";
-                if (this.state.isFull) {
-                    this.value.timer = setTimeout(() => {
-                        if (this.state.isFull) {
-                            this.state.showTool = false
-                        }
-                        clearTimeout(this.value.timer);
-                    }, 5000)
-                } else {
-                    clearTimeout(this.value.timer);
-                    this.state.showTool = true;
-                }
-            },
-
-            exitFullScreen() {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen()
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen()
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen()
-                } else if (document.oRequestFullscreen) {
-                    document.oCancelFullScreen()
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen()
-                } else {
-                    document.IsFullScreen = false
-                }
-            },
-
-            launchFullScreen(e) {
-                if (e.requestFullscreen) {
-                    e.requestFullscreen()
-                } else if (e.mozRequestFullScreen) {
-                    e.mozRequestFullScreen()
-                } else if (e.msRequestFullscreen) {
-                    e.msRequestFullscreen()
-                } else if (e.oRequestFullscreen) {
-                    e.oRequestFullscreen()
-                } else if (e.webkitRequestFullscreen) {
-                    e.webkitRequestFullScreen()
-                } else {
-                    document.IsFullScreen = true
-                }
-            },
-
-            checkIsFullScreen () {
-                return this.invokeFieldOrMethod(document,'FullScreen') || this.invokeFieldOrMethod(document,'IsFullScreen') || document.IsFullScreen
-            },
-
-            invokeFieldOrMethod (ele, method) {
-                let usablePrefixMethod;
-
-                ['webkit', 'moz', 'ms', 'o', ''].forEach(function(prefix) {
-                    if (usablePrefixMethod) return;
-                    if (prefix === '') {
-                        method = method.slice(0,1).toLowerCase() + method.slice(1)
-                    }
-                    let typePrefixMethod = typeof ele[prefix + method];
-                    if (typePrefixMethod + '' !== 'undefined') {
-                        if (typePrefixMethod === 'function') {
-                            usablePrefixMethod = ele[prefix + method]()
-                        } else {
-                            usablePrefixMethod = ele[prefix + method]
-                        }
-                    }
-                });
-
-                return usablePrefixMethod;
-            },
-
-            formatSeconds (second) {
-                let h = 0,
-                        m = 0,
-                        s = 0;
-                if (second > 60) {
-                    m = parseInt(second / 60);
-                    s = (second % 60).toFixed(0);
-                    if (m > 60) {
-                        h = parseInt(m / 60);
-                        m = parseInt(m % 60)
-                    }
-                } else {
-                    s = parseInt(second)
-                }
-                s = s < 10 ? '0' + s : s;
-                m = m < 10 ? '0' + m : m;
-                return [h, m, s]
-            },
-
-            debugLog(log) {
-                if (this.debug) {
-                    console.log(log);
-                    console.log(this.state);
-                    this.logs.push(log + JSON.stringify(this.state))
-                }
-            }
+        keyboard: {
+          type: Boolean,
+          default: true
         },
-        mounted () {
-            let self = this;
-            self.video = self.$refs.video;
-            let video = self.$refs.video;
-            video.volume = self.value.voice / 100;
-            video.controls = self.hiddenToolBar;
-
-            addEvent(video, 'abort', function () {
-                self.debugLog('abort : 音频/视频的加载已放弃时 | 在退出时运行')
-            });
-
-            addEvent(video, 'canplaythrough', function () {
-                self.debugLog('canplaythrough : 媒体可以在保持当前的下载速度的情况下不被中断地播放完毕');
-                self.state.waiting = false;
-                if (self.state.firstPlay) {
-                    self.state.init = false
-                } else {
-                    if (this.paused) {
-                        self.handlePlay(false)
-                    }
-                }
-            });
-
-            addEvent(video, 'emptied', function () {
-                self.debugLog('emptied : 目前的播放列表为空时 | 发生故障并且文件突然不可用时运');
-            });
-
-            addEvent(video, 'error', function () {
-                self.debugLog('error : 在发生错误时触发');
-                self.state.error = true;
-            });
-
-            addEvent(video, 'loadeddata', function () {
-                self.debugLog('loadeddata : 媒体的第一帧已经加载完毕');
-            });
-
-            addEvent(video, 'loadedmetadata', function () {
-                self.debugLog('loadedmetadata : 媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息');
-                if (self.state.firstPlay && self.hiddenToolBar) {
-                    self.state.init = false;
-                    self.state.waiting = false
-                }
-                let duration = this.duration;
-                let timeArr = self.formatSeconds(duration);
-                self.value.duration = duration;
-                self.value.allTime = timeArr[1] + ':' + timeArr[2]
-            });
-
-            addEvent(video, 'loadstart', function () {
-                self.debugLog('loadstart : 媒体开始加载');
-            });
-
-            addEvent(video, 'mozaudioavailable', function () {
-                self.debugLog('mozaudioavailable');
-            });
-
-            addEvent(video, 'play', function () {
-                self.debugLog('play : 在媒体回放被暂停后再次开始时触发');
-                self.state.ended = false
-            });
-
-            addEvent(video, 'pause', function () {
-                self.debugLog('pause : 播放暂停时触发');
-                if ( ! this.seeking) {
-                    self.state.playing = false;
-                }
-                if (self.state.firstPlay) {
-                    this.play()
-                }
-            });
-
-            addEvent(video, 'playing', function () {
-                self.debugLog('playing : 在媒体开始播放时触发');
-                self.state.firstPlay = false;
-                self.state.playing = true;
-            });
-
-            addEvent(video, 'ratechange', function () {
-                self.debugLog('ratechange : 在回放速率变化时触发');
-            });
-
-            addEvent(video, 'seeked', function () {
-                self.debugLog('seeked : 在跳跃操作完成时触发');
-                self.state.seeking = false;
-                if (this.paused && ! self.state.ended) {
-                    setTimeout(() => {
-                        if ( ! self.state.seeking) {
-                            this.play()
-                        }
-                    }, 400)
-                }
-            });
-
-            addEvent(video, 'seeking', function () {
-                self.debugLog('seeking : 在跳跃操作开始时触发');
-                self.state.seeking = true;
-                if ( ! this.paused && ! self.state.ended && ! self.state.firstPlay) {
-                    setTimeout(() => {
-                        if (self.state.seeking) {
-                            this.pause()
-                        }
-                    }, 400)
-                }
-            });
-
-            addEvent(video, 'stalled', function () {
-                self.debugLog('stalled : 浏览器尝试获取媒体数据，但数据不可用时 | 浏览器不论何种原因未能取回媒介数据');
-            });
-
-            addEvent(video, 'suspend', function () {
-                self.debugLog('suspend : 在媒体资源加载终止时触发，这可能是因为下载已完成或因为其他原因暂停');
-            });
-
-            addEvent(video, 'volumechange', function () {
-                self.debugLog('volumechange : 在音频音量改变时触发');
-            });
-
-            addEvent(video, 'canplay', function () {
-                self.debugLog('canplay : 缓冲已足够开始时');
-            });
-
-            addEvent(video, 'durationchange', function () {
-                self.debugLog('durationchange : 视频/音频（audio/video）的时长发生变化');
-                let duration = this.duration;
-                let timeArr = self.formatSeconds(duration);
-                self.value.duration = duration;
-                self.value.allTime = timeArr[1] + ':' + timeArr[2]
-            });
-
-            addEvent(video, 'waiting', function () {
-                self.debugLog('waiting : 在一个待执行的操作（如回放）因等待另一个操作（如跳跃或下载）被延迟时触发');
-                self.state.waiting = true
-            });
-
-            addEvent(video, 'timeupdate', function () {
-                self.debugLog('timeupdate : 元素的currentTime属性表示的时间已经改变');
-                let current = this.currentTime;
-                let timeArr = self.formatSeconds(current);
-                self.value.playing = current;
-                self.value.curTime = timeArr[1] + ':' + timeArr[2]
-            });
-
-            addEvent(video, 'progress', function () {
-                self.debugLog('progress : 正在下载视频');
-                let bf = this.buffered;
-                if (this.duration > 0) {
-                    self.value.loading = bf.end(bf.length - 1)
-                }
-            });
-
-            addEvent(video, 'ended', function () {
-                self.debugLog("ended : 播放完毕");
-                self.value.playing = 0;
-                self.state.playing = false;
-                self.state.ended = true;
-                if ( ! this.paused) {
-                    this.pause()
-                }
-            });
-
-            addEvent(document, 'keydown', function (e) {
-                if (e.keyCode == 32) {
-                    if (self.keyboard || self.checkIsFullScreen()) {
-                        e.preventDefault();
-                        self.handlePlay(true)
-                    }
-                } else if (e.keyCode == 40) {
-                    if (self.checkIsFullScreen()) {
-                        let down = self.value.voice - 10;
-                        video.volume = down >= 0 ? down / 100 : 0;
-                        self.value.voice = down >= 0 ? down : 0
-                    }
-                } else if (e.keyCode == 38) {
-                    if (self.checkIsFullScreen()) {
-                        let up = self.value.voice + 10;
-                        video.volume = up >= 100 ? 1 : up / 100;
-                        self.value.voice = up >= 100 ? 100 : up
-                    }
-                } else if (e.keyCode == 39) {
-                    video.currentTime += 5
-                } else if (e.keyCode == 37) {
-                    video.currentTime -= 5
-                }
-            });
-
-            addEvent(document, 'fullscreenchange', function () {
-                self.screenToggle()
-            });
-
-            addEvent(document, 'mozfullscreenchange', function () {
-                self.screenToggle()
-            });
-
-            addEvent(document, 'webkitfullscreenchange', function () {
-                self.screenToggle()
-            });
-
-            addEvent(document, 'msfullscreenchange', function () {
-                self.screenToggle()
-            })
+        cover: {
+          type: Boolean,
+          default: false
+        },
+        loading: {
+          type: String
+        },
+        screenclick: {
+          type: Boolean,
+          default: true
+        },
+        showvioce: {
+          type: Boolean,
+          default: true
+        },
+        debug: {
+          type: Boolean,
+          default: false
         }
-    }
+      },
+
+      computed: {
+        fullScreenStyle() {
+          if (this.state.isFull) {
+            return {
+              'z-index': 2147483649
+            };
+          }
+        }
+      },
+
+      data() {
+        return {
+          video: null,
+          state: {
+            playing: false,
+            isMuted: false,
+            isFull: false,
+            showTool: true,
+            waiting: true,
+            firstPlay: true,
+            init: true,
+            ended: false,
+            seeking: false,
+            error: false
+          },
+          value: {
+            duration: 0,
+            loading: 0,
+            playing: 0,
+            curTime: '00:00',
+            allTime: '00:00',
+            voiceTemp: 0,
+            voice: 60,
+            timer: null
+          },
+          touchable: true,
+          hiddenToolBar: false,
+          logs: []
+        };
+      },
+
+      created() {
+        this.hiddenToolBar = window.navigator.userAgent.match(/iPhone|iPad|MicroMessenger/) !== null;
+        this.touchable = 'ontouchstart' in window;
+        if (this.auto) {
+          this.state.playing = true;
+          this.state.firstPlay = false;
+        }
+      },
+
+      methods: {
+        handlePlay(bool = false) {
+          if (this.state.waiting || (this.state.isFull && this.touchable && bool)) return;
+
+          if (this.video.paused) {
+            this.video.play();
+            this.state.playing = true;
+          } else {
+            this.video.pause();
+            this.state.playing = false;
+          }
+        },
+
+        volume(val) {
+          this.video.muted = !val;
+          this.value.voice = val;
+          this.video.volume = val / 100;
+        },
+
+        handleMuted() {
+          if (this.touchable) return;
+
+          if (this.state.isMuted) {
+            this.video.muted = false;
+            this.value.voice = this.value.voiceTemp;
+            this.video.volume = this.value.voice / 100;
+            this.state.isMuted = false;
+          } else {
+            this.video.muted = true;
+            this.value.voiceTemp = this.value.voice;
+            this.value.voice = 0;
+            this.state.isMuted = true;
+          }
+        },
+
+        handleSeek(val) {
+          this.video.currentTime = val;
+          if (this.video.paused) {
+            this.handlePlay(false);
+          }
+        },
+
+        tool() {
+          if (this.state.isFull) {
+            this.state.showTool = true;
+            this.value.timer = setTimeout(() => {
+              if (this.state.isFull) {
+                this.state.showTool = false;
+              }
+              clearTimeout(this.value.timer);
+            }, 5000);
+          }
+        },
+
+        screen() {
+          if (this.checkIsFullScreen()) {
+            this.exitFullScreen();
+          } else {
+            this.launchFullScreen(this.$refs.mask);
+          }
+        },
+
+        screenToggle() {
+          this.state.isFull = this.checkIsFullScreen() === true;
+          this.state.showTool = true;
+          this.$refs.box.style.width = '100%';
+          this.$refs.box.style.height = '100%';
+          this.$refs.mask.style.width = '100%';
+          if (this.state.isFull) {
+            this.value.timer = setTimeout(() => {
+              if (this.state.isFull) {
+                this.state.showTool = false;
+              }
+              clearTimeout(this.value.timer);
+            }, 5000);
+          } else {
+            clearTimeout(this.value.timer);
+            this.state.showTool = true;
+          }
+        },
+
+        exitFullScreen() {
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.oRequestFullscreen) {
+            document.oCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          } else {
+            document.IsFullScreen = false;
+          }
+        },
+
+        launchFullScreen(e) {
+          if (e.requestFullscreen) {
+            e.requestFullscreen();
+          } else if (e.mozRequestFullScreen) {
+            e.mozRequestFullScreen();
+          } else if (e.msRequestFullscreen) {
+            e.msRequestFullscreen();
+          } else if (e.oRequestFullscreen) {
+            e.oRequestFullscreen();
+          } else if (e.webkitRequestFullscreen) {
+            e.webkitRequestFullScreen();
+          } else {
+            document.IsFullScreen = true;
+          }
+        },
+
+        checkIsFullScreen() {
+          return this.invokeFieldOrMethod(document, 'FullScreen') || this.invokeFieldOrMethod(document, 'IsFullScreen') || document.IsFullScreen;
+        },
+
+        invokeFieldOrMethod(ele, method) {
+          let usablePrefixMethod;
+
+          ['webkit', 'moz', 'ms', 'o', ''].forEach(function(prefix) {
+            if (usablePrefixMethod) return;
+            if (prefix === '') {
+              method = method.slice(0, 1).toLowerCase() + method.slice(1);
+            }
+            let typePrefixMethod = typeof ele[prefix + method];
+            if (typePrefixMethod + '' !== 'undefined') {
+              if (typePrefixMethod === 'function') {
+                usablePrefixMethod = ele[prefix + method]();
+              } else {
+                usablePrefixMethod = ele[prefix + method];
+              }
+            }
+          });
+
+          return usablePrefixMethod;
+        },
+
+        formatSeconds(second) {
+          let h = 0,
+            m = 0,
+            s = 0;
+          if (second > 60) {
+            m = parseInt(second / 60);
+            s = (second % 60).toFixed(0);
+            if (m > 60) {
+              h = parseInt(m / 60);
+              m = parseInt(m % 60);
+            }
+          } else {
+            s = parseInt(second);
+          }
+          s = s < 10 ? '0' + s : s;
+          m = m < 10 ? '0' + m : m;
+          return [h, m, s];
+        },
+
+        debugLog(log) {
+          if (this.debug) {
+            console.log(log);
+            console.log(this.state);
+            this.logs.push(log + JSON.stringify(this.state));
+          }
+        }
+      },
+      mounted() {
+        let self = this;
+        self.video = self.$refs.video;
+        let video = self.$refs.video;
+        video.volume = self.value.voice / 100;
+        video.controls = self.hiddenToolBar;
+
+        addEvent(video, 'abort', function() {
+          self.debugLog('abort : 音频/视频的加载已放弃时 | 在退出时运行');
+        });
+
+        addEvent(video, 'canplaythrough', function() {
+          self.debugLog('canplaythrough : 媒体可以在保持当前的下载速度的情况下不被中断地播放完毕');
+          self.state.waiting = false;
+          if (self.state.firstPlay) {
+            self.state.init = false;
+          } else {
+            if (this.paused) {
+              self.handlePlay(false);
+            }
+          }
+        });
+
+        addEvent(video, 'emptied', function() {
+          self.debugLog('emptied : 目前的播放列表为空时 | 发生故障并且文件突然不可用时运');
+        });
+
+        addEvent(video, 'error', function() {
+          self.debugLog('error : 在发生错误时触发');
+          self.state.error = true;
+        });
+
+        addEvent(video, 'loadeddata', function() {
+          self.debugLog('loadeddata : 媒体的第一帧已经加载完毕');
+        });
+
+        addEvent(video, 'loadedmetadata', function() {
+          self.debugLog('loadedmetadata : 媒体的元数据已经加载完毕，现在所有的属性包含了它们应有的有效信息');
+          if (self.state.firstPlay && self.hiddenToolBar) {
+            self.state.init = false;
+            self.state.waiting = false;
+          }
+          let duration = this.duration;
+          let timeArr = self.formatSeconds(duration);
+          self.value.duration = duration;
+          self.value.allTime = timeArr[1] + ':' + timeArr[2];
+        });
+
+        addEvent(video, 'loadstart', function() {
+          self.debugLog('loadstart : 媒体开始加载');
+        });
+
+        addEvent(video, 'mozaudioavailable', function() {
+          self.debugLog('mozaudioavailable');
+        });
+
+        addEvent(video, 'play', function() {
+          self.debugLog('play : 在媒体回放被暂停后再次开始时触发');
+          self.state.ended = false;
+        });
+
+        addEvent(video, 'pause', function() {
+          self.debugLog('pause : 播放暂停时触发');
+          if (!this.seeking) {
+            self.state.playing = false;
+          }
+          if (self.state.firstPlay) {
+            this.play();
+          }
+        });
+
+        addEvent(video, 'playing', function() {
+          self.debugLog('playing : 在媒体开始播放时触发');
+          self.state.firstPlay = false;
+          self.state.playing = true;
+        });
+
+        addEvent(video, 'ratechange', function() {
+          self.debugLog('ratechange : 在回放速率变化时触发');
+        });
+
+        addEvent(video, 'seeked', function() {
+          self.debugLog('seeked : 在跳跃操作完成时触发');
+          self.state.seeking = false;
+          if (this.paused && !self.state.ended) {
+            setTimeout(() => {
+              if (!self.state.seeking) {
+                this.play();
+              }
+            }, 400);
+          }
+        });
+
+        addEvent(video, 'seeking', function() {
+          self.debugLog('seeking : 在跳跃操作开始时触发');
+          self.state.seeking = true;
+          if (!this.paused && !self.state.ended && !self.state.firstPlay) {
+            setTimeout(() => {
+              if (self.state.seeking) {
+                this.pause();
+              }
+            }, 400);
+          }
+        });
+
+        addEvent(video, 'stalled', function() {
+          self.debugLog('stalled : 浏览器尝试获取媒体数据，但数据不可用时 | 浏览器不论何种原因未能取回媒介数据');
+        });
+
+        addEvent(video, 'suspend', function() {
+          self.debugLog('suspend : 在媒体资源加载终止时触发，这可能是因为下载已完成或因为其他原因暂停');
+        });
+
+        addEvent(video, 'volumechange', function() {
+          self.debugLog('volumechange : 在音频音量改变时触发');
+        });
+
+        addEvent(video, 'canplay', function() {
+          self.debugLog('canplay : 缓冲已足够开始时');
+        });
+
+        addEvent(video, 'durationchange', function() {
+          self.debugLog('durationchange : 视频/音频（audio/video）的时长发生变化');
+          let duration = this.duration;
+          let timeArr = self.formatSeconds(duration);
+          self.value.duration = duration;
+          self.value.allTime = timeArr[1] + ':' + timeArr[2];
+        });
+
+        addEvent(video, 'waiting', function() {
+          self.debugLog('waiting : 在一个待执行的操作（如回放）因等待另一个操作（如跳跃或下载）被延迟时触发');
+          self.state.waiting = true;
+        });
+
+        addEvent(video, 'timeupdate', function() {
+          self.debugLog('timeupdate : 元素的currentTime属性表示的时间已经改变');
+          let current = this.currentTime;
+          let timeArr = self.formatSeconds(current);
+          self.value.playing = current;
+          self.value.curTime = timeArr[1] + ':' + timeArr[2];
+        });
+
+        addEvent(video, 'progress', function() {
+          self.debugLog('progress : 正在下载视频');
+          let bf = this.buffered;
+          if (this.duration > 0) {
+            self.value.loading = bf.end(bf.length - 1);
+          }
+        });
+
+        addEvent(video, 'ended', function() {
+          self.debugLog('ended : 播放完毕');
+          self.value.playing = 0;
+          self.state.playing = false;
+          self.state.ended = true;
+          if (!this.paused) {
+            this.pause();
+          }
+        });
+
+        addEvent(document, 'keydown', function(e) {
+          if (e.keyCode == 32) {
+            if (self.keyboard || self.checkIsFullScreen()) {
+              e.preventDefault();
+              self.handlePlay(true);
+            }
+          } else if (e.keyCode == 40) {
+            if (self.checkIsFullScreen()) {
+              let down = self.value.voice - 10;
+              video.volume = down >= 0 ? down / 100 : 0;
+              self.value.voice = down >= 0 ? down : 0;
+            }
+          } else if (e.keyCode == 38) {
+            if (self.checkIsFullScreen()) {
+              let up = self.value.voice + 10;
+              video.volume = up >= 100 ? 1 : up / 100;
+              self.value.voice = up >= 100 ? 100 : up;
+            }
+          } else if (e.keyCode == 39) {
+            video.currentTime += 5;
+          } else if (e.keyCode == 37) {
+            video.currentTime -= 5;
+          }
+        });
+
+        addEvent(document, 'fullscreenchange', function() {
+          self.screenToggle();
+        });
+
+        addEvent(document, 'mozfullscreenchange', function() {
+          self.screenToggle();
+        });
+
+        addEvent(document, 'webkitfullscreenchange', function() {
+          self.screenToggle();
+        });
+
+        addEvent(document, 'msfullscreenchange', function() {
+          self.screenToggle();
+        });
+      }
+    };
 </script>

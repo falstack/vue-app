@@ -67,14 +67,14 @@
 <script>
 
     export default {
-        name: 'v-toggle',
+      name: 'v-toggle',
 
-        props: ['value'],
+      props: ['value'],
 
-        methods: {
-            onToggle () {
-                this.$emit('input', !this.value)
-            }
+      methods: {
+        onToggle() {
+          this.$emit('input', !this.value);
         }
-    }
+      }
+    };
 </script>

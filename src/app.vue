@@ -341,7 +341,9 @@
                                                 v-model="page"
                                                 @listLoadingEvent="getList">
                                             <template slot="content" scope="props">
-                                                <div class="my-fancy-item">{{ props.text }}</div>
+                                                <v-ripple>
+                                                    <div class="my-fancy-item">{{ props.text }}</div>
+                                                </v-ripple>
                                             </template>
                                         </v-list>
                                     </div>
@@ -637,7 +639,7 @@ export default {
 
     showToast() {
       window.$toast.show({
-        tips: 'this is a toast',
+        tip: 'this is a toast',
         icon: 'http://cn.vuejs.org/images/logo.png',
         showIcon: true,
         position: 2
@@ -648,7 +650,7 @@ export default {
 
     showLoading() {
       window.$loading.show({
-        tips: 'this is a loading',
+        tip: 'this is a loading',
         position: 0
       });
 

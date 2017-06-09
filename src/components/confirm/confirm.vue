@@ -151,75 +151,75 @@
 
 <script>
 
-    const fadeInTime = 200
-    const fadeOutTime = 300
+    const fadeInTime = 200;
+    const fadeOutTime = 300;
 
     export default {
-        name: 'v-confirm',
+      name: 'v-confirm',
 
-        data () {
-            return {
-                title: '',
-                content: '',
-                cancelText: '',
-                okText: '',
-                state: 0
-            }
+      data() {
+        return {
+          title: '',
+          content: '',
+          cancelText: '',
+          okText: '',
+          state: 0
+        };
+      },
+
+      methods: {
+        show(opt) {
+
+          this.state = 1;
+          window.$backdrop.show();
+
+          this.title = (opt && opt.title) ? opt.title : '提示';
+          this.content = (opt && opt.content) ? opt.content : '';
+          this.okText = (opt && opt.okText) ? opt.okText : '好';
+          this.cancelText = (opt && opt.cancelText) ? opt.cancelText : '取消';
+
+          setTimeout(() => {
+            this.state = 2;
+          }, fadeInTime);
+
+          return new Promise((resolve, reject) => {
+    
+            this.$on('confirmOkEvent', () => {
+              this.hide();
+              resolve();
+            });
+
+            this.$on('confirmCancelEvent', () => {
+              this.hide();
+              reject();
+            });
+          });
         },
 
-        methods: {
-            show (opt) {
+        hide() {
+          this.state = 3;
+          window.$backdrop.hide();
 
-                this.state = 1
-                window.$backdrop.show()
-
-                this.title = (opt && opt.title) ? opt.title : '提示'
-                this.content = (opt && opt.content) ? opt.content : ''
-                this.okText = (opt && opt.okText) ? opt.okText : '好'
-                this.cancelText = (opt && opt.cancelText) ? opt.cancelText : '取消'
-
-                setTimeout(() => {
-                    this.state = 2
-                }, fadeInTime)
-
-                return new Promise((resolve, reject) => {
-                    
-                    this.$on('confirmOkEvent', () => {
-                        this.hide()
-                        resolve()
-                    })
-
-                    this.$on('confirmCancelEvent', () => {
-                        this.hide()
-                        reject()
-                    })
-                })
-            },
-
-            hide () {
-                this.state = 3
-                window.$backdrop.hide()
-
-                setTimeout(() => {
-                    this.$destroy()
-                }, fadeOutTime)
-            },
-
-            ok (evt) {
-                evt.currentTarget.setAttribute('disabled', 'disabled')
-                evt.stopPropagation()
-                this.$emit('confirmOkEvent')
-            },
-
-            cancel (evt) {
-                evt.currentTarget.setAttribute('disabled', 'disabled')
-                evt.stopPropagation()
-                this.$emit('confirmCancelEvent')
-            }
+          setTimeout(() => {
+            this.$destroy();
+          }, fadeOutTime);
         },
 
-        destroyed () {
-            this.$el.parentNode.removeChild(this.$el)
+        ok(evt) {
+          evt.currentTarget.setAttribute('disabled', 'disabled');
+          evt.stopPropagation();
+          this.$emit('confirmOkEvent');
+        },
+
+        cancel(evt) {
+          evt.currentTarget.setAttribute('disabled', 'disabled');
+          evt.stopPropagation();
+          this.$emit('confirmCancelEvent');
         }
-    }
+      },
+
+      destroyed() {
+        this.$el.parentNode.removeChild(this.$el);
+      }
+    };
 </script>

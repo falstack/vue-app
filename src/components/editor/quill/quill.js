@@ -1357,101 +1357,101 @@
                 var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Number.MAX_VALUE;
 
                 if (typeof index !== 'number') {
-                      return this.scroll.lines(index.index, index.length);
-                    } else {
-                      return this.scroll.lines(index, length);
-                    }
+                  return this.scroll.lines(index.index, index.length);
+                } else {
+                  return this.scroll.lines(index, length);
+                }
               }
             }, {
               key: 'getModule',
               value: function getModule(name) {
-                    return this.theme.modules[name];
-                  }
+                return this.theme.modules[name];
+              }
             }, {
-                  key: 'getSelection',
-                  value: function getSelection() {
-                    var focus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+              key: 'getSelection',
+              value: function getSelection() {
+                var focus = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
-                    if (focus) this.focus();
-                    this.update(); // Make sure we access getRange with editor in consistent state
-                    return this.selection.getRange()[0];
-                  }
-                }, {
-                  key: 'getText',
-                  value: function getText() {
-                    var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                    var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.getLength() - index;
+                if (focus) this.focus();
+                this.update(); // Make sure we access getRange with editor in consistent state
+                return this.selection.getRange()[0];
+              }
+            }, {
+              key: 'getText',
+              value: function getText() {
+                var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                var length = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.getLength() - index;
 
-                    var _overload9 = overload(index, length);
+                var _overload9 = overload(index, length);
 
-                    var _overload10 = _slicedToArray(_overload9, 2);
+                var _overload10 = _slicedToArray(_overload9, 2);
 
-                    index = _overload10[0];
-                    length = _overload10[1];
+                index = _overload10[0];
+                length = _overload10[1];
 
-                    return this.editor.getText(index, length);
-                  }
-                }, {
-                  key: 'hasFocus',
-                  value: function hasFocus() {
-                    return this.selection.hasFocus();
-                  }
-                }, {
-                  key: 'insertEmbed',
-                  value: function insertEmbed(index, embed, value) {
-                    var _this7 = this;
+                return this.editor.getText(index, length);
+              }
+            }, {
+              key: 'hasFocus',
+              value: function hasFocus() {
+                return this.selection.hasFocus();
+              }
+            }, {
+              key: 'insertEmbed',
+              value: function insertEmbed(index, embed, value) {
+                var _this7 = this;
 
-                    var source = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Quill.sources.API;
+                var source = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Quill.sources.API;
 
-                    return modify.call(this, function() {
-                      return _this7.editor.insertEmbed(index, embed, value);
-                    }, source, index);
-                  }
-                }, {
-                  key: 'insertText',
-                  value: function insertText(index, text, name, value, source) {
-                    var _this8 = this;
+                return modify.call(this, function() {
+                  return _this7.editor.insertEmbed(index, embed, value);
+                }, source, index);
+              }
+            }, {
+              key: 'insertText',
+              value: function insertText(index, text, name, value, source) {
+                var _this8 = this;
 
-                    var formats = void 0;
+                var formats = void 0;
 
-                    var _overload11 = overload(index, 0, name, value, source);
+                var _overload11 = overload(index, 0, name, value, source);
 
-                    var _overload12 = _slicedToArray(_overload11, 4);
+                var _overload12 = _slicedToArray(_overload11, 4);
 
-                    index = _overload12[0];
-                    formats = _overload12[2];
-                    source = _overload12[3];
+                index = _overload12[0];
+                formats = _overload12[2];
+                source = _overload12[3];
 
-                    return modify.call(this, function() {
-                      return _this8.editor.insertText(index, text, formats);
-                    }, source, index, text.length);
-                  }
-                }, {
-                  key: 'isEnabled',
-                  value: function isEnabled() {
-                    return !this.container.classList.contains('ql-disabled');
-                  }
-                }, {
-                  key: 'off',
-                  value: function off() {
-                    return this.emitter.off.apply(this.emitter, arguments);
-                  }
-                }, {
-                  key: 'on',
-                  value: function on() {
-                    return this.emitter.on.apply(this.emitter, arguments);
-                  }
-                }, {
-                  key: 'once',
-                  value: function once() {
-                    return this.emitter.once.apply(this.emitter, arguments);
-                  }
-                }, {
-                  key: 'pasteHTML',
-                  value: function pasteHTML(index, html, source) {
+                return modify.call(this, function() {
+                  return _this8.editor.insertText(index, text, formats);
+                }, source, index, text.length);
+              }
+            }, {
+              key: 'isEnabled',
+              value: function isEnabled() {
+                return !this.container.classList.contains('ql-disabled');
+              }
+            }, {
+              key: 'off',
+              value: function off() {
+                return this.emitter.off.apply(this.emitter, arguments);
+              }
+            }, {
+              key: 'on',
+              value: function on() {
+                return this.emitter.on.apply(this.emitter, arguments);
+              }
+            }, {
+              key: 'once',
+              value: function once() {
+                return this.emitter.once.apply(this.emitter, arguments);
+              }
+            }, {
+              key: 'pasteHTML',
+              value: function pasteHTML(index, html, source) {
                     this.clipboard.dangerouslyPasteHTML(index, html, source);
                   }
-                }, {
+            }, {
                   key: 'removeFormat',
                   value: function removeFormat(index, length, source) {
                     var _this9 = this;

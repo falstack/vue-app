@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     .vue-pwa-drawer-container {
         position: fixed;
         left: 0;
@@ -89,55 +89,55 @@
 
 <script>
 
-    const show_drawer_animate_dur = 400
-    const hide_drawer_animate_dur = 250
-    const drawer_size = 70
+    const show_drawer_animate_dur = 400;
+    const hide_drawer_animate_dur = 250;
+    const drawer_size = 70;
 
     export default {
-        name: 'v-drawer',
+      name: 'v-drawer',
 
-        props: {
-            clazz: {
-                type: String
-            },
-            from: {
-                type: Number,
-                default: 3
-            }
+      props: {
+        clazz: {
+          type: String
         },
-
-        data () {
-            return {
-                state: 0,
-                position: ['top', 'right', 'bottom', 'left'],
-            }
-        },
-        methods: {
-            show () {
-                if ( ! this.state) {
-                    this.state = 1
-
-                    setTimeout(() => {
-                        this.state = 2
-
-                        setTimeout(() => {
-                            // drawer open end
-                        }, show_drawer_animate_dur)
-                    }, 50)
-                }
-            },
-
-            hide () {
-                this.state = 3
-                setTimeout(() => {
-                    this.state = 0
-
-                }, hide_drawer_animate_dur)
-            }
-        },
-
-        mounted () {
-            this.$refs.drawer.style[['bottom', 'left', 'top', 'right'][this.from]] = 100 - drawer_size + '%'
+        from: {
+          type: Number,
+          default: 3
         }
-    }
+      },
+
+      data() {
+        return {
+          state: 0,
+          position: ['top', 'right', 'bottom', 'left']
+        };
+      },
+      methods: {
+        show() {
+          if (!this.state) {
+            this.state = 1;
+
+            setTimeout(() => {
+              this.state = 2;
+
+              setTimeout(() => {
+                            // drawer open end
+              }, show_drawer_animate_dur);
+            }, 50);
+          }
+        },
+
+        hide() {
+          this.state = 3;
+          setTimeout(() => {
+            this.state = 0;
+
+          }, hide_drawer_animate_dur);
+        }
+      },
+
+      mounted() {
+        this.$refs.drawer.style[['bottom', 'left', 'top', 'right'][this.from]] = 100 - drawer_size + '%';
+      }
+    };
 </script>

@@ -138,8 +138,8 @@
       methods: {
         scrolling() {
           if (this.autoLoad &&
-                    !this.loading &&
-                    this.$refs.container.scrollTop + this.$refs.container.offsetHeight - this.$refs.content.offsetHeight > this.offset) {
+             !this.loading &&
+              this.$refs.container.scrollTop + this.$refs.container.offsetHeight - this.$refs.content.offsetHeight > this.offset) {
             this.loading = true;
             this.curPage++;
             this.$emit('listLoadingEvent', this.pageSize);

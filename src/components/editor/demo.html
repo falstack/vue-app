@@ -48,30 +48,30 @@
 <script src="http://cdn.bootcss.com/vue/2.2.4/vue.js"></script>
 <script>
     new Vue({
-        el: '#demo',
-        data () {
-            return {
-                richTxt: '',
-                markTxt: '',
-                md2rich: null,
-                rich2md: null
-            }
-        },
-        watch: {
-            'markTxt' (val) {
-                console.log('1');
-            },
-
-            'richTxt' (val) {
-                console.log('2');
-            }
+      el: '#demo',
+      data() {
+        return {
+          richTxt: '',
+          markTxt: '',
+          md2rich: null,
+          rich2md: null
+        };
+      },
+      watch: {
+        'markTxt'(val) {
+          console.log('1');
         },
 
-        created () {
-            this.rich2md = window.toMarkdown;
-            this.md2rich = new showdown.Converter()
+        'richTxt'(val) {
+          console.log('2');
         }
-    })
+      },
+
+      created() {
+        this.rich2md = window.toMarkdown;
+        this.md2rich = new showdown.Converter();
+      }
+    });
 </script>
 </body>
 </html>

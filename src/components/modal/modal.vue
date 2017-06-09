@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss" scoped>
+<style lang="scss" scoped>
     .vue-pwa-container {
         position: fixed;
         left: 0;
@@ -133,69 +133,69 @@
 
 <script>
 
-    const show_modal_animate_dur = 400
-    const hide_modal_animate_dur = 250
+    const show_modal_animate_dur = 400;
+    const hide_modal_animate_dur = 250;
 
     export default {
-        name: 'v-modal',
+      name: 'v-modal',
 
-        props: {
-            title: {
-                type: String
-            },
-            clazz: {
-                type: String
-            },
-            from: {
-                type: Number,
-                default: 2
-            }
+      props: {
+        title: {
+          type: String
         },
-
-        data () {
-            return {
-                id: '',
-                state: 0,
-                position: ['top', 'right', 'bottom', 'left'],
-            }
+        clazz: {
+          type: String
         },
-
-        methods: {
-            show () {
-                this.state = 1
-                document.body.classList.add('modal-up')
-                this.id = new Date().getTime() + Math.random().toString(36).substring(3, 6)
-
-                setTimeout(() => {
-                    this.state = 2
-
-                    setTimeout(() => {
-                        // modal open end
-                    }, show_modal_animate_dur)
-                }, 50)
-
-                return new Promise((resolve, reject) => {
-
-                    this.$on('modalOkEvent' + this.id, () => {
-                        resolve()
-                    })
-
-                    this.$on('modalCancelEvent' + this.id, () => {
-                        reject()
-                    })
-                })
-            },
-
-            hide (submit) {
-                this.state = 3
-                setTimeout(() => {
-                    this.state = 0
-                    document.body.classList.remove('modal-up')
-
-                    submit ? this.$emit('modalOkEvent' + this.id) : this.$emit('modalCancelEvent' + this.id)
-
-                }, hide_modal_animate_dur)
-            }
+        from: {
+          type: Number,
+          default: 2
         }
-    }
+      },
+
+      data() {
+        return {
+          id: '',
+          state: 0,
+          position: ['top', 'right', 'bottom', 'left']
+        };
+      },
+
+      methods: {
+        show() {
+          this.state = 1;
+          document.body.classList.add('modal-up');
+          this.id = new Date().getTime() + Math.random().toString(36).substring(3, 6);
+
+          setTimeout(() => {
+            this.state = 2;
+
+            setTimeout(() => {
+                        // modal open end
+            }, show_modal_animate_dur);
+          }, 50);
+
+          return new Promise((resolve, reject) => {
+
+            this.$on('modalOkEvent' + this.id, () => {
+              resolve();
+            });
+
+            this.$on('modalCancelEvent' + this.id, () => {
+              reject();
+            });
+          });
+        },
+
+        hide(submit) {
+          this.state = 3;
+          setTimeout(() => {
+            this.state = 0;
+            document.body.classList.remove('modal-up');
+
+            submit ? this.$emit('modalOkEvent' + this.id) : this.$emit('modalCancelEvent' + this.id);
+
+          }, hide_modal_animate_dur);
+        }
+      }
+    };
 </script>

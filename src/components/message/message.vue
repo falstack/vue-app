@@ -123,81 +123,81 @@
 
 <script>
 
-    const fadeOutTime = 200
+    const fadeOutTime = 200;
 
     export default {
 
-        data () {
-            return {
-                theme : ['success', 'warning', 'error', 'info'],
-                maxLen : 8,
-                index : 999999,
-                time: 5000,
-                list : []
-            }
+      data() {
+        return {
+          theme: ['success', 'warning', 'error', 'info'],
+          maxLen: 8,
+          index: 999999,
+          time: 5000,
+          list: []
+        };
+      },
+
+      methods: {
+
+        show(opts) {
+          let id = new Date().getTime() + Math.random().toString(36).substring(3, 6);
+          let auto = !!opts.auto;
+          let time = opts.time || this.time;
+
+          if (this.maxLen && this.list.length > this.maxLen) {
+            this.list.shift();
+          }
+
+          this.list.push({
+            id: id,
+            time: time,
+            content: opts.content,
+            icon: !!opts.icon,
+            auto: !!opts.auto,
+            clear: !!opts.clear,
+            theme: opts.theme || 'info'
+          });
+
+          if (auto) {
+            setTimeout(() => {
+              this.close(id);
+            }, this.time);
+          } else {
+            return new Promise((resolve) => {
+              this.$on('messageSubmitEvent-' + id, () => {
+                resolve();
+              });
+            });
+          }
         },
 
-        methods: {
+        close(id) {
+          for (let i = 0; i < this.list.length; ++i) {
+            if (this.list[i].id === id) {
+              this.list.splice(i, 1);
+              this.$emit('messageSubmitEvent-' + id);
 
-            show (opts) {
-                let id = new Date().getTime() + Math.random().toString(36).substring(3, 6)
-                let auto = !!opts.auto
-                let time = opts.time || this.time
-
-                if (this.maxLen && this.list.length > this.maxLen) {
-                    this.list.shift()
-                }
-
-                this.list.push({
-                    id : id,
-                    time: time,
-                    content: opts.content,
-                    icon: !!opts.icon,
-                    auto: !!opts.auto,
-                    clear: !!opts.clear,
-                    theme: opts.theme || 'info'
-                });
-
-                if (auto) {
-                    setTimeout(() => {
-                        this.close(id)
-                    }, this.time)
-                } else {
-                    return new Promise((resolve) => {
-                        this.$on('messageSubmitEvent-' + id, () => {
-                            resolve()
-                        })
-                    })
-                }
-            },
-
-            close (id) {
-                for (let i=0; i<this.list.length; ++i) {
-                    if (this.list[i].id === id) {
-                        this.list.splice(i, 1)
-                        this.$emit('messageSubmitEvent-' + id)
-
-                        if ( ! this.list.length) {
-                            setTimeout(() => {
-                                this.$destroy()
-                            }, fadeOutTime)
-                        }
-
-                        return
-                    }
-                }
-            },
-
-            clear () {
-                this.list = []
+              if (!this.list.length) {
                 setTimeout(() => {
-                    this.$destroy()
-                }, this.time + fadeOutTime)
+                  this.$destroy();
+                }, fadeOutTime);
+              }
+
+              return;
             }
+          }
         },
 
-        destroyed () {
-            this.$el.parentNode.removeChild(this.$el)
+        clear() {
+          this.list = [];
+          setTimeout(() => {
+            this.$destroy();
+          }, this.time + fadeOutTime);
         }
-    }
+      },
+
+      destroyed() {
+        this.$el.parentNode.removeChild(this.$el);
+      }
+    };
 </script>

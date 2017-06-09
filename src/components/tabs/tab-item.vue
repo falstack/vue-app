@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss">
+<style lang="scss">
     .vue-tab-item {
         flex-shrink: 0;
         width: 100%;
@@ -19,34 +19,34 @@
 
 <script>
     export default {
-        name: 'v-tab-item',
+      name: 'v-tab-item',
 
-        props: {
-            name: {
-                required: true,
-                type: String
-            },
-            init: {
-                type: Boolean,
-                default: false
-            },
-            clazz: {
-                type: String
-            }
+      props: {
+        name: {
+          required: true,
+          type: String
         },
-
-        watch: {
-            '$parent.currentActive' (val) {
-                if (val === this.name) {
-                    this.lazy = true
-                }
-            }
+        init: {
+          type: Boolean,
+          default: false
         },
-
-        data () {
-            return {
-                lazy: false
-            }
+        clazz: {
+          type: String
         }
-    }
+      },
+
+      watch: {
+        '$parent.currentActive'(val) {
+          if (val === this.name) {
+            this.lazy = true;
+          }
+        }
+      },
+
+      data() {
+        return {
+          lazy: false
+        };
+      }
+    };
 </script>

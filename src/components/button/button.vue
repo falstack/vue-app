@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss">
+<style lang="scss">
     .vue-pwa-button {
         display: flex;
         justify-content: center;
@@ -45,40 +45,40 @@
     import draggable from '../../utils/draggable';
 
     export default {
-        name: 'v-button',
+      name: 'v-button',
 
-        props: {
-            text: {
-                type: String
-            },
-            icon: {
-                type: String
-            },
-            ripple: {
-                type: Boolean,
-                default: false
-            },
-            clazz: {
-                type: String
-            }
+      props: {
+        text: {
+          type: String
         },
-        data () {
-            return {
-                clicking: false
-            }
+        icon: {
+          type: String
         },
-        mounted () {
-            if ( ! this.ripple) {
-                draggable(this.$el, {
-                    start: () => {
-                        this.clicking = true
-                    },
-                    end: () => {
-                        this.clicking = false;
-                        this.$emit('click')
-                    }
-                })
-            }
+        ripple: {
+          type: Boolean,
+          default: false
+        },
+        clazz: {
+          type: String
         }
-    }
+      },
+      data() {
+        return {
+          clicking: false
+        };
+      },
+      mounted() {
+        if (!this.ripple) {
+          draggable(this.$el, {
+            start: () => {
+              this.clicking = true;
+            },
+            end: () => {
+              this.clicking = false;
+              this.$emit('click');
+            }
+          });
+        }
+      }
+    };
 </script>

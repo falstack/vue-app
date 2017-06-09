@@ -1,4 +1,4 @@
-<style lang="scss" rel="scss">
+<style lang="scss">
     $menu-height: 40px;
     $menu-transition: 150ms ease-in-out;
     $menu-selected-color: RGB(65, 184, 131);
@@ -85,186 +85,186 @@
 <script>
 
     export default {
-        name: 'v-tab-menu',
+      name: 'v-tab-menu',
 
-        props: {
-            value: {},
-            clazz: {
-                type: String
-            },
-            menu: {
-                type: Array,
-                required: true
-            },
-            complex: {
-                type: Boolean,
-                default: false
-            },
-            showLine: {
-                type: Boolean,
-                default: true
-            },
-            showIcon: {
-                type: Boolean,
-                default: false
-            },
-            lineWidth: {
-                type: Number,
-                default: 0
-            },
-            fixed: {
-                type: Boolean,
-                default: false
-            }
+      props: {
+        value: {},
+        clazz: {
+          type: String
         },
-
-        computed: {
-            lineMargin () {
-                if (this.showLine && this.lineWidth && this.$refs.buttons) {
-                    return {
-                        margin: `0 ${(this.$refs.buttons[0].clientWidth - this.lineWidth) / 2}px)`
-                    }
-                }
-            }
+        menu: {
+          type: Array,
+          required: true
         },
-
-        watch: {
-            'value' (val, oldVal) {
-                this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal)
-                this.name = val
-            },
-
-            'name' (val, oldVal) {
-                this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal)
-                this.$emit('input', val)
-                this.menuSwitch(val)
-            }
+        complex: {
+          type: Boolean,
+          default: false
         },
-
-        data () {
-            return {
-                name: '',
-                index: 0,
-                warpWidth: 0,
-                noMore: null,
-                toLeft: false,
-                maxOffset: 0,
-                timer: null
-            }
+        showLine: {
+          type: Boolean,
+          default: true
         },
-
-        methods: {
-
-            menuSwitch (name) {
-                if (this.timer) {
-                    clearInterval(this.timer)
-                }
-
-                let i = this.arrayFindIndex(name);
-                let dom = this.$refs.warp;
-                let attack = this.$refs.buttons[i];
-
-                if (this.$refs.warp.clientWidth && !this.warpWidth) {
-                    this.warpWidth = dom.clientWidth
-                }
-
-                if (this.noMore === null && this.warpWidth) {
-                    let lastBtn = this.$refs.buttons[this.$refs.buttons.length - 1];
-                    this.noMore = lastBtn.clientWidth + lastBtn.offsetLeft <= this.warpWidth
-                    // iOS bug, offsetLeft, clientWidth 最大为屏幕宽度
-                    this.maxOffset = lastBtn.clientWidth + lastBtn.offsetLeft - this.warpWidth
-                }
-
-                if (this.showLine) {
-                    let target = this.$refs.line;
-                    if (this.lineWidth) {
-                        target.style.transform = `translate3d(${attack.offsetLeft + (attack.clientWidth - this.lineWidth) / 2}px, 0px, 0px)`;
-                        target.style.width = this.lineWidth + 'px'
-                    } else {
-                        target.style.transform = `translate3d(${attack.offsetLeft}px, 0px, 0px)`;
-                        target.style.width = attack.clientWidth + 'px'
-                    }
-                }
-
-                if ( ! this.noMore) {
-                    let offset, role, endOffset;
-                    let origin = dom.scrollLeft;
-
-                    if (this.toLeft) {
-                        if (i) {
-                            let beforeBtn = this.$refs.buttons[i - 1];
-                            offset = beforeBtn.clientWidth
-                            role = beforeBtn.getBoundingClientRect().left < offset
-                            endOffset = origin - offset < 0 ? 0 : origin - offset
-                        } else {
-                            role = offset = this.$refs.buttons[0].offsetLeft
-                            endOffset = 0
-                        }
-                        if (role) {
-                            let divide = offset / 15
-                            this.timer = setInterval(() => {
-                                if (dom.scrollLeft === endOffset) {
-                                    clearInterval(this.timer);
-                                } else {
-                                    dom.scrollLeft -= divide
-                                    if (dom.scrollLeft < endOffset) {
-                                        dom.scrollLeft = endOffset
-                                    }
-                                }
-                            }, 10)
-                        }
-                    } else {
-                        if (attack.getBoundingClientRect().left > this.warpWidth / 2) {
-                            if (this.$refs.buttons[i + 1]) {
-                                offset = this.$refs.buttons[i + 1].clientWidth
-                                endOffset = origin + offset > this.maxOffset ? this.maxOffset : origin + offset
-                            } else {
-                                offset = attack.clientWidth
-                                endOffset = this.maxOffset
-                            }
-                            let divide = offset / 15
-                            this.timer = setInterval(() => {
-                                if (dom.scrollLeft === endOffset) {
-                                    clearInterval(this.timer)
-                                } else {
-                                    dom.scrollLeft += divide
-                                    if (dom.scrollLeft > endOffset) {
-                                        dom.scrollLeft = endOffset
-                                    }
-                                }
-                            }, 10)
-                        }
-                    }
-                }
-                this.index = i
-            },
-
-            handleScroll (evt) {
-                if (evt.currentTarget.scrollLeft === this.maxOffset) {
-                    evt.preventDefault()
-                }
-            },
-
-            arrayFindIndex (name) {
-                let arr = this.menu;
-                for (let i=0; i<arr.length; ++i) {
-                    if (arr[i] === name) {
-                        return i
-                    }
-                }
-            }
+        showIcon: {
+          type: Boolean,
+          default: false
         },
-
-        mounted () {
-            this.menuSwitch(this.value);
-            if (this.fixed) {
-                let self = this.$el;
-                let parent = self.parentNode;
-                let el = document.createElement('div');
-                el.style.height = self.offsetHeight + 'px';
-                el.style.minHeight = self.offsetHeight + 'px';
-                parent.insertBefore(el, self)
-            }
+        lineWidth: {
+          type: Number,
+          default: 0
+        },
+        fixed: {
+          type: Boolean,
+          default: false
         }
-    }
+      },
+
+      computed: {
+        lineMargin() {
+          if (this.showLine && this.lineWidth && this.$refs.buttons) {
+            return {
+              margin: `0 ${(this.$refs.buttons[0].clientWidth - this.lineWidth) / 2}px)`
+            };
+          }
+        }
+      },
+
+      watch: {
+        'value'(val, oldVal) {
+          this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal);
+          this.name = val;
+        },
+
+        'name'(val, oldVal) {
+          this.toLeft = this.arrayFindIndex(val) < this.arrayFindIndex(oldVal);
+          this.$emit('input', val);
+          this.menuSwitch(val);
+        }
+      },
+
+      data() {
+        return {
+          name: '',
+          index: 0,
+          warpWidth: 0,
+          noMore: null,
+          toLeft: false,
+          maxOffset: 0,
+          timer: null
+        };
+      },
+
+      methods: {
+
+        menuSwitch(name) {
+          if (this.timer) {
+            clearInterval(this.timer);
+          }
+
+          let i = this.arrayFindIndex(name);
+          let dom = this.$refs.warp;
+          let attack = this.$refs.buttons[i];
+
+          if (this.$refs.warp.clientWidth && !this.warpWidth) {
+            this.warpWidth = dom.clientWidth;
+          }
+
+          if (this.noMore === null && this.warpWidth) {
+            let lastBtn = this.$refs.buttons[this.$refs.buttons.length - 1];
+            this.noMore = lastBtn.clientWidth + lastBtn.offsetLeft <= this.warpWidth;
+                    // iOS bug, offsetLeft, clientWidth 最大为屏幕宽度
+            this.maxOffset = lastBtn.clientWidth + lastBtn.offsetLeft - this.warpWidth;
+          }
+
+          if (this.showLine) {
+            let target = this.$refs.line;
+            if (this.lineWidth) {
+              target.style.transform = `translate3d(${attack.offsetLeft + (attack.clientWidth - this.lineWidth) / 2}px, 0px, 0px)`;
+              target.style.width = this.lineWidth + 'px';
+            } else {
+              target.style.transform = `translate3d(${attack.offsetLeft}px, 0px, 0px)`;
+              target.style.width = attack.clientWidth + 'px';
+            }
+          }
+
+          if (!this.noMore) {
+            let offset, role, endOffset;
+            let origin = dom.scrollLeft;
+
+            if (this.toLeft) {
+              if (i) {
+                let beforeBtn = this.$refs.buttons[i - 1];
+                offset = beforeBtn.clientWidth;
+                role = beforeBtn.getBoundingClientRect().left < offset;
+                endOffset = origin - offset < 0 ? 0 : origin - offset;
+              } else {
+                role = offset = this.$refs.buttons[0].offsetLeft;
+                endOffset = 0;
+              }
+              if (role) {
+                let divide = offset / 15;
+                this.timer = setInterval(() => {
+                  if (dom.scrollLeft === endOffset) {
+                    clearInterval(this.timer);
+                  } else {
+                    dom.scrollLeft -= divide;
+                    if (dom.scrollLeft < endOffset) {
+                      dom.scrollLeft = endOffset;
+                    }
+                  }
+                }, 10);
+              }
+            } else {
+              if (attack.getBoundingClientRect().left > this.warpWidth / 2) {
+                if (this.$refs.buttons[i + 1]) {
+                  offset = this.$refs.buttons[i + 1].clientWidth;
+                  endOffset = origin + offset > this.maxOffset ? this.maxOffset : origin + offset;
+                } else {
+                  offset = attack.clientWidth;
+                  endOffset = this.maxOffset;
+                }
+                let divide = offset / 15;
+                this.timer = setInterval(() => {
+                  if (dom.scrollLeft === endOffset) {
+                    clearInterval(this.timer);
+                  } else {
+                    dom.scrollLeft += divide;
+                    if (dom.scrollLeft > endOffset) {
+                      dom.scrollLeft = endOffset;
+                    }
+                  }
+                }, 10);
+              }
+            }
+          }
+          this.index = i;
+        },
+
+        handleScroll(evt) {
+          if (evt.currentTarget.scrollLeft === this.maxOffset) {
+            evt.preventDefault();
+          }
+        },
+
+        arrayFindIndex(name) {
+          let arr = this.menu;
+          for (let i = 0; i < arr.length; ++i) {
+            if (arr[i] === name) {
+              return i;
+            }
+          }
+        }
+      },
+
+      mounted() {
+        this.menuSwitch(this.value);
+        if (this.fixed) {
+          let self = this.$el;
+          let parent = self.parentNode;
+          let el = document.createElement('div');
+          el.style.height = self.offsetHeight + 'px';
+          el.style.minHeight = self.offsetHeight + 'px';
+          parent.insertBefore(el, self);
+        }
+      }
+    };
 </script>

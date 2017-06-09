@@ -168,53 +168,53 @@
 <script>
 
     export default {
-        name: 'v-popup',
+      name: 'v-popup',
 
-        data () {
-            return {
-                title: '',
-                content: '',
-                buttons: [],
-                state: 0
-            }
+      data() {
+        return {
+          title: '',
+          content: '',
+          buttons: [],
+          state: 0
+        };
+      },
+
+      methods: {
+
+        show(opt) {
+
+          this.title = (opt && opt.title) ? opt.title : '提示';
+          this.content = (opt && opt.content) ? opt.content : '';
+          this.buttons = (opt && opt.buttons) ? opt.buttons : ['好'];
+
+          this.state = 1;
+          document.body.classList.add('popup');
+
+          window.$backdrop.show({
+            dom: this.$el.parentNode
+          });
+
+          setTimeout(() => {
+            this.state = 2;
+          }, 200);
+
+          return new Promise((resolve) => {
+            this.$on('modalSubmitEvent', (data) => {
+              resolve(data.index);
+            });
+          });
         },
 
-        methods: {
+        hide(index) {
+          this.state = 3;
+          window.$backdrop.hide(true);
+          setTimeout(() => {
+            this.state = 0;
+            document.body.classList.remove('popup');
 
-            show (opt) {
-
-                this.title = (opt && opt.title) ? opt.title : '提示'
-                this.content = (opt && opt.content) ? opt.content : ''
-                this.buttons = (opt && opt.buttons) ? opt.buttons : ['好']
-
-                this.state = 1
-                document.body.classList.add('popup')
-
-                window.$backdrop.show({
-                    dom: this.$el.parentNode
-                })
-
-                setTimeout(() => {
-                    this.state = 2
-                }, 200)
-
-                return new Promise((resolve) => {
-                    this.$on('modalSubmitEvent', (data) => {
-                        resolve(data.index)
-                    })
-                })
-            },
-
-            hide (index) {
-                this.state = 3
-                window.$backdrop.hide(true)
-                setTimeout(() => {
-                    this.state = 0
-                    document.body.classList.remove('popup')
-
-                    this.$emit('modalSubmitEvent', {index: index})
-                }, 200)
-            }
+            this.$emit('modalSubmitEvent', {index: index});
+          }, 200);
         }
-    }
+      }
+    };
 </script>

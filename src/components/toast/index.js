@@ -24,20 +24,20 @@ class Toast {
   }
 
   showToast(opts, duration, dom) {
-    let tips, timer, el;
+    let tip, timer, el;
     if (typeof opts === 'string') {
       el = dom;
-      tips = opts;
+      tip = opts;
       timer = duration || 1500;
     } else {
       el = opts.el;
-      tips = opts.tips;
+      tip = opts.tip;
       timer = opts.time || 1500;
     }
 
     if (this._vm && this._vm.getState() > 0) {
       this._vm.update({
-        tips: tips,
+        tip: tip,
         icon: opts.icon,
         showIcon: opts.showIcon,
         position: opts.position
@@ -53,7 +53,7 @@ class Toast {
     this._vm = newVue(el);
 
     this._vm.show({
-      tips: tips,
+      tip: tip,
       icon: opts.icon,
       showIcon: opts.showIcon,
       position: opts.position
@@ -65,16 +65,16 @@ class Toast {
   }
 
   showLoading(opts, dom) {
-    let tips;
+    let tip;
     if (typeof opts === 'string') {
-      tips = opts;
+      tip = opts;
     } else {
-      tips = opts.tips;
+      tip = opts.tip;
     }
 
     if (this._vm && this._vm.getState() > 0) {
       this._vm.update({
-        tips: tips,
+        tip: tip,
         showIcon: true,
         position: opts.position
       });
@@ -84,7 +84,7 @@ class Toast {
     this._vm = newVue(dom);
 
     this._vm.show({
-      tips: tips,
+      tip: tip,
       showIcon: true,
       position: opts.position
     });
